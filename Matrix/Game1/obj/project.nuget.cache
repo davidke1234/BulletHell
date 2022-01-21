@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wPndB81D8jVGbj2wgZXmiN2DOCzyWUyygPItIhOrm4avgxGP51PdzM8RmCn+0eqAd4iQ8jvkyFmaIZBnSgJMQw==",
+  "dgSpecHash": "NzcslHWQTR3+/R+rQ08ZNZlm0fr/45qQKCyU9RQrTNztaP5+IPhVlURRJXGbvl3qn4G1pLkS9wcvC9fdfB6Zow==",
   "success": true,
-  "projectFilePath": "C:\\Users\\david\\source\\repos\\Game1\\Game1\\Game1.csproj",
+  "projectFilePath": "C:\\WSUProjects\\587\\teammatrix\\Matrix\\Game1\\Game1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\david\\.nuget\\packages\\libuv\\1.9.1\\libuv.1.9.1.nupkg.sha512",
     "C:\\Users\\david\\.nuget\\packages\\microsoft.codeanalysis.analyzers\\1.1.0\\microsoft.codeanalysis.analyzers.1.1.0.nupkg.sha512",
