@@ -9,11 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
-
-#David added 1/20/2022
 *.cache
-*.suo
-
+*.v2
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
