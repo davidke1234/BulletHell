@@ -5,9 +5,12 @@
 David Kelly, Kulpreet Singh, Afoke Abogidi, William Hoke.
 
 # Getting Started
+
 Don't forget to update global config options!
 
-# Files are stored in https://gitlab.eecs.wsu.edu/
+# Storage platform: https://gitlab.eecs.wsu.edu/
+
+# Repository: https://gitlab.eecs.wsu.edu/cpts487-sp22/teammatrix
 
 1. Install Git: https://git-scm.com/download/win
 2. Clone the repository using HTTPS. Copy url to buffer.
@@ -17,3 +20,6 @@ Don't forget to update global config options!
 6. Run git add to stage files for commit: git add .
 7. Commit files: git commit -m "message"
 8. Push files to repo: git push
+
+Tools: Visual Studio 2019
+Template: MonoGame.Templates.CSharp.3.8.0.1641.vsix
