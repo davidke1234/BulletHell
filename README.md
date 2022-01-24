@@ -25,6 +25,7 @@ Don't forget to update global config options!
     4. Clone the repository using HTTPS. Copy url to buffer.
     5. Create project directory folder C:\WSUProjects\587\.
     6. Run git clone from your project directory: git clone url.
+    7. To open the Content.mgcb you may have to install the mgcb-editor.  From a administrator command window run: dotnet tool install --global dotnet-mgcb-editor --version 3.8.0.1375-develop.  Run mgcb-editor and you will see the application start.  Now go to task manager and find the running app.  Right click to open file location.  Get the location and add it to the Open With... for the Content.mgcb file.  Add a new program and enter the path to find mgcb-editor-wpf.exe.  Add it and set as default.  Now when you d-click Content.mgcb, it will load into the editor.
 
 # Work flow
 
