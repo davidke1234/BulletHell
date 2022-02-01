@@ -8,7 +8,7 @@ namespace Game1
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        private Sprite player;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -26,8 +26,8 @@ namespace Game1
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            //_spriteBatch.Draw()
-
+            player = new Sprite(Content.Load<Texture2D>("Alien-Battleship"));
+            player._position = new Vector2(100, 100);
             // TODO: use this.Content to load your game content here
         }
 
@@ -36,7 +36,7 @@ namespace Game1
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
+            player.Update();
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -46,7 +46,9 @@ namespace Game1
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+            player.Draw(_spriteBatch);
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
