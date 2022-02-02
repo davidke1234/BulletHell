@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
 namespace Game1
 {
@@ -14,6 +15,8 @@ namespace Game1
         private Enemy enemy3;
         private Enemy enemy4;
         private Enemy enemy5;
+        private Song song1;
+
 
         public Game1()
         {
@@ -44,6 +47,9 @@ namespace Game1
             enemy3._position = new Vector2(80, 0);
             enemy4._position = new Vector2(120, 0);
             enemy5._position = new Vector2(160, 0);
+            song1 = Content.Load<Song>("sample1");
+            MediaPlayer.Play(song1);
+
             // TODO: use this.Content to load your game content here
         }
 
