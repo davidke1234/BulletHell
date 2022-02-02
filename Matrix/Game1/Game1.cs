@@ -8,7 +8,7 @@ namespace Game1
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Sprite player;
+        private Player player;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -26,7 +26,7 @@ namespace Game1
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Sprite(Content.Load<Texture2D>("Alien-Battleship"));
+            player = new Player(Content.Load<Texture2D>("Alien-Battleship"));
             player._position = new Vector2(100, 100);
             // TODO: use this.Content to load your game content here
         }
