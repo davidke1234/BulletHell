@@ -8,15 +8,20 @@ using System.Text;
 namespace Game1
 {
     //player sprites, normal enemy sprites, mid boss sprite, final boss sprite
-    abstract class Sprite
+    public abstract class Sprite
     {
-        private Texture2D _texture;
-        public Vector2 _position;
-        public float _speed;
+        //private Texture2D _texture;
+        //public Vector2 _position;
+        //public float _speed;
 
-        abstract public void Update();
+        //abstract public void Update();
 
-        abstract public void Draw(SpriteBatch spriteBatch);
+       // abstract public void Draw(SpriteBatch spriteBatch);
+
+        public void Draw(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color color)
+        {
+            spriteBatch.Draw(texture, position, color);
+        }
 
     }
 }
