@@ -25,7 +25,7 @@ namespace Game1
             _texture = texture;
         }
 
-        public void Update()
+        public override void Update()
         {
             if (inReverse)
             {
@@ -50,9 +50,9 @@ namespace Game1
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
-            {
-                Draw(spriteBatch, _texture, _position, Color.White);
-            }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, _position, Color.White);
+        }
     }
 }
