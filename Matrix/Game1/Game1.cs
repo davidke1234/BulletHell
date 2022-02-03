@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 
 namespace Game1
 {
@@ -17,9 +18,16 @@ namespace Game1
         private Enemy enemy5;
         private Song song1;
 
+        // helpful properties
+        public static GameTime GameTime { get; private set; }
+        public static Game1 Instance { get; private set; }
+        public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
+        public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
+
 
         public Game1()
         {
+            Instance = this;
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
@@ -28,8 +36,8 @@ namespace Game1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
-            base.Initialize();
+            
+            base.Initialize();            
         }
 
         protected override void LoadContent()
@@ -48,8 +56,21 @@ namespace Game1
             enemy4._position = new Vector2(120, 0);
             enemy5._position = new Vector2(160, 0);
             song1 = Content.Load<Song>("sample1");
+
+            Sounds.Load(Content);
+
+            Arts.Load(Content);
+
+            
             MediaPlayer.Play(song1);
 
+            if(Game1.GameTime != null)
+            {
+                if (Game1.GameTime.ElapsedGameTime > TimeSpan.FromSeconds(30))
+                {
+                    SpriteManager.Add(MidBoss.Instance);
+                }
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -64,8 +85,8 @@ namespace Game1
             enemy3.Update();
             enemy4.Update();
             enemy5.Update();
-            // TODO: Add your update logic here
 
+            SpriteManager.Update();
             base.Update(gameTime);
         }
 
@@ -80,6 +101,9 @@ namespace Game1
             enemy3.Draw(_spriteBatch);
             enemy4.Draw(_spriteBatch);
             enemy5.Draw(_spriteBatch);
+
+            SpriteManager.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

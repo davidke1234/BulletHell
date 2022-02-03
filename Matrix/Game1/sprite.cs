@@ -10,17 +10,38 @@ namespace Game1
     //player sprites, normal enemy sprites, mid boss sprite, final boss sprite
     public abstract class Sprite
     {
-        //private Texture2D _texture;
-        //public Vector2 _position;
+        protected Texture2D image;
+        protected Color color = Color.White;
+        public Vector2 Position;
+        public Vector2 Velocity;
+        public float Orientation;
+        public bool IsOutdated;
+        public float timer { get; set; }
+
         //public float _speed;
 
-        //abstract public void Update();
-
-       // abstract public void Draw(SpriteBatch spriteBatch);
-
-        public void Draw(SpriteBatch spriteBatch, Texture2D texture, Vector2 position, Color color)
+        /// <summary>
+        /// Returns the image size
+        /// </summary>
+        public Vector2 Size
         {
-            spriteBatch.Draw(texture, position, color);
+            get
+            {
+                return image == null ? Vector2.Zero : new Vector2(image.Width, image.Height);
+            }
+        }
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public abstract void Update();
+
+        /// <summary>
+        /// <inheritdoc/>
+        /// </summary>
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(image, Position, null, color, Orientation, Size / 2f, 1f, 0, 0);
         }
 
     }
