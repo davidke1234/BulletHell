@@ -5,6 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+/*
+* Copyright/Attribution Notice: 
+You can use these tilesets in your program freely. No attribution is required. As a courtesy,
+include a link to the OGA page: https://opengameart.org/content/fireball-projectile
+*/
+
+
 namespace Game1
 {
     public class Player
@@ -13,9 +20,9 @@ namespace Game1
         public Vector2 _position;
         public float _speed = 2f;
 
-        public Player(Texture2D texture)
+        public Player(Texture2D characterTexture, Texture2D projectileTexture)
         {
-            _texture = texture;
+            _texture = characterTexture;
         }
 
         public void Update()
