@@ -45,16 +45,19 @@ namespace Game1
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             player = new Player(Content.Load<Texture2D>("Alien-Battleship"), Content.Load<Texture2D>("fireball"));
             player._position = new Vector2(100, 100);
+
             enemy1 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
             enemy2 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
             enemy3 = new Enemy(Content.Load<Texture2D>("dngn_dry_fountain"));
             enemy4 = new Enemy(Content.Load<Texture2D>("dngn_trap_shaft"));
             enemy5 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
-            enemy1._position = new Vector2(0, 0);
-            enemy2._position = new Vector2(40, 0);
-            enemy3._position = new Vector2(80, 0);
-            enemy4._position = new Vector2(120, 0);
-            enemy5._position = new Vector2(160, 0);
+
+            enemy1._position = new Vector2(100, -50);
+            enemy2._position = new Vector2(140, -50);
+            enemy3._position = new Vector2(180, -50);
+            enemy4._position = new Vector2(220, -50);
+            enemy5._position = new Vector2(260, -50);
+
             song1 = Content.Load<Song>("sample1");
 
             Sounds.Load(Content);
@@ -62,7 +65,7 @@ namespace Game1
             Arts.Load(Content);
 
             
-            MediaPlayer.Play(song1);
+            //MediaPlayer.Play(song1);
 
             if(Game1.GameTime != null)
             {
@@ -102,7 +105,7 @@ namespace Game1
             enemy4.Draw(_spriteBatch);
             enemy5.Draw(_spriteBatch);
 
-            SpriteManager.Draw(_spriteBatch);
+            //SpriteManager.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

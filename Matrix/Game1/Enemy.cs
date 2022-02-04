@@ -18,7 +18,6 @@ namespace Game1
         private Texture2D _texture;
         public Vector2 _position;
         public float _speed = 2f;
-        public bool inReverse;
 
         public Enemy(Texture2D texture)
         {
@@ -27,27 +26,10 @@ namespace Game1
 
         public override void Update()
         {
-            if (inReverse)
-            {
-                //change direction if going too far left
-                if (_position.X < 20)
-                {
-                    inReverse = false;
-                    _position.X += 2;
-                }
-                else
-                    _position.X -= 2;
-            }
-            //change direction if going too far right
-            else if (_position.X > 750)
-            {
-                inReverse = true;
-                _position.X -= 2;
 
-            }
-            else
-                _position.X += 2;
-
+            if (_position.Y < 100)
+                _position.Y += 2;
+   
         }
 
         public override void Draw(SpriteBatch spriteBatch)
