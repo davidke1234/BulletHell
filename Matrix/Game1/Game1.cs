@@ -18,6 +18,7 @@ namespace Game1
         private Enemy enemyA5;
         private Enemy enemyB1;
         private Enemy enemyB2;
+        private Enemy bullet;
         private Song song1;
 
         // helpful properties
@@ -48,6 +49,7 @@ namespace Game1
             player = new Player(Content.Load<Texture2D>("Alien-Battleship"), Content.Load<Texture2D>("fireball"));
             player._position = new Vector2(100, 100);
 
+            bullet = new Enemy(Content.Load<Texture2D>("Bullet2"));
             enemyA1 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
             enemyA2 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
             enemyA3 = new Enemy(Content.Load<Texture2D>("dngn_dry_fountain"));
