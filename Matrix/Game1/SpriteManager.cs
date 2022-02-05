@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,16 +47,17 @@ namespace Game1
         {
             sprites.Add(sprite);            
         }
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public static void Update()
+        public static void Update(GameTime gameTime)
         {
             isUpdating = true;
 
             foreach (var singleSprite in sprites)
             {
-                singleSprite.Update();
+                singleSprite.Update(gameTime);
             }
 
             isUpdating = false;

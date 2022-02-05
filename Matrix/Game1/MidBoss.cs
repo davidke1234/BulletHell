@@ -13,6 +13,8 @@ namespace Game1
     {
         private static MidBoss _instance;
 
+        private int counter = 0;
+
         /// <summary>
         /// Provides an instance of the midboss class
         /// </summary>
@@ -42,22 +44,21 @@ namespace Game1
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
-
-            if (Game1.GameTime?.ElapsedGameTime == TimeSpan.FromSeconds(30))
+            if (counter%100000==0)
             {
-                const float bossTimer = 30;
-                float elapsed = (float)Game1.GameTime.ElapsedGameTime.TotalSeconds;
-                timer -= elapsed;
-                Random random = new Random();
-                if (timer < 0)
-                {
-                    Position += Velocity;
-                    timer = bossTimer;
-                }
-                Sounds.Explosion.Play(0.2f, random.Next(1, 2), 0);
+                Position.X = rand.Next(0, 600);
+                Position.Y = rand.Next(0, 100);
             }
+
+            counter++;
+
+            if (Position.X > Game1.Viewport.Width)
+            {
+                Position.X = 0;
+            }
+
         }
 
         /// <summary>

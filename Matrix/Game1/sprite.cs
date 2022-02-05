@@ -17,6 +17,7 @@ namespace Game1
         public float Orientation;
         public bool IsOutdated;
         public float timer { get; set; }
+        public static Random rand = new Random();
 
         //public float _speed;
 
@@ -34,7 +35,7 @@ namespace Game1
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public abstract void Update();
+        public abstract void Update(GameTime gameTime);
 
         /// <summary>
         /// <inheritdoc/>

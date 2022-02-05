@@ -77,19 +77,24 @@ namespace Game1
 
             
             //MediaPlayer.Play(song1);
-
-            if(Game1.GameTime != null)
-            {
-                if (Game1.GameTime.ElapsedGameTime > TimeSpan.FromSeconds(30))
-                {
-                    SpriteManager.Add(MidBoss.Instance);
-                }
-            }
+            
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
+            
+            if (gameTime.TotalGameTime.TotalSeconds >= 20)
+            {
+                SpriteManager.Add(MidBoss.Instance);
+            }
+
+            if (gameTime.TotalGameTime.TotalSeconds >= 40)
+            {
+                MidBoss.Instance.IsOutdated = true;
+            }
+
+
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
@@ -122,7 +127,7 @@ namespace Game1
             enemyB1.Move(gameTime, Enemy.Type.B);
             enemyB2.Move(gameTime, Enemy.Type.B);
 
-            SpriteManager.Update();
+            SpriteManager.Update(gameTime);
             base.Update(gameTime);
         }
 

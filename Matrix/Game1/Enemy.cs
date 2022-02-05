@@ -37,7 +37,7 @@ namespace Game1
             _texture = texture;
         }
 
-        public override void Update()
+        public override void Update(GameTime gameTime)
         {
             if (_isActive)
             {
@@ -81,7 +81,7 @@ namespace Game1
                 _elapsedSeconds = gameTime.TotalGameTime.TotalSeconds;
             this._gameTime = gameTime;
 
-            this.Update();
+            this.Update(gameTime);
         }
     }
 }
