@@ -73,9 +73,8 @@ namespace Game1
             spriteBatch.Draw(_texture, _position, Color.White);
         }
 
-        internal void Move(GameTime gameTime, Type type) //, bool isActive = false)
+        internal void Move(GameTime gameTime, Type type) 
         {
-           // _isActive = isActive;
             _type = type;
             if (_elapsedSeconds == 0)
                 _elapsedSeconds = gameTime.TotalGameTime.TotalSeconds;
