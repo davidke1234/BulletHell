@@ -11,11 +11,13 @@ namespace Game1
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Player player;
-        private Enemy enemy1;
-        private Enemy enemy2;
-        private Enemy enemy3;
-        private Enemy enemy4;
-        private Enemy enemy5;
+        private Enemy enemyA1;
+        private Enemy enemyA2;
+        private Enemy enemyA3;
+        private Enemy enemyA4;
+        private Enemy enemyA5;
+        private Enemy enemyB1;
+        private Enemy enemyB2;
         private Song song1;
 
         // helpful properties
@@ -46,17 +48,26 @@ namespace Game1
             player = new Player(Content.Load<Texture2D>("Alien-Battleship"), Content.Load<Texture2D>("fireball"));
             player._position = new Vector2(100, 100);
 
-            enemy1 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
-            enemy2 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
-            enemy3 = new Enemy(Content.Load<Texture2D>("dngn_dry_fountain"));
-            enemy4 = new Enemy(Content.Load<Texture2D>("dngn_trap_shaft"));
-            enemy5 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
+            enemyA1 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
+            enemyA2 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
+            enemyA3 = new Enemy(Content.Load<Texture2D>("dngn_dry_fountain"));
+            enemyA4 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
+            enemyA5 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
 
-            enemy1._position = new Vector2(100, -50);
-            enemy2._position = new Vector2(140, -50);
-            enemy3._position = new Vector2(180, -50);
-            enemy4._position = new Vector2(220, -50);
-            enemy5._position = new Vector2(260, -50);
+            //Butterfly enemies
+            enemyB1 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
+            enemyB2 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
+
+            enemyA1._position = new Vector2(100, -50);
+            enemyA2._position = new Vector2(140, -50);
+            enemyA3._position = new Vector2(180, -50);
+            enemyA4._position = new Vector2(220, -50);
+            enemyA5._position = new Vector2(260, -50);
+            enemyB1._position = new Vector2(100, -50);
+            enemyB2._position = new Vector2(600, -50);
+            enemyB1._isActive = false;
+            enemyB2._isActive = false;
+            enemyB2._inReverse = true;
 
             song1 = Content.Load<Song>("sample1");
 
@@ -83,11 +94,33 @@ namespace Game1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             player.Update();
-            enemy1.Update();
-            enemy2.Update();
-            enemy3.Update();
-            enemy4.Update();
-            enemy5.Update();
+
+            //Starts with EnemyA
+
+            if (gameTime.TotalGameTime.TotalSeconds >= 5 && gameTime.TotalGameTime.TotalSeconds < 8)
+            {
+                //Exit enemyA, bring in enemyB
+                enemyA1._inReverse = true;
+                enemyA2._inReverse = true;
+                enemyA3._inReverse = true;
+                enemyA4._inReverse = true;
+                enemyA5._inReverse = true;
+
+                //Move in butterfly enemy
+                enemyB1._isActive = true;
+            }
+            else if (gameTime.TotalGameTime.TotalSeconds >= 10) 
+            {
+                enemyB2._isActive = true;
+            }
+
+            enemyA1.Move(gameTime, Enemy.Type.A);
+            enemyA2.Move(gameTime, Enemy.Type.A);
+            enemyA3.Move(gameTime, Enemy.Type.A);
+            enemyA4.Move(gameTime, Enemy.Type.A);
+            enemyA5.Move(gameTime, Enemy.Type.A);
+            enemyB1.Move(gameTime, Enemy.Type.B);
+            enemyB2.Move(gameTime, Enemy.Type.B);
 
             SpriteManager.Update();
             base.Update(gameTime);
@@ -99,13 +132,16 @@ namespace Game1
 
             _spriteBatch.Begin();
             player.Draw(_spriteBatch);
-            enemy1.Draw(_spriteBatch);
-            enemy2.Draw(_spriteBatch);
-            enemy3.Draw(_spriteBatch);
-            enemy4.Draw(_spriteBatch);
-            enemy5.Draw(_spriteBatch);
+            enemyA1.Draw(_spriteBatch);
+            enemyA2.Draw(_spriteBatch);
+            enemyA3.Draw(_spriteBatch);
+            enemyA4.Draw(_spriteBatch);
+            enemyA5.Draw(_spriteBatch);
 
-            //SpriteManager.Draw(_spriteBatch);
+            enemyB1.Draw(_spriteBatch);
+            enemyB2.Draw(_spriteBatch);
+
+            SpriteManager.Draw(_spriteBatch);
 
             _spriteBatch.End();
 

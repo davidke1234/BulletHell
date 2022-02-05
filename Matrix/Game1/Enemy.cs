@@ -18,6 +18,19 @@ namespace Game1
         private Texture2D _texture;
         public Vector2 _position;
         public float _speed = 2f;
+        public bool _inReverse;
+        private GameTime _gameTime;
+        private double _elapsedSeconds = 0;
+        private Type _type = Type.A;
+        public bool _hide;
+        public bool _isActive = true;
+
+        public enum Type
+        {
+            A,
+            B,
+            None
+        }
 
         public Enemy(Texture2D texture)
         {
@@ -26,15 +39,49 @@ namespace Game1
 
         public override void Update()
         {
+            if (_isActive)
+            {
+                if (_type == Type.B)
+                {
+                    if (_inReverse)
+                        _position.X -= 2;
+                    else
+                        _position.X += 2;
 
-            if (_position.Y < 100)
-                _position.Y += 2;
-   
+                    if (_position.Y < 100)
+                        _position.Y += 4;
+                }
+
+                else
+                {  //Type A
+                    if (_inReverse)
+                    {
+                        _position.X -= 1;
+                        _position.Y -= 2;
+                    }
+                    else if (_position.Y < 100)
+                    {
+                        _position.X += 1;
+                        _position.Y += 2;
+                    }
+                }
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(_texture, _position, Color.White);
+        }
+
+        internal void Move(GameTime gameTime, Type type) //, bool isActive = false)
+        {
+           // _isActive = isActive;
+            _type = type;
+            if (_elapsedSeconds == 0)
+                _elapsedSeconds = gameTime.TotalGameTime.TotalSeconds;
+            this._gameTime = gameTime;
+
+            this.Update();
         }
     }
 }
