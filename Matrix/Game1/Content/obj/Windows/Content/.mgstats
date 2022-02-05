@@ -1,2 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/fireball.bmp","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/fireball.xnb","TextureProcessor","Texture2DContent",1818,1765,0.1060821
 "C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/sample1.mp3","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/sample1.xnb","SongProcessor","SongContent",1954212,125,2.9761252
