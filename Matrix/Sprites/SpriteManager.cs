@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game1
+namespace Matrix
 {
     /// <summary>
     /// Class for managing the sprites
@@ -45,7 +45,7 @@ namespace Game1
         /// <param name="sprite"></param>
         private static void AddSprite(Sprite sprite)
         {
-            sprites.Add(sprite);            
+            sprites.Add(sprite);
         }
 
         /// <summary>

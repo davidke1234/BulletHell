@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game1
+namespace Matrix
 {
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss: Sprite
+    public class MidBoss : Sprite
     {
         private static MidBoss _instance;
 
@@ -26,7 +26,7 @@ namespace Game1
         {
             get
             {
-                if(_instance == null)
+                if (_instance == null)
                 {
                     _instance = new MidBoss();
                 }
@@ -60,14 +60,14 @@ namespace Game1
             foreach (Bombs bomb in bombs.ToList())
             {
                 bomb.Position += bomb.Velocity;
-                if(bomb.Position.X < 0)
+                if (bomb.Position.X < 0)
                 {
                     bomb.IsOutdated = true;
                 }
 
                 for (int i = 0; i < bombs.Count; i++)
                 {
-                    if(!bombs[i].IsOutdated)
+                    if (!bombs[i].IsOutdated)
                     {
                         bombs.RemoveAt(i);
                         i--;
@@ -80,10 +80,10 @@ namespace Game1
         {
             Bombs newBomb = Bombs.Instance;
             newBomb.Velocity.X = Velocity.X - 3f;
-            newBomb.Position = new Vector2(Position.X + newBomb.Velocity.X, 
+            newBomb.Position = new Vector2(Position.X + newBomb.Velocity.X,
                 Position.Y + (image.Height / 2) - (image.Height / 2));
 
-            if(bombs.Count() < 3)
+            if (bombs.Count() < 3)
             {
                 bombs.Add(newBomb);
             }
@@ -96,7 +96,7 @@ namespace Game1
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-            if (counter%100000==0)
+            if (counter % 100000 == 0)
             {
                 Position.X = rand.Next(0, 600);
                 Position.Y = rand.Next(0, 100);
@@ -110,7 +110,7 @@ namespace Game1
             }
 
             shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(shoot > 1)
+            if (shoot > 1)
             {
                 shoot = 0;
                 ShootBombs();
@@ -125,11 +125,11 @@ namespace Game1
         /// </summary>        
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Bombs singleBomb in bombs)
+            foreach (Bombs singleBomb in bombs)
             {
                 singleBomb.Draw(spriteBatch);
             }
-            spriteBatch.Draw(image, Position, Color.White );
+            spriteBatch.Draw(image, Position, Color.White);
         }
     }
 }
