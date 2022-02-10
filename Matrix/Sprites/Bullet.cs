@@ -5,20 +5,20 @@ using System.Collections.Generic;
 namespace Matrix
 {
     public class Bullet : SpriteNew
-  {
-    private float _timer;
-
-    public Bullet(Texture2D texture) : base(texture)
-    { }
-
-    public override void Update(GameTime gameTime, List<SpriteNew> sprites)
     {
-      _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        private float _timer;
 
-      if (_timer >= LifeSpan)
-        IsRemoved = true;
+        public Bullet(Texture2D texture) : base(texture)
+        { }
 
-      Position += Direction * LinearVelocity;
+        public override void Update(GameTime gameTime, List<SpriteNew> sprites)
+        {
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_timer >= LifeSpan)
+                IsRemoved = true;
+
+            Position += Direction * LinearVelocity;
+        }
     }
-  }
 }

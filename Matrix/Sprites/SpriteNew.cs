@@ -10,7 +10,6 @@ namespace Matrix
     {
         public Texture2D image;
         protected Texture2D _texture;
-        protected float _rotation;
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
         public Vector2 Position;
@@ -39,7 +38,7 @@ namespace Matrix
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(_texture, Position, null, Color.White, 0f, Origin, 1f, SpriteEffects.None, 0);
         }
 
         public object Clone()
