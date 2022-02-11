@@ -1,5 +1,15 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/Bullet.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/Bullet.xnb","TextureProcessor","Texture2DContent",1383,479485,0.1669745
-"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/Bullet2.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/Bullet2.xnb","TextureProcessor","Texture2DContent",2267,1077889,0.1819072
-"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/fireball.bmp","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/fireball.xnb","TextureProcessor","Texture2DContent",1818,1765,0.1060821
-"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/sample1.mp3","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/sample1.xnb","SongProcessor","SongContent",1954212,125,2.9761252
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bomb.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/bomb.xnb","TextureProcessor","Texture2DContent",4296,14485,0.150153
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bombSound.wav","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/bombSound.xnb","SoundEffectProcessor","SoundEffectContent",221574,221497,0.7690646
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/boss.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/boss.xnb","TextureProcessor","Texture2DContent",6003,40085,0.0076912
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/boss2.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/boss2.xnb","TextureProcessor","Texture2DContent",21940,55781,0.008195
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/Bullet.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/Bullet.xnb","TextureProcessor","Texture2DContent",1383,479485,0.0147456
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/Bullet2.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/Bullet2.xnb","TextureProcessor","Texture2DContent",2267,1077889,0.0405847
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/dngn_blood_fountain.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/dngn_blood_fountain.xnb","TextureProcessor","Texture2DContent",955,4181,0.0055466
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/dngn_blue_fountain.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/dngn_blue_fountain.xnb","TextureProcessor","Texture2DContent",980,4181,0.0027142
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/dngn_dry_fountain.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/dngn_dry_fountain.xnb","TextureProcessor","Texture2DContent",862,4181,0.0026743
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/dngn_trap_shaft.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/dngn_trap_shaft.xnb","TextureProcessor","Texture2DContent",551,4181,0.0049212
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/elephant_statue.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/elephant_statue.xnb","TextureProcessor","Texture2DContent",1965,4181,0.0054267
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/fireball.bmp","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/fireball.xnb","TextureProcessor","Texture2DContent",1818,1765,0.0121015
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/player_ship.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/player_ship.xnb","TextureProcessor","Texture2DContent",10498,19685,0.1477821
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/sample1.mp3","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/sample1.xnb","SongProcessor","SongContent",1954212,125,1.7271192

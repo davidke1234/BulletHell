@@ -46,7 +46,7 @@ namespace Game1
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("Alien-Battleship"), Content.Load<Texture2D>("fireball"));
+            player = new Player(Content.Load<Texture2D>("player_ship"), Content.Load<Texture2D>("fireball"));
             player._position = new Vector2(100, 100);
 
             bullet = new Enemy(Content.Load<Texture2D>("Bullet2"));

@@ -16,13 +16,15 @@ namespace Game1
 {
     public class Player
     {
-        private Texture2D _texture;
+        private Texture2D _characterTexture;
+        private Texture2D _projectileTexture;
         public Vector2 _position;
         public float _speed = 2f;
 
         public Player(Texture2D characterTexture, Texture2D projectileTexture)
         {
-            _texture = characterTexture;
+            _characterTexture = characterTexture;
+            _projectileTexture = projectileTexture;
         }
 
         public void Update()
@@ -51,7 +53,7 @@ namespace Game1
 
         public void Draw(SpriteBatch spriteBatch)
             {
-                spriteBatch.Draw(_texture, _position, Color.White);
+                spriteBatch.Draw(_characterTexture, _position, Color.White);
             }
     }
 }
