@@ -15,12 +15,9 @@ namespace Matrix
 
         public Bullet Bullet { get; set; }
 
-
         public int MaxEnemies { get; set; }
 
         public float SpawnTimer { get; set; }
-
-
 
         public EnemyManager(ContentManager content)
         {
@@ -53,7 +50,6 @@ namespace Matrix
             }
         }
 
-
         public Enemy GetEnemy(float x, float y)
         {
             var texture = _textures[Game1.Random.Next(0, _textures.Count)];
@@ -69,7 +65,6 @@ namespace Matrix
                 ShootingTimer = 1.5f + (float)Game1.Random.NextDouble(),
             };
         }
-
 
         public IEnumerable<SpriteNew> GetEnemies()
         {

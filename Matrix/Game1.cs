@@ -63,12 +63,10 @@ namespace Matrix
 
             enemyManager = new EnemyManager(Content);
 
-            // var enemy1 = Content.Load<Texture2D>("dngn_blood_fountain");
-
             var player = Content.Load<Texture2D>("Alien-Battleship");
 
             var song1 = Content.Load<Song>("sample1");
-            //MediaPlayer.Play(song1);
+            MediaPlayer.Play(song1);
             Sounds.Load(Content);
             Arts.Load(Content);
 
@@ -78,8 +76,8 @@ namespace Matrix
                     { Position = new Vector2(375, 335),
                     Bullet = new Bullet(Content.Load<Texture2D>("Bullet")) }
             };
-            _sprites.AddRange(enemyManager.GetEnemies());
 
+            _sprites.AddRange(enemyManager.GetEnemies());
         }
 
         /// <summary>
@@ -115,8 +113,6 @@ namespace Matrix
                 spawnEnemies3 = true;
                 _sprites.AddRange(enemyManager.GetEnemies());
             }
-
-
 
             if (gameTime.TotalGameTime.TotalSeconds >= 20)
             {
