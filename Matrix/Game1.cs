@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 
 namespace Matrix
@@ -14,7 +15,15 @@ namespace Matrix
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<SpriteNew> _sprites;
+        private EnemyManager enemyManager;
+        private bool spawnEnemies1;
+        private bool spawnEnemies2;
+        private bool spawnEnemies3;
 
+        public static Random Random;
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
+        
         // helpful properties
         public static GameTime GameTime { get; private set; }
         public static Game1 Instance { get; private set; }
@@ -38,6 +47,7 @@ namespace Matrix
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Random = new Random();
 
             base.Initialize();
         }
@@ -51,11 +61,12 @@ namespace Matrix
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            enemyManager = new EnemyManager(Content);
+
+            // var enemy1 = Content.Load<Texture2D>("dngn_blood_fountain");
+
             var player = Content.Load<Texture2D>("Alien-Battleship");
-            var enemy1 = Content.Load<Texture2D>("dngn_blood_fountain");
-            var enemy2 = Content.Load<Texture2D>("dngn_blue_fountain");
-            var enemy3 = Content.Load<Texture2D>("dngn_dry_fountain");
-            var enemyButterfly = Content.Load<Texture2D>("elephant_statue");
+
             var song1 = Content.Load<Song>("sample1");
             //MediaPlayer.Play(song1);
             Sounds.Load(Content);
@@ -63,22 +74,12 @@ namespace Matrix
 
             _sprites = new List<SpriteNew>()
             {
-                new Player(player) 
-                    { Position = new Vector2(375, 335), 
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet"))},
-                new Enemy(enemy1) 
-                    {Position = new Vector2(100,50), 
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet"))},
-                new Enemy(enemy2) 
-                    {Position = new Vector2(150,50), 
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet"))},
-                new Enemy(enemy3) 
-                    {Position = new Vector2(200,50), 
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet"))},
-                new Enemy(enemyButterfly) 
-                    {Position = new Vector2(250,50), 
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet"))}
+                new Player(player)
+                    { Position = new Vector2(375, 335),
+                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet")) }
             };
+            _sprites.AddRange(enemyManager.GetEnemies());
+
         }
 
         /// <summary>
@@ -97,7 +98,26 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
- 
+            if (gameTime.TotalGameTime.TotalSeconds > 5 && !spawnEnemies1)
+            {
+                spawnEnemies1 = true;
+                _sprites.AddRange(enemyManager.GetEnemies());
+            }
+
+            if (gameTime.TotalGameTime.TotalSeconds > 10 && !spawnEnemies2)
+            {
+                spawnEnemies2 = true;
+                _sprites.AddRange(enemyManager.GetEnemies());
+            }
+
+            if (gameTime.TotalGameTime.TotalSeconds > 15 && !spawnEnemies3)
+            {
+                spawnEnemies3 = true;
+                _sprites.AddRange(enemyManager.GetEnemies());
+            }
+
+
+
             if (gameTime.TotalGameTime.TotalSeconds >= 20)
             {
                 SpriteManager.Add(MidBoss.Instance);
@@ -120,7 +140,9 @@ namespace Matrix
             SpriteManager.Update(gameTime);
 
             base.Update(gameTime);
-        }     
+        }
+
+
 
         /// <summary>
         /// This is called when the game should draw itself.

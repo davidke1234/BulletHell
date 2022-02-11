@@ -8,8 +8,8 @@ namespace Matrix
     {
         public Bullet Bullet;
         private float _timer;
-        public float ShootingTimer = 1.25f;
-        private float _speed = 2f;
+        public float ShootingTimer; // = 1.25f;
+        public float Speed = 2f;
 
         public Enemy(Texture2D texture)
       : base(texture)
@@ -32,7 +32,7 @@ namespace Matrix
 
             // if the enemy is off the left side of the screen
             if (Position.X < -_texture.Width)
-                IsRemoved = true;
+                this.IsRemoved = true;
         }
 
         private void DropBullet(List<SpriteNew> sprites)

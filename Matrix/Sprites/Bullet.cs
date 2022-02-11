@@ -16,7 +16,7 @@ namespace Matrix
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (_timer >= LifeSpan)
-                IsRemoved = true;
+                this.IsRemoved = true;
 
             Position += Direction * LinearVelocity;
         }
