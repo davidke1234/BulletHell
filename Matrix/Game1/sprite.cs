@@ -10,7 +10,7 @@ namespace Game1
     //player sprites, normal enemy sprites, mid boss sprite, final boss sprite
     public abstract class Sprite
     {
-        public Texture2D image;
+        protected Texture2D image;
         protected Color color = Color.White;
         public Vector2 Position;
         public Vector2 Velocity;

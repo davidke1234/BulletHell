@@ -37,6 +37,12 @@ namespace Game1
 
         public override void Update(GameTime gameTime)
         {
+            var bossInstance = MidBoss.Instance;
+            if (!MidBoss.Instance.IsOutdated)
+            {
+                Position.X = bossInstance.Position.X;
+                Position.Y = bossInstance.Position.Y;
+            }
 
         }
 

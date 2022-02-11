@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Game1
@@ -15,9 +14,6 @@ namespace Game1
         private static MidBoss _instance;
 
         private int counter = 0;
-
-        List<Bombs> bombs = new List<Bombs>();
-        Texture2D bombTexture;
 
         /// <summary>
         /// Provides an instance of the midboss class
@@ -42,54 +38,8 @@ namespace Game1
             image = Arts.Boss2;
             Position.X = 0;
             Position.Y = 0;
-            var bombInstance = Bombs.Instance;
-            bombs.Add(bombInstance);
-            bombTexture = bombInstance.image;
+            timer = 30;
         }
-
-        public void UpdateBombs()
-        {
-            if (bombs.Count() < 2)
-            {
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
-            }
-
-            foreach (Bombs bomb in bombs.ToList())
-            {
-                bomb.Position += bomb.Velocity;
-                if(bomb.Position.X < 0)
-                {
-                    bomb.IsOutdated = true;
-                }
-
-                for (int i = 0; i < bombs.Count; i++)
-                {
-                    if(!bombs[i].IsOutdated)
-                    {
-                        bombs.RemoveAt(i);
-                        i--;
-                    }
-                }
-            }
-        }
-
-        public void ShootBombs()
-        {
-            Bombs newBomb = Bombs.Instance;
-            newBomb.Velocity.X = Velocity.X - 3f;
-            newBomb.Position = new Vector2(Position.X + newBomb.Velocity.X, 
-                Position.Y + (image.Height / 2) - (image.Height / 2));
-
-            if(bombs.Count() < 3)
-            {
-                bombs.Add(newBomb);
-            }
-        }
-
-        float shoot = 0;
 
         /// <summary>
         /// <inheritdoc/>
@@ -109,15 +59,6 @@ namespace Game1
                 Position.X = 0;
             }
 
-            shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(shoot > 1)
-            {
-                shoot = 0;
-                ShootBombs();
-            }
-
-            UpdateBombs();
-
         }
 
         /// <summary>
@@ -125,10 +66,6 @@ namespace Game1
         /// </summary>        
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Bombs singleBomb in bombs)
-            {
-                singleBomb.Draw(spriteBatch);
-            }
             spriteBatch.Draw(image, Position, Color.White );
         }
     }
