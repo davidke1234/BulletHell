@@ -16,9 +16,17 @@ namespace Matrix
         SpriteBatch _spriteBatch;
         private List<SpriteNew> _sprites;
         private EnemyManager enemyManager;
-        private bool spawnEnemies1;
-        private bool spawnEnemies2;
-        private bool spawnEnemies3;
+        private bool spawnedEnemies1;
+        private bool spawnedEnemies2;
+        private bool spawnedEnemies3;
+        private bool spawnedEnemies4;
+        private bool spawnedEnemies5;
+        private bool spawnedEnemies6;
+        private bool spawnedEnemies7;
+        private bool spawnedEnemies8;
+        private bool spawnedEnemies9;
+        private bool spawnedEnemies10;
+        private bool spawnedEnemies11;
 
         public static Random Random;
         public static int ScreenWidth = 1280;
@@ -76,8 +84,6 @@ namespace Matrix
                     { Position = new Vector2(375, 335),
                     Bullet = new Bullet(Content.Load<Texture2D>("Bullet")) }
             };
-
-            _sprites.AddRange(enemyManager.GetEnemies());
         }
 
         /// <summary>
@@ -96,23 +102,8 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (gameTime.TotalGameTime.TotalSeconds > 5 && !spawnEnemies1)
-            {
-                spawnEnemies1 = true;
-                _sprites.AddRange(enemyManager.GetEnemies());
-            }
-
-            if (gameTime.TotalGameTime.TotalSeconds > 10 && !spawnEnemies2)
-            {
-                spawnEnemies2 = true;
-                _sprites.AddRange(enemyManager.GetEnemies());
-            }
-
-            if (gameTime.TotalGameTime.TotalSeconds > 15 && !spawnEnemies3)
-            {
-                spawnEnemies3 = true;
-                _sprites.AddRange(enemyManager.GetEnemies());
-            }
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 0, ref spawnedEnemies1, 8));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 8, ref spawnedEnemies2, 4));
 
             if (gameTime.TotalGameTime.TotalSeconds >= 20)
             {
@@ -123,6 +114,18 @@ namespace Matrix
             {
                 MidBoss.Instance.IsOutdated = true;
             }
+
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 40, ref spawnedEnemies3, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 50, ref spawnedEnemies4, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 60, ref spawnedEnemies5, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 70, ref spawnedEnemies6, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 80, ref spawnedEnemies7, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 90, ref spawnedEnemies8, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 100, ref spawnedEnemies9, 6));
+            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 110, ref spawnedEnemies10, 6));
+
+
+
 
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

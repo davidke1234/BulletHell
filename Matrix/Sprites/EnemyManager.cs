@@ -54,27 +54,42 @@ namespace Matrix
         {
             var texture = _textures[Game1.Random.Next(0, _textures.Count)];
 
-            return new Enemy(texture)
-            {
-                //Colour = Color.Red,
-                Bullet = new Bullet(_bulletTexture),
-                //Health = 5,
-                //Layer = 0.2f,
-                Position = new Vector2(x, y),    //Game1.ScreenWidth + texture.Width, Game1.Random.Next(0, Game1.ScreenHeight)),
-                Speed = 2 + (float)Game1.Random.NextDouble(),
-                ShootingTimer = 1.5f + (float)Game1.Random.NextDouble(),
-            };
+            var e = new Enemy(texture);
+
+
+            //Colour = Color.Red,
+            e.Bullet = new Bullet(_bulletTexture);
+            //Health = 5,
+            //Layer = 0.2f,
+            e.Position = new Vector2(x, y);
+            // Position = new Vector2(Game1.ScreenWidth + texture.Width, Game1.Random.Next(0, Game1.ScreenHeight)),
+            e.Speed = 2 + (float)Game1.Random.NextDouble();
+            e.ShootingTimer = 1.5f + (float)Game1.Random.NextDouble();
+
+            return e;
         }
 
-        public IEnumerable<SpriteNew> GetEnemies()
+        public IEnumerable<SpriteNew> GetEnemies(GameTime gameTime, int seconds, ref bool spawned, int enemyCount)
         {
-            return new List<SpriteNew>()
+            List<SpriteNew> enemies = new List<SpriteNew>();
+
+            if (gameTime.TotalGameTime.TotalSeconds > seconds && !spawned)
             {
-                GetEnemy(100, 50),
-                GetEnemy(150, 50),
-                GetEnemy(200, 50),
-                GetEnemy(250, 50)
-            };
+                if (!spawned)
+                {
+                    int xFactor = 50;
+
+                    for (int i = 0; i < enemyCount; i++)
+                    {
+                        enemies.Add(GetEnemy(xFactor, 50 + i));
+                        xFactor += 50;
+                    }
+
+                    spawned = true;
+                }
+            }
+
+            return enemies;
         }
     }
 }
