@@ -63,7 +63,7 @@ namespace Matrix
 
             enemyManager = new EnemyManager(Content);
 
-            var player = Content.Load<Texture2D>("Alien-Battleship");
+            var player = Content.Load<Texture2D>("player_ship");
 
             var song1 = Content.Load<Song>("sample1");
             MediaPlayer.Play(song1);
