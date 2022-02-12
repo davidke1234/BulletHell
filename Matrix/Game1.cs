@@ -26,8 +26,7 @@ namespace Matrix
         private bool spawnedEnemies8;
         private bool spawnedEnemies9;
         private bool spawnedEnemies10;
-        private bool spawnedEnemies11;
-
+ 
         public static Random Random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
@@ -123,9 +122,6 @@ namespace Matrix
             _sprites.AddRange(enemyManager.GetEnemies(gameTime, 90, ref spawnedEnemies8, 6));
             _sprites.AddRange(enemyManager.GetEnemies(gameTime, 100, ref spawnedEnemies9, 6));
             _sprites.AddRange(enemyManager.GetEnemies(gameTime, 110, ref spawnedEnemies10, 6));
-
-
-
 
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))

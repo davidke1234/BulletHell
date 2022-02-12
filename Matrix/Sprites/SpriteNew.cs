@@ -8,7 +8,7 @@ namespace Matrix
 {
     public class SpriteNew : ICloneable
     {
-        public Texture2D image;
+        public Texture2D Image;
         protected Texture2D _texture;
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
@@ -21,7 +21,7 @@ namespace Matrix
         public float LifeSpan = 0f;
         public bool IsRemoved = false;
         public bool IsOutdated;
-        public float timer { get; set; }
+        public float Timer { get; set; }
         public static Random rand = new Random();
 
         public SpriteNew(Texture2D texture)
