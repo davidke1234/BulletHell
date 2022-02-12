@@ -21,6 +21,7 @@
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.0.1641" />
   </ItemGroup>
   <ItemGroup>
+	<Folder Include="Content\bin\Windows\" />
 	<Folder Include="Sprites\" />
   </ItemGroup>
 </Project>
