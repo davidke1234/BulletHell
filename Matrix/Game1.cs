@@ -15,7 +15,7 @@ namespace Matrix
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<SpriteNew> _sprites;
-        private EnemyManager enemyManager;
+        private EnemyManager _enemyManager;
         private bool spawnedEnemies1;
         private bool spawnedEnemies2;
         private bool spawnedEnemies3;
@@ -68,7 +68,7 @@ namespace Matrix
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            enemyManager = new EnemyManager(Content);
+            _enemyManager = new EnemyManager(Content);
 
             var player = Content.Load<Texture2D>("player_ship");
 
@@ -101,8 +101,8 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 0, ref spawnedEnemies1, 8));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 8, ref spawnedEnemies2, 4));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 0, ref spawnedEnemies1, 8));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 8, ref spawnedEnemies2, 4));
 
             if (gameTime.TotalGameTime.TotalSeconds >= 20)
             {
@@ -114,19 +114,19 @@ namespace Matrix
                 MidBoss.Instance.IsOutdated = true;
             }
 
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 40, ref spawnedEnemies3, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 50, ref spawnedEnemies4, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 60, ref spawnedEnemies5, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 70, ref spawnedEnemies6, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 80, ref spawnedEnemies7, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 90, ref spawnedEnemies8, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 100, ref spawnedEnemies9, 6));
-            _sprites.AddRange(enemyManager.GetEnemies(gameTime, 110, ref spawnedEnemies10, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 40, ref spawnedEnemies3, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 50, ref spawnedEnemies4, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 60, ref spawnedEnemies5, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 70, ref spawnedEnemies6, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 80, ref spawnedEnemies7, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 90, ref spawnedEnemies8, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 100, ref spawnedEnemies9, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 110, ref spawnedEnemies10, 6));
 
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+                       
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
                 sprite.Update(gameTime, _sprites);
