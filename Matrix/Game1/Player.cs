@@ -49,6 +49,26 @@ namespace Game1
                 //move sprite right
                 _position.X += _speed;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite up
+                _position.Y -= _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite down
+                _position.Y += _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite left
+                _position.X -= _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite right
+                _position.X += _speed * 2;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch)
