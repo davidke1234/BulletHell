@@ -1,9 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix;
+using Matrix.Utilities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Matrix
 {
@@ -17,7 +19,6 @@ namespace Matrix
         private int counter = 0;
 
         List<Bombs> bombs = new List<Bombs>();
-        Texture2D bombTexture;
 
         /// <summary>
         /// Provides an instance of the midboss class
@@ -40,11 +41,6 @@ namespace Matrix
         private MidBoss()
         {
             image = Arts.Boss2;
-            Position.X = 0;
-            Position.Y = 0;
-            var bombInstance = Bombs.Instance;
-            bombs.Add(bombInstance);
-            bombTexture = bombInstance.image;
         }
 
         public void UpdateBombs()
@@ -80,8 +76,8 @@ namespace Matrix
         {
             Bombs newBomb = Bombs.Instance;
             newBomb.Velocity.X = Velocity.X - 3f;
-            newBomb.Position = new Vector2(Position.X + newBomb.Velocity.X,
-                Position.Y + (image.Height / 2) - (image.Height / 2));
+            newBomb.Velocity.Y = Velocity.Y + 4f;
+            newBomb.Position = Position;
 
             if (bombs.Count() < 3)
             {
@@ -117,7 +113,6 @@ namespace Matrix
             }
 
             UpdateBombs();
-
         }
 
         /// <summary>
@@ -129,7 +124,16 @@ namespace Matrix
             {
                 singleBomb.Draw(spriteBatch);
             }
-            spriteBatch.Draw(image, Position, Color.White);
+            spriteBatch.Draw(image, Position, Microsoft.Xna.Framework.Color.White);
+        }
+
+        // Boss Movement Patterns
+        IEnumerable<int> FollowPlayer(float acceleration)
+        {
+            while (true)
+            {
+               
+            }
         }
     }
 }
