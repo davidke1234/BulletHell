@@ -1,4 +1,4 @@
-﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -39,6 +39,25 @@ namespace Matrix
                 //move sprite right
                 Position.X += _speed;
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite up
+                _position.Y -= _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite down
+                _position.Y += _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite left
+                _position.X -= _speed * 2;
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                //move sprite right
+                _position.X += _speed * 2;
 
             //Used for bullets
             Direction.X = 0;
