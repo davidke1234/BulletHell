@@ -1,23 +1,24 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix;
+using Matrix.Utilities;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Matrix
 {
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss: Sprite
+    public class MidBoss : Sprite
     {
         private static MidBoss _instance;
 
         private int counter = 0;
 
         List<Bombs> bombs = new List<Bombs>();
-        Texture2D bombTexture;
 
         /// <summary>
         /// Provides an instance of the midboss class
@@ -26,7 +27,7 @@ namespace Matrix
         {
             get
             {
-                if(_instance == null)
+                if (_instance == null)
                 {
                     _instance = new MidBoss();
                 }
@@ -40,11 +41,6 @@ namespace Matrix
         private MidBoss()
         {
             image = Arts.Boss2;
-            Position.X = 0;
-            Position.Y = 0;
-            var bombInstance = Bombs.Instance;
-            bombs.Add(bombInstance);
-            bombTexture = bombInstance.image;
         }
 
         public void UpdateBombs()
@@ -60,14 +56,14 @@ namespace Matrix
             foreach (Bombs bomb in bombs.ToList())
             {
                 bomb.Position += bomb.Velocity;
-                if(bomb.Position.X < 0)
+                if (bomb.Position.X < 0)
                 {
                     bomb.IsOutdated = true;
                 }
 
                 for (int i = 0; i < bombs.Count; i++)
                 {
-                    if(!bombs[i].IsOutdated)
+                    if (!bombs[i].IsOutdated)
                     {
                         bombs.RemoveAt(i);
                         i--;
@@ -80,10 +76,10 @@ namespace Matrix
         {
             Bombs newBomb = Bombs.Instance;
             newBomb.Velocity.X = Velocity.X - 3f;
-            newBomb.Position = new Vector2(Position.X + newBomb.Velocity.X, 
-                Position.Y + (image.Height / 2) - (image.Height / 2));
+            newBomb.Velocity.Y = Velocity.Y + 4f;
+            newBomb.Position = Position;
 
-            if(bombs.Count() < 3)
+            if (bombs.Count() < 3)
             {
                 bombs.Add(newBomb);
             }
@@ -96,7 +92,7 @@ namespace Matrix
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-            if (counter%100000==0)
+            if (counter % 100000 == 0)
             {
                 Position.X = rand.Next(0, 600);
                 Position.Y = rand.Next(0, 100);
@@ -110,14 +106,13 @@ namespace Matrix
             }
 
             shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if(shoot > 1)
+            if (shoot > 1)
             {
                 shoot = 0;
                 ShootBombs();
             }
 
             UpdateBombs();
-
         }
 
         /// <summary>
@@ -125,11 +120,20 @@ namespace Matrix
         /// </summary>        
         public override void Draw(SpriteBatch spriteBatch)
         {
-            foreach(Bombs singleBomb in bombs)
+            foreach (Bombs singleBomb in bombs)
             {
                 singleBomb.Draw(spriteBatch);
             }
-            spriteBatch.Draw(image, Position, Color.White );
+            spriteBatch.Draw(image, Position, Microsoft.Xna.Framework.Color.White);
+        }
+
+        // Boss Movement Patterns
+        IEnumerable<int> FollowPlayer(float acceleration)
+        {
+            while (true)
+            {
+               
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrix", "Matrix.csproj", "{89BB4E7A-0149-465F-B6B5-95FE9595523B}"
 EndProject
@@ -20,6 +20,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C419730B-EBB3-4279-81F6-3810B8F1A59C}
+		SolutionGuid = {77D609EB-877F-4CBB-96A2-6100F7E7EAD8}
 	EndGlobalSection
 EndGlobal

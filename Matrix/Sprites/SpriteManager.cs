@@ -45,7 +45,7 @@ namespace Matrix
         /// <param name="sprite"></param>
         private static void AddSprite(Sprite sprite)
         {
-            sprites.Add(sprite);            
+            sprites.Add(sprite);
         }
 
         /// <summary>

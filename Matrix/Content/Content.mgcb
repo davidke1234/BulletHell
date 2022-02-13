@@ -67,18 +67,6 @@
 /processorParam:TextureFormat=Color
 /build:Bullet.png
 
-#begin Bullet2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Bullet2.png
-
 #begin dngn_blood_fountain.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,18 +103,6 @@
 /processorParam:TextureFormat=Color
 /build:dngn_dry_fountain.png
 
-#begin dngn_trap_shaft.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:dngn_trap_shaft.png
-
 #begin elephant_statue.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -150,6 +126,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fireball.bmp
+
+#begin player_ship.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:player_ship.png
 
 #begin player_ship.png
 /importer:TextureImporter
