@@ -12,4 +12,4 @@ Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Siz
 "C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/elephant_statue.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/elephant_statue.xnb","TextureProcessor","Texture2DContent",1965,4181,0.0059471
 "C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/fireball.bmp","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/fireball.xnb","TextureProcessor","Texture2DContent",1818,1765,0.0156622
 "C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/player_ship.png","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/player_ship.xnb","TextureProcessor","Texture2DContent",10498,19685,0.0091208
-"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/sample1.mp3","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/sample1.xnb","SongProcessor","SongContent",1954212,125,1.6376998
+"C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/sample1.mp3","C:/WSUProjects/587/teammatrix/Matrix/Game1/Content/bin/Windows/Content/sample1.xnb","SongProcessor","SongContent",1954212,125,2.5849247
