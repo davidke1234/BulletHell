@@ -3,23 +3,33 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
+using System.Collections.Generic;
 
 namespace Matrix
 {
+    /// <summary>
+    /// This is the main type for your game.
+    /// </summary>
     public class Game1 : Game
     {
-        private GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private Player player;
-        private Enemy enemyA1;
-        private Enemy enemyA2;
-        private Enemy enemyA3;
-        private Enemy enemyA4;
-        private Enemy enemyA5;
-        private Enemy enemyB1;
-        private Enemy enemyB2;
-        private Enemy bullet;
-        private Song song1;
+        GraphicsDeviceManager graphics;
+        SpriteBatch _spriteBatch;
+        private List<SpriteNew> _sprites;
+        private EnemyManager _enemyManager;
+        private bool spawnedEnemies1;
+        private bool spawnedEnemies2;
+        private bool spawnedEnemies3;
+        private bool spawnedEnemies4;
+        private bool spawnedEnemies5;
+        private bool spawnedEnemies6;
+        private bool spawnedEnemies7;
+        private bool spawnedEnemies8;
+        private bool spawnedEnemies9;
+        private bool spawnedEnemies10;
+
+        public static Random Random;
+        public static int ScreenWidth = 1280;
+        public static int ScreenHeight = 720;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -27,65 +37,73 @@ namespace Matrix
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
 
-
         public Game1()
         {
             Instance = this;
-            _graphics = new GraphicsDeviceManager(this);
+            graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            
-            base.Initialize();            
+            Random = new Random();
+
+            base.Initialize();
         }
 
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
         protected override void LoadContent()
         {
+            // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            player = new Player(Content.Load<Texture2D>("player_ship"), Content.Load<Texture2D>("fireball"));
-            player._position = new Vector2(100, 100);
 
-            bullet = new Enemy(Content.Load<Texture2D>("Bullet2"));
-            enemyA1 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
-            enemyA2 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
-            enemyA3 = new Enemy(Content.Load<Texture2D>("dngn_dry_fountain"));
-            enemyA4 = new Enemy(Content.Load<Texture2D>("dngn_blue_fountain"));
-            enemyA5 = new Enemy(Content.Load<Texture2D>("dngn_blood_fountain"));
+            _enemyManager = new EnemyManager(Content);
 
-            //Butterfly enemies
-            enemyB1 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
-            enemyB2 = new Enemy(Content.Load<Texture2D>("elephant_statue"));
+            var player = Content.Load<Texture2D>("player_ship");
 
-            enemyA1._position = new Vector2(100, -50);
-            enemyA2._position = new Vector2(140, -50);
-            enemyA3._position = new Vector2(180, -50);
-            enemyA4._position = new Vector2(220, -50);
-            enemyA5._position = new Vector2(260, -50);
-            enemyB1._position = new Vector2(100, -50);
-            enemyB2._position = new Vector2(600, -50);
-            enemyB1._isActive = false;
-            enemyB2._isActive = false;
-            enemyB2._inReverse = true;
-
-            song1 = Content.Load<Song>("sample1");
-
+            var song1 = Content.Load<Song>("sample1");
+            MediaPlayer.Play(song1);
             Sounds.Load(Content);
-
             Arts.Load(Content);
 
-            
-            //MediaPlayer.Play(song1);
-            
-            // TODO: use this.Content to load your game content here
+            _sprites = new List<SpriteNew>()
+            {
+                new Player(player)
+                    { Position = new Vector2(375, 335),
+                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet")) }
+            };
         }
 
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 0, ref spawnedEnemies1, 8));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 8, ref spawnedEnemies2, 4));
+
             if (gameTime.TotalGameTime.TotalSeconds >= 20)
             {
                 SpriteManager.Add(MidBoss.Instance);
@@ -96,63 +114,62 @@ namespace Matrix
                 MidBoss.Instance.IsOutdated = true;
             }
 
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 40, ref spawnedEnemies3, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 50, ref spawnedEnemies4, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 60, ref spawnedEnemies5, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 70, ref spawnedEnemies6, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 80, ref spawnedEnemies7, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 90, ref spawnedEnemies8, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 100, ref spawnedEnemies9, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(gameTime, 110, ref spawnedEnemies10, 6));
 
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            player.Update();
 
-            //Starts with EnemyA
-
-            if (gameTime.TotalGameTime.TotalSeconds >= 5 && gameTime.TotalGameTime.TotalSeconds < 8)
-            {
-                //Exit enemyA, bring in enemyB
-                enemyA1._inReverse = true;
-                enemyA2._inReverse = true;
-                enemyA3._inReverse = true;
-                enemyA4._inReverse = true;
-                enemyA5._inReverse = true;
-
-                //Move in butterfly enemy
-                enemyB1._isActive = true;
-            }
-            else if (gameTime.TotalGameTime.TotalSeconds >= 10) 
-            {
-                enemyB2._isActive = true;
-            }
-
-            enemyA1.Move(gameTime, Enemy.Type.A);
-            enemyA2.Move(gameTime, Enemy.Type.A);
-            enemyA3.Move(gameTime, Enemy.Type.A);
-            enemyA4.Move(gameTime, Enemy.Type.A);
-            enemyA5.Move(gameTime, Enemy.Type.A);
-            enemyB1.Move(gameTime, Enemy.Type.B);
-            enemyB2.Move(gameTime, Enemy.Type.B);
+            //For spriteNew sprites
+            foreach (var sprite in _sprites.ToArray())
+                sprite.Update(gameTime, _sprites);
+            CleanUpSprites(_sprites);
 
             SpriteManager.Update(gameTime);
+
             base.Update(gameTime);
         }
 
+
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             _spriteBatch.Begin();
-            player.Draw(_spriteBatch);
-            enemyA1.Draw(_spriteBatch);
-            enemyA2.Draw(_spriteBatch);
-            enemyA3.Draw(_spriteBatch);
-            enemyA4.Draw(_spriteBatch);
-            enemyA5.Draw(_spriteBatch);
 
-            enemyB1.Draw(_spriteBatch);
-            enemyB2.Draw(_spriteBatch);
+            //TODO: Not using SpriteManager here due to bullets and enemies needing this
+            foreach (var sprite in _sprites)
+                sprite.Draw(_spriteBatch);
 
             SpriteManager.Draw(_spriteBatch);
 
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        private void CleanUpSprites(List<SpriteNew> sprites)
+        {
+            for (int i = 0; i < sprites.Count; i++)
+            {
+                if (sprites[i].IsRemoved)
+                {
+                    sprites.RemoveAt(i);
+                    i--;
+                }
+            }
         }
     }
 }

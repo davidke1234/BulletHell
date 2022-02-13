@@ -1,86 +1,48 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 using System.Collections.Generic;
-using System.Text;
-/*
- * Copyright/Attribution Notice: 
-You can use these tilesets in your program freely. No attribution is required. As a courtesy,
-include a link to the OGA page: http://opengameart.org/content/dungeon-crawl-32x32-tiles,
-the crawl-tiles page: http://code.google.com/p/crawl-tiles/ 
-or see the License Notice instructions on http://rltiles.sourceforge.net/
- */
+
 namespace Matrix
 {
-    public class Enemy : Sprite
+    public class Enemy : SpriteNew
     {
-        private Texture2D _texture;
-        public Vector2 _position;
-        public float _speed = 2f;
-        public bool _inReverse;
-        private GameTime _gameTime;
-        private double _elapsedSeconds = 0;
-        private Type _type = Type.A;
-        public bool _hide;
-        public bool _isActive = true;
-
-        public enum Type
-        {
-            A,
-            B,
-            None
-        }
+        public Bullet Bullet;
+        private float _timer;
+        public float ShootingTimer; // = 1.25f;
+        public float Speed = 2f;
 
         public Enemy(Texture2D texture)
-        {
-            _texture = texture;
-        }
+      : base(texture)
+        { }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<SpriteNew> sprites)
         {
-            if (_isActive)
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_timer >= ShootingTimer)
             {
-                if (_type == Type.B)
-                {
-                    if (_inReverse)
-                        _position.X -= 2;
-                    else
-                        _position.X += 2;
-
-                    if (_position.Y < 100)
-                        _position.Y += 4;
-                }
-
-                else
-                {  //Type A
-                    if (_inReverse)
-                    {
-                        _position.X -= 1;
-                        _position.Y -= 2;
-                    }
-                    else if (_position.Y < 100)
-                    {
-                        _position.X += 1;
-                        _position.Y += 2;
-                    }
-                }
+                DropBullet(sprites);
+                _timer = 0;
             }
+            Direction.X = 0f;
+            Direction.Y = 25f;
+
+            //Moves the enemies
+            Position += new Vector2(1f, 0);
+
+            // if the enemy is off the left side of the screen
+            if (Position.X < -_texture.Width)
+                this.IsRemoved = true;
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        private void DropBullet(List<SpriteNew> sprites)
         {
-            spriteBatch.Draw(_texture, _position, Color.White);
-        }
+            var bullet = Bullet.Clone() as Bullet;
+            bullet.Direction = this.Direction;
+            bullet.Position = this.Position;
+            bullet.LifeSpan = 2f;
 
-        internal void Move(GameTime gameTime, Type type) 
-        {
-            _type = type;
-            if (_elapsedSeconds == 0)
-                _elapsedSeconds = gameTime.TotalGameTime.TotalSeconds;
-            this._gameTime = gameTime;
-
-            this.Update(gameTime);
+            sprites.Add(bullet);
         }
     }
 }
