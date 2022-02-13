@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Game1
+namespace Matrix
 {
     //player sprites, normal enemy sprites, mid boss sprite, final boss sprite
     public abstract class Sprite

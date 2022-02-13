@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 
-namespace Game1
+namespace Matrix
 {
     public class Game1 : Game
     {

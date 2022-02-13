@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Game1
+namespace Matrix
 {
     /// <summary>
     /// Class for managing the sprites

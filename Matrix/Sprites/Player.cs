@@ -12,7 +12,7 @@ include a link to the OGA page: https://opengameart.org/content/fireball-project
 */
 
 
-namespace Game1
+namespace Matrix
 {
     public class Player
     {

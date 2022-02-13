@@ -11,7 +11,7 @@ include a link to the OGA page: http://opengameart.org/content/dungeon-crawl-32x
 the crawl-tiles page: http://code.google.com/p/crawl-tiles/ 
 or see the License Notice instructions on http://rltiles.sourceforge.net/
  */
-namespace Game1
+namespace Matrix
 {
     public class Enemy : Sprite
     {
