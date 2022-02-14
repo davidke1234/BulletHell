@@ -113,7 +113,7 @@ namespace Matrix
         protected override void Update(GameTime gameTime)
         {
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 0, ref spawnedEnemies1, 6));
-            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 5, ref spawnedEnemies2, 1));
+            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 5, ref spawnedEnemies2, 5));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 12, ref spawnedEnemies3, 4));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 18, ref spawnedEnemies4, 6));
 
@@ -138,6 +138,7 @@ namespace Matrix
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 85, ref spawnedEnemies13, 1));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 92, ref spawnedEnemies14, 6));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 100, ref spawnedEnemies15, 3));
+            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 110, ref spawnedEnemies16, 5));
 
             //game time is how much time has elapsed
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
