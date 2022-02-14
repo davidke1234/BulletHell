@@ -115,6 +115,18 @@
 /processorParam:TextureFormat=Color
 /build:dngn_dry_fountain.png
 
+#begin dngn_green_fountain.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:dngn_green_fountain.png
+
 #begin elephant_statue.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -138,6 +150,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:fireball.bmp
+
+#begin gif-preview.gif
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:gif-preview.gif
 
 #begin player_ship.png
 /importer:TextureImporter

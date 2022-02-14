@@ -10,6 +10,7 @@ namespace Matrix
         private float _timer;
         private List<Texture2D> _textures;
         private Texture2D _bulletTexture;
+        private Texture2D enemyButterfly;
 
         public bool CanAdd { get; set; }
 
@@ -25,12 +26,13 @@ namespace Matrix
             {
                content.Load<Texture2D>("dngn_blood_fountain"),
                content.Load<Texture2D>("dngn_blue_fountain"),
+               content.Load<Texture2D>("dngn_green_fountain"),
                content.Load<Texture2D>("dngn_dry_fountain")
             };
 
             _bulletTexture = content.Load<Texture2D>("Bullet");
 
-            //var enemyButterfly = Content.Load<Texture2D>("elephant_statue");
+            enemyButterfly = content.Load<Texture2D>("gif-preview");
 
             MaxEnemies = 10;
             SpawnTimer = 2.5f;
@@ -50,15 +52,16 @@ namespace Matrix
             }
         }
 
-        public Enemy GetEnemy(float x, float y)
-        {
-            var texture = _textures[Game1.Random.Next(0, _textures.Count)];
 
+        public Enemy GetEnemy(Texture2D texture, float x, float y)
+        {
             var e = new Enemy(texture);
 
+            if (Bullet == null)
+                Bullet = new Bullet(_bulletTexture);
 
             //Colour = Color.Red,
-            e.Bullet = new Bullet(_bulletTexture);
+            e.Bullet = Bullet;
             //Health = 5,
             //Layer = 0.2f,
             e.Position = new Vector2(x, y);
@@ -69,19 +72,32 @@ namespace Matrix
             return e;
         }
 
-        public IEnumerable<SpriteNew> GetEnemies(GameTime gameTime, int seconds, ref bool spawned, int enemyCount)
+        public IEnumerable<SpriteNew> GetEnemies(Enemy.Type type, GameTime gameTime, int seconds, ref bool spawned, int enemyCount)
         {
             List<SpriteNew> enemies = new List<SpriteNew>();
+            Texture2D texture;
+            int xFactor = 50;
+            int yFactor;
+
 
             if (gameTime.TotalGameTime.TotalSeconds > seconds && !spawned)
             {
                 if (!spawned)
                 {
-                    int xFactor = 50;
-
                     for (int i = 0; i < enemyCount; i++)
                     {
-                        enemies.Add(GetEnemy(xFactor, 50 + i));
+                        if (type == Enemy.Type.B)
+                        {
+                            yFactor = 100;
+                            texture = enemyButterfly;
+                        }
+                        else
+                        {
+                            yFactor = 50 + i;
+                            texture = _textures[Game1.Random.Next(0, _textures.Count)];  //Standard enemy A                         
+                        }
+
+                        enemies.Add(GetEnemy(texture, xFactor, yFactor));
                         xFactor += 50;
                     }
 

@@ -10,6 +10,7 @@ namespace Matrix
         private float _timer;
         public float ShootingTimer; // = 1.25f;
         public float Speed = 2f;
+        public enum Type { A, B }
 
         public Enemy(Texture2D texture)
       : base(texture)
