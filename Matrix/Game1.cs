@@ -130,13 +130,13 @@ namespace Matrix
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 30, ref spawnedEnemies5, 1));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 40, ref spawnedEnemies6, 5));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 50, ref spawnedEnemies7, 5));
-            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 55, ref spawnedEnemies8, 1));
+            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 53, ref spawnedEnemies8, 1));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 60, ref spawnedEnemies9, 6));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 65, ref spawnedEnemies10, 1));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 70, ref spawnedEnemies11, 4));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 80, ref spawnedEnemies12, 8));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.B, gameTime, 85, ref spawnedEnemies13, 1));
-            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 90, ref spawnedEnemies14, 6));
+            _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 92, ref spawnedEnemies14, 6));
             _sprites.AddRange(_enemyManager.GetEnemies(Enemy.Type.A, gameTime, 100, ref spawnedEnemies15, 3));
 
             //game time is how much time has elapsed

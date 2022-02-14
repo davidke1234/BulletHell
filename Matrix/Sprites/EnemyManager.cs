@@ -9,8 +9,12 @@ namespace Matrix
     {
         private float _timer;
         private List<Texture2D> _textures;
-        private Texture2D _bulletTexture;
-        private Texture2D enemyButterfly;
+        private Texture2D _bulletRed;
+        private Texture2D _bulletBlue;
+        private Texture2D _bulletBlack;
+        private Texture2D _bulletGreen;
+        private Texture2D _bulletOrange;
+        private Texture2D _enemyButterfly;
 
         public bool CanAdd { get; set; }
 
@@ -27,12 +31,16 @@ namespace Matrix
                content.Load<Texture2D>("dngn_blood_fountain"),
                content.Load<Texture2D>("dngn_blue_fountain"),
                content.Load<Texture2D>("dngn_green_fountain"),
-               content.Load<Texture2D>("dngn_dry_fountain")
+               content.Load<Texture2D>("dngn_black_fountain")
             };
 
-            _bulletTexture = content.Load<Texture2D>("Bullet");
+            _enemyButterfly = content.Load<Texture2D>("butterfly");
 
-            enemyButterfly = content.Load<Texture2D>("gif-preview");
+            _bulletRed = content.Load<Texture2D>("BulletRed");
+            _bulletBlue = content.Load<Texture2D>("BulletBlue");
+            _bulletBlack = content.Load<Texture2D>("BulletBlack");
+            _bulletGreen = content.Load<Texture2D>("BulletGreen");
+            _bulletOrange = content.Load<Texture2D>("BulletOrange");
 
             MaxEnemies = 10;
             SpawnTimer = 2.5f;
@@ -57,8 +65,19 @@ namespace Matrix
         {
             var e = new Enemy(texture);
 
-            if (Bullet == null)
-                Bullet = new Bullet(_bulletTexture);
+           // if (Bullet == null)
+            {
+                if (texture.Name.Contains("blood"))
+                    Bullet = new Bullet(_bulletRed);
+                else if (texture.Name.Contains("blue"))
+                    Bullet = new Bullet(_bulletBlue);
+                else if (texture.Name.Contains("black"))
+                    Bullet = new Bullet(_bulletBlack);
+                else if (texture.Name.Contains("green"))
+                    Bullet = new Bullet(_bulletGreen);
+                else
+                    Bullet = new Bullet(_bulletOrange);
+            }
 
             //Colour = Color.Red,
             e.Bullet = Bullet;
@@ -89,7 +108,7 @@ namespace Matrix
                         if (type == Enemy.Type.B)
                         {
                             yFactor = 100;
-                            texture = enemyButterfly;
+                            texture = _enemyButterfly;
                         }
                         else
                         {
