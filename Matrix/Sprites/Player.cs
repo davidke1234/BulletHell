@@ -58,18 +58,19 @@ namespace Matrix
             {
                 //move sprite right
                 Position.X += _speed * 2;
+            }
 
+            if (_currentKey.IsKeyDown(Keys.F) &&
+          _previousKey.IsKeyUp(Keys.F))
+            {
                 //Used for bullets
                 Direction.X = 0;
                 Direction.Y = -.9f;
 
-                if (_currentKey.IsKeyDown(Keys.Space) &&
-              _previousKey.IsKeyUp(Keys.Space))
-                {
-                    AddBullet(sprites);
-                }
+                AddBullet(sprites);
             }
         }
+        
 
         private void AddBullet(List<SpriteNew> sprites)
         {
