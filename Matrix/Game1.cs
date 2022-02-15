@@ -147,7 +147,7 @@ namespace Matrix
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
                 sprite.Update(gameTime, _sprites);
-            //CleanUpSprites(_sprites);
+            CleanUpSprites(_sprites);
 
             SpriteManager.Update(gameTime);
 

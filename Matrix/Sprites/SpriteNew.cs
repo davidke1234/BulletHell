@@ -23,10 +23,12 @@ namespace Matrix
         public bool IsOutdated;
         public float Timer { get; set; }
         public static Random rand = new Random();
+        public string Name;
 
         public SpriteNew(Texture2D texture)
         {
             _texture = texture;
+            Name = texture.Name;
 
             // The default origin in the centre of the sprite
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
