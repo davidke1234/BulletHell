@@ -34,12 +34,18 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 //move sprite left
+                if (Position.X > 55)
+                {
                     Position -= this.XVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 //move sprite right
-                Position += this.XVelocity;
+                if (Position.X < 740)
+                {
+                    Position += this.XVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
