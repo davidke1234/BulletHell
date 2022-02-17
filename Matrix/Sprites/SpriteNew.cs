@@ -15,7 +15,8 @@ namespace Matrix
         public Vector2 Position;
         public Vector2 Origin;
         public Vector2 Direction;
-        public Vector2 Velocity;
+        public Vector2 YVelocity = new Vector2(0,2);
+        public Vector2 XVelocity = new Vector2(2, 0);
         public float LinearVelocity = 4f;
         public SpriteNew Parent;
         public float LifeSpan = 0f;

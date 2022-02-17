@@ -8,7 +8,6 @@ namespace Matrix
     public class Player : SpriteNew
     {
         public Bullet Bullet;
-        private float _speed = 2f;
 
         public Player(Texture2D texture)
       : base(texture)
@@ -22,42 +21,54 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 //move sprite up
-                Position.Y -= _speed;
+                if (Position.Y > 50)
+                {
+                    Position -= this.YVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 //move sprite down
-                Position.Y += _speed;
+                if (Position.Y < 421)
+                {
+                    Position += this.YVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 //move sprite left
-                Position.X -= _speed;
+                if (Position.X > 55)
+                {
+                    Position -= this.XVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 //move sprite right
-                Position.X += _speed;
+                if (Position.X < 740)
+                {
+                    Position += this.XVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite up
-                Position.Y -= _speed * 2;
+                Position -= this.YVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite down
-                Position.Y += _speed * 2;
+                Position += this.YVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite left
-                Position.X -= _speed * 2;
+                Position -= this.XVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite right
-                Position.X += _speed * 2;
+                Position += this.XVelocity / 8;
             }
 
             if (_currentKey.IsKeyDown(Keys.F) &&
