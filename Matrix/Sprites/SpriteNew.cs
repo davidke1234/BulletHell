@@ -24,6 +24,15 @@ namespace Matrix
         public float Timer { get; set; }
         public static Random rand = new Random();
         public string Name;
+        public Color color = Color.White;
+        //public Keys Input;
+
+        public Rectangle Rectangle
+        {
+            get
+            { return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+            }
+        }
 
         public SpriteNew(Texture2D texture)
         {
@@ -40,12 +49,43 @@ namespace Matrix
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, null, Color.White, 0f, Origin, 1f, SpriteEffects.None, 0);
+            spriteBatch.Draw(_texture, Position, null, color, 0f, Origin, 1f, SpriteEffects.None, 0);
         }
 
         public object Clone()
         {
             return this.MemberwiseClone();
         }
+
+        #region Collision
+        protected bool IsTouchingLeft(SpriteNew sprite)
+        {
+            return this.Rectangle.Right + this.Velocity.X > sprite.Rectangle.Left &&
+                this.Rectangle.Left < sprite.Rectangle.Left &&
+                this.Rectangle.Bottom > sprite.Rectangle.Top &&
+                this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+        protected bool IsTouchingRight(SpriteNew sprite)
+        {
+            return this.Rectangle.Left + this.Velocity.X < sprite.Rectangle.Right &&
+                this.Rectangle.Right > sprite.Rectangle.Right &&
+                this.Rectangle.Bottom > sprite.Rectangle.Top &&
+                this.Rectangle.Top < sprite.Rectangle.Bottom;
+        }
+        protected bool IsTouchingTop(SpriteNew sprite)
+        {
+            return this.Rectangle.Bottom + this.Velocity.Y > sprite.Rectangle.Top &&
+                this.Rectangle.Top < sprite.Rectangle.Top &&
+                this.Rectangle.Right > sprite.Rectangle.Left &&
+                this.Rectangle.Left < sprite.Rectangle.Right;
+        }
+        protected bool IsTouchingBottom(SpriteNew sprite)
+        {
+            return this.Rectangle.Top + this.Velocity.Y < sprite.Rectangle.Bottom &&
+                this.Rectangle.Bottom > sprite.Rectangle.Bottom &&
+                this.Rectangle.Right > sprite.Rectangle.Left &&
+                this.Rectangle.Left < sprite.Rectangle.Right;
+        }
+        #endregion
     }
 }
