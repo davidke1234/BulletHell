@@ -21,42 +21,45 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 //move sprite up
-                Position.Y -= this.LinearVelocity;
+                if (this.Position.Y != 0)
+                {
+                    Position -= this.YVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 //move sprite down
-                Position.Y += this.LinearVelocity;
+                Position += this.YVelocity;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 //move sprite left
-                Position.X -= this.LinearVelocity;
+                    Position -= this.XVelocity;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 //move sprite right
-                Position.X += this.LinearVelocity;
+                Position += this.XVelocity;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite up
-                Position.Y -= this.LinearVelocity / 2;
+                Position -= this.YVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite down
-                Position.Y += this.LinearVelocity / 2;
+                Position += this.YVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite left
-                Position.X -= this.LinearVelocity / 2;
+                Position -= this.XVelocity / 8;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 //move sprite right
-                Position.X += this.LinearVelocity / 2;
+                Position += this.XVelocity / 8;
             }
 
             if (_currentKey.IsKeyDown(Keys.F) &&

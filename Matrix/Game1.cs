@@ -83,9 +83,9 @@ namespace Matrix
 
             var player = Content.Load<Texture2D>("player_ship");
 
-            var song1 = Content.Load<Song>("sample1");
-            MediaPlayer.Play(song1);
-            Sounds.Load(Content);
+            //var song1 = Content.Load<Song>("sample1");
+            //MediaPlayer.Play(song1);
+            //Sounds.Load(Content);
             Arts.Load(Content);
 
             _sprites = new List<SpriteNew>()
