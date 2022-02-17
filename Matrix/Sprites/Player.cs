@@ -21,7 +21,7 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 //move sprite up
-                if (this.Position.Y != 0)
+                if (Position.Y > 50)
                 {
                     Position -= this.YVelocity;
                 }
@@ -29,7 +29,10 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 //move sprite down
-                Position += this.YVelocity;
+                if (Position.Y < 421)
+                {
+                    Position += this.YVelocity;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
