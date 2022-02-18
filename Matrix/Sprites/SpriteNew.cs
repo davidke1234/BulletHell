@@ -18,6 +18,8 @@ namespace Matrix
         public Vector2 Velocity;
         public Vector2 YVelocity = new Vector2(0,2);
         public Vector2 XVelocity = new Vector2(2, 0);
+        public Vector2 YVelocitySlow = new Vector2(0, 1);
+        public Vector2 XVelocitySlow = new Vector2(1, 0);
         public float LinearVelocity = 4f;
         public SpriteNew Parent;
         public float LifeSpan = 0f;
