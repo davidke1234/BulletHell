@@ -5,14 +5,37 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class Player : SpriteNew
+    public class Player : SpriteNew, ICollidable
     {
         public Bullet Bullet;
+        public int Health { get; set; }
+        public bool IsDead
+        {
+            get
+            {
+                return Health <= 0;
+            }
+        }
+
+        
+        //public Score Score { get; set; }
 
         public Player(Texture2D texture)
       : base(texture)
         { }
 
+        public void OnCollide(SpriteNew sprite)
+        {
+            if (IsDead)
+                return;
+
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
+                Health--;
+
+            if (sprite is Enemy)
+                Health -= 1;
+        }
+        
         public override void Update(GameTime gameTime, List<SpriteNew> sprites)
         {
             _previousKey = _currentKey;
@@ -101,7 +124,14 @@ namespace Matrix
                 AddBullet(sprites);
             }
         }
-        
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            if (IsDead)
+                return;
+
+            base.Draw(gameTime, spriteBatch);
+        }
 
         private void AddBullet(List<SpriteNew> sprites)
         {

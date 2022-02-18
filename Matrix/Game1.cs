@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Matrix
 {
@@ -75,8 +76,11 @@ namespace Matrix
             _sprites = new List<SpriteNew>()
             {
                 new Player(player)
-                    { Position = new Vector2(375, 335),
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet")) }
+                {
+                    Position = new Vector2(375, 335),
+                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
+                    Health=10
+                }
             };
         }
 
@@ -118,11 +122,45 @@ namespace Matrix
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
                 sprite.Update(gameTime, _sprites);
-            CleanUpSprites(_sprites);
+            PostUpdate();
 
             SpriteManager.Update(gameTime);
 
             base.Update(gameTime);
+        }
+
+        private void PostUpdate()
+        {
+            var collidedSprites = _sprites.Where(c => c is ICollidable);
+
+            foreach (var sprite1 in collidedSprites)
+            {
+                foreach (var sprite2 in collidedSprites)
+                {
+                    if (sprite1 == sprite2)  //same sprite so continue
+                        continue;
+
+                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
+                        continue;
+
+                    //If the sprite is Player and is shooting this sprite as a bullet, continue
+                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
+                        continue;
+
+                    if (sprite1.Intersects(sprite2))
+                        ((ICollidable)sprite1).OnCollide(sprite2);
+                }
+            }
+
+            //Clean up no longer needed sprites
+            for (int i = 0; i < _sprites.Count; i++)
+            {
+                if (_sprites[i].IsRemoved)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
+                }
+            }
         }
 
         /// <summary>
@@ -135,28 +173,19 @@ namespace Matrix
 
             _spriteBatch.Begin();
 
-            //TODO: Not using SpriteManager here due to bullets and enemies needing this
+            //Currently used for player, bullets and enemies
             foreach (var sprite in _sprites)
-                sprite.Draw(_spriteBatch);
+                sprite.Draw(gameTime, _spriteBatch);
+
+            //Currently used for mid boss and bombs
             SpriteManager.Draw(_spriteBatch);
+            
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-        private void CleanUpSprites(List<SpriteNew> sprites)
-        {
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                if (sprites[i].IsRemoved)
-                {
-                    sprites.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        #region Get Enemy Waves
+       #region Get Enemy Waves
         private void GetEnemyWave1(GameTime gameTime)
         {
             //if (!_enemyManager.SpawnedWave1)
@@ -185,9 +214,9 @@ namespace Matrix
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 15, ref spE14));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 16, ref spE15));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 17, ref spE16));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 18, ref spE18));
+            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 18, ref spE18));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE19));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 19, ref spE20));
+            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE20));
            //sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 20, ref spE21));
             //prites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 21, ref spE22));
             //_sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE23));
@@ -197,10 +226,10 @@ namespace Matrix
         {
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE24));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 23, ref spE25));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 24, ref spE26));
+            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 24, ref spE26));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 25, ref spE27));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 26, ref spE28));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 27, ref spE29));
+           // _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 27, ref spE29));
         }
 
     }

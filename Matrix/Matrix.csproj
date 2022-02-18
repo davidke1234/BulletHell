@@ -12,7 +12,6 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Content\Bullet.png" />
-    <None Remove="Content\elephant_statue.png" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
@@ -26,6 +25,5 @@
   </ItemGroup>
   <ItemGroup>
 	<Folder Include="Content\bin\Windows\" />
-	<Folder Include="Sprites\" />
   </ItemGroup>
 </Project>

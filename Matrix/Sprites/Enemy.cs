@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class Enemy : SpriteNew
+    public class Enemy : SpriteNew, ICollidable
     {
         public Bullet Bullet;
         private float _shootingTimer;
@@ -14,6 +14,7 @@ namespace Matrix
         private bool _collisionDetected = false;
 
         public enum Type { A, B }
+        public int Health;
 
         public Enemy(Texture2D texture)
       : base(texture)
@@ -29,22 +30,15 @@ namespace Matrix
                 DropBullet(sprites);
                 _shootingTimer = 0;
             }
-            Direction.X = 0f;
+
+            Direction.X = 10f;
             Direction.Y = 25f;
 
-             //If off screen, remove enemy
+            //If off screen, remove enemy
             if (Position.Y < -10)
                 this.IsRemoved = true;
 
-            for (int i = 0; i < sprites.Count; i++)
-            {
-                if (IsTouchingBottom(sprites[i])); // || IsTouchingLeft(sprites[i]) || IsTouchingRight(sprites[i]) || IsTouchingTop(sprites[i]))
-                {
-                    _collisionDetected = true;
-                }
-            }
-
-            if (this._texture.Name == "butterfly")
+            if (this._texture.Name == "GrumpBird")
             {
                 Position.X += 1f;
             }
@@ -67,18 +61,6 @@ namespace Matrix
                     Position.Y += 1f;
                 }
             }
-
-                
-
-
-
-
-            // if the enemy is off the left side of the screen
-
-          
-
-            //if (Position.X < -_texture.Width)
-            //    this.IsRemoved = true;
         }
 
         private void DropBullet(List<SpriteNew> sprites)
@@ -88,8 +70,33 @@ namespace Matrix
             bullet.Position = this.Position;
             bullet.LinearVelocity = 0.05f;
             bullet.LifeSpan = 6f;
+            bullet.Parent = this;
 
             sprites.Add(bullet);
+        }
+
+        public void OnCollide(SpriteNew sprite)
+        {
+            //If we crash into a player that is still alive
+            if (sprite is Player && !((Player)sprite).IsDead)
+            {
+                //((Player)sprite).Score.Value++;
+
+                // We want to remove the ship completely
+                IsRemoved = true;
+            }
+
+            // If we hit a bullet that belongs to a player      
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
+            {
+                Health--;
+
+                if (Health <= 0)
+                {
+                    IsRemoved = true;
+                    //((Player)sprite.Parent).Score.Value++;
+                }
+            }
         }
     }
 }
