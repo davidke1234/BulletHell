@@ -11,6 +11,8 @@ namespace Matrix
         private float _enemyTimer;
         public float ShootingTimer; // = 1.25f;
         public float Speed = 2f;
+        private bool _collisionDetected = false;
+
         public enum Type { A, B }
 
         public Enemy(Texture2D texture)
@@ -33,6 +35,14 @@ namespace Matrix
              //If off screen, remove enemy
             if (Position.Y < -10)
                 this.IsRemoved = true;
+
+            for (int i = 0; i < sprites.Count; i++)
+            {
+                if (IsTouchingBottom(sprites[i])); // || IsTouchingLeft(sprites[i]) || IsTouchingRight(sprites[i]) || IsTouchingTop(sprites[i]))
+                {
+                    _collisionDetected = true;
+                }
+            }
 
             if (this._texture.Name == "butterfly")
             {
@@ -76,8 +86,8 @@ namespace Matrix
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = this.Direction;
             bullet.Position = this.Position;
-            bullet.LinearVelocity = .5f;
-            bullet.LifeSpan = 2f;
+            bullet.LinearVelocity = 0.05f;
+            bullet.LifeSpan = 6f;
 
             sprites.Add(bullet);
         }

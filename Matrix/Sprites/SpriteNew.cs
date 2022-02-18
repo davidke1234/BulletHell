@@ -85,10 +85,16 @@ namespace Matrix
         }
         protected bool IsTouchingBottom(SpriteNew sprite)
         {
-            return this.Rectangle.Top + this.Velocity.Y < sprite.Rectangle.Bottom &&
+            bool result = false;
+            result = this.Rectangle.Top + this.Velocity.Y < sprite.Rectangle.Bottom &&
                 this.Rectangle.Bottom > sprite.Rectangle.Bottom &&
                 this.Rectangle.Right > sprite.Rectangle.Left &&
                 this.Rectangle.Left < sprite.Rectangle.Right;
+            if (result)
+                return true;
+            else
+                return false;
+
         }
         #endregion
     }
