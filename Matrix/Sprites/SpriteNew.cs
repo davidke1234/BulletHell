@@ -9,7 +9,6 @@ namespace Matrix
 {
     public class SpriteNew : ICloneable
     {
-        public Texture2D Image;
         protected Texture2D _texture;
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
@@ -25,14 +24,11 @@ namespace Matrix
         public SpriteNew Parent;
         public float LifeSpan = 0f;
         public bool IsRemoved = false;
-        public bool IsOutdated;
-        public float Timer { get; set; }
-        public static Random rand = new Random();
         public string Name;
         public Color Colour = Color.White;
         public readonly Color[] TextureData;
         protected float _rotation { get; set; }
-        public List<Sprite> Children { get; set; }
+        //public List<Sprite> Children { get; set; }
 
         public XnaMatrix Transform
         {
@@ -70,7 +66,7 @@ namespace Matrix
             _texture = texture;
             Name = texture.Name;
 
-            Children = new List<Sprite>();
+            //Children = new List<Sprite>();
 
             // The default origin in the centre of the sprite
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
