@@ -21,54 +21,74 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 //move sprite up
-                if (Position.Y > 50)
+                if (Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    Position -= this.YVelocity;
+                    if (Position.Y > 50)
+                    {
+                        Position -= YVelocitySlow;
+                    }
+                }
+                else
+                {
+                    if (Position.Y > 50)
+                    {
+                        Position -= YVelocity;
+                    }
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 //move sprite down
-                if (Position.Y < 421)
+                if (Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
-                    Position += this.YVelocity;
+                    if (Position.Y < 421)
+                    {
+                        Position += YVelocitySlow;
+                    }
+                }
+                else
+                {
+                    if (Position.Y < 421)
+                    {
+                        Position += YVelocity;
+                    }
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 //move sprite left
-                if (Position.X > 55)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
-                    Position -= this.XVelocity;
+                    if (Position.X > 55)
+                    {
+                        Position -= XVelocitySlow;
+                    }
+                }
+                else
+                {
+                    if (Position.X > 55)
+                    {
+                        Position -= XVelocity;
+                    }
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 //move sprite right
-                if (Position.X < 740)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
-                    Position += this.XVelocity;
+                    if (Position.X < 740)
+                    {
+                        Position += XVelocitySlow;
+                    }
                 }
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Up) && Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                //move sprite up
-                Position -= this.YVelocity / 8;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down) && Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                //move sprite down
-                Position += this.YVelocity / 8;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left) && Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                //move sprite left
-                Position -= this.XVelocity / 8;
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right) && Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                //move sprite right
-                Position += this.XVelocity / 8;
+                else
+                {
+                    if (Position.X < 740)
+                    {
+                        Position += XVelocity;
+                    }
+                }
             }
 
             if (_currentKey.IsKeyDown(Keys.F) &&
