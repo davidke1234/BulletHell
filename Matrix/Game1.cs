@@ -12,6 +12,7 @@ namespace Matrix
     /// </summary>
     public class Game1 : Game
     {
+        private Texture2D _background;
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<SpriteNew> _sprites;
@@ -64,6 +65,8 @@ namespace Matrix
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _enemyManager = new EnemyManager(Content);
+
+            _background = Content.Load<Texture2D>("Stars");
 
             var player = Content.Load<Texture2D>("player_ship");
 
@@ -131,9 +134,11 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
+
+            _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
 
             //TODO: Not using SpriteManager here due to bullets and enemies needing this
             foreach (var sprite in _sprites)

@@ -76,6 +76,7 @@ namespace Matrix
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = this.Direction;
             bullet.Position = this.Position;
+            bullet.LinearVelocity = .5f;
             bullet.LifeSpan = 2f;
 
             sprites.Add(bullet);
