@@ -1,8 +1,6 @@
 ﻿using Matrix;
 using Matrix.Utilities;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -13,21 +11,19 @@ namespace Matrix
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss : Sprite
+    public class FinalBoss : Sprite
     {
-        private float _changePositionTimer = 5;
-        private float _timerStart = 5;
         float shoot = 0;
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
 
-        public MidBoss(Texture2D texture): base(texture)
+        public FinalBoss(Texture2D texture) : base(texture)
         {
-            Position = new Vector2(Game1.Viewport.Width / 2, 50);
-            bomb = new Bomb(Arts.Bomb);
+            Position = new Vector2(Game1.Viewport.Width, 50);
+            bomb = new Bomb(Arts.Bomb2);
         }
 
-         public void UpdateBombs()
+        public void UpdateBombs()
         {
             if (bombs.Count() < 2)
             {
@@ -54,22 +50,20 @@ namespace Matrix
         }
 
         public void ShootBombs(List<Sprite> sprites)
-        {            
+        {
             bomb.Velocity.Y = this.Velocity.Y + 6f;
             bomb.Position = this.Position;
             bomb.Direction = this.Direction;
             bomb.Parent = this;
-            //Game1.soundInstance.Play();
-
             if (bombs.Count() < 3)
             {
                 bombs.Add(bomb);
             }
-            if(!sprites.Contains(bomb))
+            if (!sprites.Contains(bomb))
             {
                 sprites.Add(bomb);
             }
-        }        
+        }
 
         /// <summary>
         /// <inheritdoc/>
@@ -77,15 +71,7 @@ namespace Matrix
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _changePositionTimer -= elasped;
-            if(_changePositionTimer < 0)
-            {
-                Position.X = _random.Next(50, 600);
-                Position.Y = _random.Next(50, 100);
-
-                _changePositionTimer = _timerStart;
-            }
-
+            Position.X -= 60.0f * elasped;
             if (Position.X > Game1.Viewport.Width)
             {
                 Position.X = 0;
@@ -99,16 +85,6 @@ namespace Matrix
             }
 
             UpdateBombs();
-        }
-
-
-        // Boss Movement Patterns
-        IEnumerable<int> FollowPlayer(float acceleration)
-        {
-            while (true)
-            {
-               
-            }
         }
 
         //public void OnCollide(Sprite sprite)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -19,11 +20,15 @@ namespace Matrix
         private List<Sprite> _sprites;
         private Player _player;
         private EnemyManager _enemyManager;
+        private MidBoss _midBoss;
+        private Bomb bomb;
+        private FinalBoss _finalBoss;
         private SpriteFont _font;
         private Random _random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
         private double _gameOverTimer = 0;
+        public static SoundEffectInstance soundInstance;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -50,7 +55,6 @@ namespace Matrix
         {
             // TODO: Add your initialization logic here
             _random = new Random();
-
             base.Initialize();
         }
 
@@ -73,7 +77,7 @@ namespace Matrix
 
             //var song1 = Content.Load<Song>("sample1");
             //MediaPlayer.Play(song1);
-            //Sounds.Load(Content);
+            Sounds.Load(Content);
             Arts.Load(Content);
 
             _player = new Player(player, slowmoPlayer)
@@ -83,11 +87,13 @@ namespace Matrix
                 Health = 10,
                 Score = new Score()
             };
-
+            _midBoss = new MidBoss(Arts.Boss2);
+            _finalBoss = new FinalBoss(Arts.Boss);
             _player.Score.PlayerName = "Player1";
             _sprites = new List<Sprite>();
             _sprites.Add(_player);
-
+            soundInstance = Sounds.soundEffects[0].CreateInstance();
+            soundInstance.IsLooped = true;
         }
 
         /// <summary>
@@ -97,6 +103,8 @@ namespace Matrix
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            _finalBoss.IsRemoved = true;
+            _finalBoss.bomb.IsRemoved = true;
         }
 
         /// <summary>
@@ -110,16 +118,36 @@ namespace Matrix
             _sprites.AddRange(_enemyManager.GetEnemyWave2(gameTime));
             _sprites.AddRange(_enemyManager.GetEnemyWave3(gameTime));
 
-            MidBoss midBoss = new MidBoss(Arts.Boss);
-
             if (gameTime.TotalGameTime.TotalSeconds >= 40)
             {
-                SpriteManager.Add(midBoss);
+                if (!_sprites.Contains(_midBoss))
+                {
+                    _sprites.Add(_midBoss);
+                }
+
+                if(!_sprites.Contains(bomb))
+                {
+                    _sprites.Add(_midBoss.bomb);
+                }
             }
 
             if (gameTime.TotalGameTime.TotalSeconds >= 60)
             {
-                midBoss.IsRemoved = true;
+                _midBoss.bomb.IsRemoved = true;
+                _midBoss.IsRemoved = true;
+                soundInstance.Stop();
+            }
+
+            if(gameTime.TotalGameTime.TotalSeconds > 60 && gameTime.TotalGameTime.TotalSeconds < 90)
+            {
+                if (!_sprites.Contains(_finalBoss))
+                {
+                    _sprites.Add(_finalBoss);
+                }
+                if (!_sprites.Contains(bomb))
+                {
+                    _sprites.Add(_finalBoss.bomb);
+                }
             }
 
             //game time is how much time has elapsed
@@ -129,10 +157,13 @@ namespace Matrix
 
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
+            {
                 sprite.Update(gameTime, _sprites);
+            }
+
             PostUpdate();
 
-            SpriteManager.Update(gameTime);
+            //SpriteManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -188,7 +219,7 @@ namespace Matrix
                 sprite.Draw(gameTime, _spriteBatch);
 
             //Currently used for mid boss and bombs
-            SpriteManager.Draw(gameTime, _spriteBatch);
+            //SpriteManager.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
             _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);

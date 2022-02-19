@@ -13,6 +13,12 @@ namespace Matrix
         /// </summary>
         public static Texture2D Bomb { get; private set; }
 
+
+        /// <summary>
+        /// Bomb art.
+        /// </summary>
+        public static Texture2D Bomb2 { get; private set; }
+
         /// <summary>
         /// First Boss art
         /// </summary>
@@ -29,6 +35,7 @@ namespace Matrix
         public static void Load(ContentManager content)
         {
             Bomb = content.Load<Texture2D>("bomb");
+            Bomb2 = content.Load<Texture2D>("Bomb2");
             Boss = content.Load<Texture2D>("boss");
             Boss2 = content.Load<Texture2D>("boss2");
         }

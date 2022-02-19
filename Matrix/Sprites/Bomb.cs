@@ -6,22 +6,16 @@ using System.Text;
 
 namespace Matrix
 {
-    class Bombs : Sprite, ICollidable
+    public class Bomb : Sprite
     {
-        private static Bombs _instance;
+        private float _timer;
 
-        public Bombs(Texture2D texture)
-: base(texture)
-        { }
+        public Bomb(Texture2D texture): base(texture)
+        { 
+        }
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
-
-        }  
-
-        public void OnCollide(Sprite sprite)
-        {
-            throw new NotImplementedException();
         }
     }
 }
