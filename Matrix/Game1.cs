@@ -16,17 +16,14 @@ namespace Matrix
         private Texture2D _background;
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
-        private List<SpriteNew> _sprites;
+        private List<Sprite> _sprites;
         private Player _player;
         private EnemyManager _enemyManager;
-        private bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
-        private bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
-        private bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29;
         private SpriteFont _font;
-        public static Random Random;
+        private Random _random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
-        private double _gameOvertimer = 0;
+        private double _gameOverTimer = 0;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -52,7 +49,7 @@ namespace Matrix
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Random = new Random();
+            _random = new Random();
 
             base.Initialize();
         }
@@ -67,7 +64,7 @@ namespace Matrix
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _font = Content.Load<SpriteFont>("Font");
             _enemyManager = new EnemyManager(Content);
-          
+
 
             _background = Content.Load<Texture2D>("Stars");
 
@@ -87,9 +84,9 @@ namespace Matrix
             };
 
             _player.Score.PlayerName = "Player1";
-            _sprites = new List<SpriteNew>();
+            _sprites = new List<Sprite>();
             _sprites.Add(_player);
-            
+
         }
 
         /// <summary>
@@ -108,25 +105,26 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            GetEnemyWave1(gameTime);
-            GetEnemyWave2(gameTime);
-            GetEnemyWave3(gameTime);
+            _sprites.AddRange(_enemyManager.GetEnemyWave1(gameTime));
+            _sprites.AddRange(_enemyManager.GetEnemyWave2(gameTime));
+            _sprites.AddRange(_enemyManager.GetEnemyWave3(gameTime));
+
+            MidBoss midBoss = new MidBoss(Arts.Boss);
 
             if (gameTime.TotalGameTime.TotalSeconds >= 40)
             {
-                SpriteManager.Add(MidBoss.Instance);
+                SpriteManager.Add(midBoss);
             }
 
             if (gameTime.TotalGameTime.TotalSeconds >= 60)
             {
-                MidBoss.Instance.IsOutdated = true;
+                midBoss.IsRemoved = true;
             }
 
-
             //game time is how much time has elapsed
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))            
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
 
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
@@ -189,7 +187,7 @@ namespace Matrix
                 sprite.Draw(gameTime, _spriteBatch);
 
             //Currently used for mid boss and bombs
-            SpriteManager.Draw(_spriteBatch);
+            SpriteManager.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
             _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
@@ -206,66 +204,14 @@ namespace Matrix
         {
             if (_player.Health == 0)
             {
-                if (_gameOvertimer == 0)
-                    _gameOvertimer = gameTime.TotalGameTime.TotalSeconds;
+                if (_gameOverTimer == 0)
+                    _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
 
-                if (_gameOvertimer + 5 < gameTime.TotalGameTime.TotalSeconds)
+                if (_gameOverTimer + 5 < gameTime.TotalGameTime.TotalSeconds)
                     Exit();
 
                 _spriteBatch.DrawString(_font, "Game over", new Vector2(350f, 250f), Color.White);
             }
         }
-
-        #region Get Enemy Waves
-        private void GetEnemyWave1(GameTime gameTime)
-        {
-            //if (!_enemyManager.SpawnedWave1)
-            //{
-            
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 1, ref spE1));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 2, ref spE2));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 3, ref spE3));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 4, ref spE4));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 5, ref spE5));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 6, ref spE6));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 7, ref spE7));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 8, ref spE8));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 9, ref spE9));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 10, ref spE10));
-
-            //if (_sprites.Count> 10)
-            //    _enemyManager.SpawnedWave1 = true;
-
-        }
-
-        private void GetEnemyWave2(GameTime gameTime)
-        {
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 13, ref spE11));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 13, ref spE12));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 14, ref spE13));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 15, ref spE14));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 16, ref spE15));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 17, ref spE16));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 18, ref spE18));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE19));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE20));
-           //sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 20, ref spE21));
-            //prites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 21, ref spE22));
-            //_sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE23));
-        }
-
-        private void GetEnemyWave3(GameTime gameTime)
-        {
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE24));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 23, ref spE25));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 24, ref spE26));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 25, ref spE27));
-            _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 26, ref spE28));
-           // _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.B, gameTime, 27, ref spE29));
-        }
-
     }
-
-    #endregion
-
 }

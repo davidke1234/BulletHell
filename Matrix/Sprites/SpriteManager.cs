@@ -57,7 +57,7 @@ namespace Matrix
 
             foreach (var singleSprite in sprites)
             {
-                singleSprite.Update(gameTime);
+                singleSprite.Update(gameTime, sprites);
             }
 
             isUpdating = false;
@@ -69,16 +69,16 @@ namespace Matrix
 
             addedSprites.Clear();
 
-            sprites = sprites.Where(x => !x.IsOutdated).ToList();
+            sprites = sprites.Where(x => !x.IsRemoved).ToList();
         }
 
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public static void Draw(SpriteBatch spriteBatch)
+        public static void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             foreach (var sprite in sprites)
-                sprite.Draw(spriteBatch);
+                sprite.Draw(gameTime, spriteBatch);
         }
     }
 }

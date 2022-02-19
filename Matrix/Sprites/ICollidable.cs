@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Matrix
 {
-  public interface ICollidable
-  {
-    void OnCollide(SpriteNew sprite);
-  }
+    public interface ICollidable
+    {
+        void OnCollide(Sprite sprite);
+    }
 }

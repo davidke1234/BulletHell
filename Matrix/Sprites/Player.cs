@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class Player : SpriteNew, ICollidable
+    public class Player : Sprite, ICollidable
     {
         public Bullet Bullet;
         public int Health { get; set; }
@@ -24,7 +24,7 @@ namespace Matrix
       : base(texture)
         { }
 
-        public void OnCollide(SpriteNew sprite)
+        public void OnCollide(Sprite sprite)
         {
             if (IsDead)
                 return;
@@ -36,7 +36,7 @@ namespace Matrix
                 Health -= 1;
         }
         
-        public override void Update(GameTime gameTime, List<SpriteNew> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
@@ -133,7 +133,7 @@ namespace Matrix
             base.Draw(gameTime, spriteBatch);
         }
 
-        private void AddBullet(List<SpriteNew> sprites)
+        private void AddBullet(List<Sprite> sprites)
         {
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = this.Direction;

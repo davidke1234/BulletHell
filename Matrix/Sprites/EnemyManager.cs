@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Matrix
@@ -19,6 +20,10 @@ namespace Matrix
         public bool SpawnedWave2;
         public bool SpawnedWave3;
         public bool SpawnedWave4;
+        public Random _random = new Random();
+        private bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
+        private bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
+        private bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29;
 
         public bool CanAdd { get; set; }
 
@@ -89,8 +94,8 @@ namespace Matrix
             //Layer = 0.2f,
             e.Position = new Vector2(x, y);
             // Position = new Vector2(Game1.ScreenWidth + texture.Width, Game1.Random.Next(0, Game1.ScreenHeight)),
-            e.Speed = 2 + (float)Game1.Random.NextDouble();
-            e.ShootingTimer = 1.5f + (float)Game1.Random.NextDouble();
+            e.Speed = 2 + (float)_random.NextDouble();
+            e.TimerStart = 1.5f + (float)_random.NextDouble();
 
             if (e.Name == "GrumpBird")
                 e.Health = 5;
@@ -100,9 +105,9 @@ namespace Matrix
             return e;
         }
       
-        public IEnumerable<SpriteNew> GetEnemy(int waveId, Enemy.Type type, GameTime gameTime, float seconds, ref bool spawned)
+        public IEnumerable<Sprite> GetEnemy(int waveId, Enemy.Type type, GameTime gameTime, float seconds, ref bool spawned)
         {
-            List<SpriteNew> enemies = new List<SpriteNew>();
+            List<Sprite> enemies = new List<Sprite>();
             float xFactor;
             float yFactor;
             Texture2D texture;
@@ -127,9 +132,10 @@ namespace Matrix
                 }
                 else
                 {
+                    //Type A
                     xFactor += 30;
                     yFactor += 110;
-                    texture = _textures[Game1.Random.Next(0, _textures.Count)];  //Standard enemy A
+                    texture = _textures[_random.Next(0, _textures.Count)];  //Standard enemy A
                 }
 
                 enemies.Add(GetEnemy(texture, xFactor, yFactor));
@@ -137,6 +143,57 @@ namespace Matrix
             }
 
             return enemies;
+        }
+
+        public IEnumerable<Sprite> GetEnemyWave1(GameTime gameTime)
+        {
+            List<Sprite> _sprites = new List<Sprite>();
+
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 1, ref spE1));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 2, ref spE2));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 3, ref spE3));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 4, ref spE4));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 5, ref spE5));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 6, ref spE6));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 7, ref spE7));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 8, ref spE8));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 9, ref spE9));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 10, ref spE10));
+
+            return _sprites;
+        }
+
+        public IEnumerable<Sprite> GetEnemyWave2(GameTime gameTime)
+        {
+            List<Sprite> _sprites = new List<Sprite>();
+
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.B, gameTime, 13, ref spE11));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 13, ref spE12));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 14, ref spE13));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 15, ref spE14));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 16, ref spE15));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 17, ref spE16));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.B, gameTime, 18, ref spE18));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE19));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 19, ref spE20));
+            //sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 20, ref spE21));
+            //prites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 21, ref spE22));
+            //_sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE23));
+
+            return _sprites;
+        }
+
+        public IEnumerable<Sprite> GetEnemyWave3(GameTime gameTime)
+        {
+            List<Sprite> _sprites = new List<Sprite>();
+
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 22, ref spE24));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 23, ref spE25));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.B, gameTime, 24, ref spE26));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 25, ref spE27));
+            _sprites.AddRange(GetEnemy(1, Enemy.Type.A, gameTime, 26, ref spE28));
+            // _sprites.AddRange(GetEnemy(1, Enemy.Type.B, gameTime, 27, ref spE29));
+            return _sprites;
         }
     }
 }

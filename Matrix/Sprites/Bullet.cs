@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class Bullet : SpriteNew, ICollidable
+    public class Bullet : Sprite, ICollidable
     {
         private float _timer;
         //public Explosion Explosion;
@@ -12,7 +12,7 @@ namespace Matrix
         public Bullet(Texture2D texture) : base(texture)
         { }
 
-        public void OnCollide(SpriteNew sprite)
+        public void OnCollide(Sprite sprite)
         {
             if (sprite is Bullet)
                 return;
@@ -42,7 +42,7 @@ namespace Matrix
             }
         }
 
-        public override void Update(GameTime gameTime, List<SpriteNew> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 

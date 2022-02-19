@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class Enemy : SpriteNew, ICollidable
+    public class Enemy : Sprite, ICollidable
     {
         public Bullet Bullet;
         private float _shootingTimer;
-        private float _enemyTimer;
-        public float ShootingTimer; // = 1.25f;
+        public float TimerStart = 1.25f;
         public float Speed = 2f;
         private bool _collisionDetected = false;
 
@@ -20,12 +19,11 @@ namespace Matrix
       : base(texture)
         { }
 
-        public override void Update(GameTime gameTime, List<SpriteNew> sprites)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _enemyTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_shootingTimer >= ShootingTimer)
+            if (_shootingTimer >= TimerStart)
             {
                 DropBullet(sprites);
                 _shootingTimer = 0;
@@ -44,7 +42,7 @@ namespace Matrix
             }
             else
             {
-                //Check for pivot point to go up and out
+                //A enemies.  Check for pivot point to go up and out
                 if (Position.X > 670)
                 {
                     //Move them up and off screen
@@ -63,7 +61,7 @@ namespace Matrix
             }
         }
 
-        private void DropBullet(List<SpriteNew> sprites)
+        private void DropBullet(List<Sprite> sprites)
         {
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = this.Direction;
@@ -75,7 +73,7 @@ namespace Matrix
             sprites.Add(bullet);
         }
 
-        public void OnCollide(SpriteNew sprite)
+        public void OnCollide(Sprite sprite)
         {
             //If we crash into a player that is still alive
             if (sprite is Player && !((Player)sprite).IsDead)
@@ -99,7 +97,7 @@ namespace Matrix
             }
         }
 
-        private static void GetScoreValue(SpriteNew sprite)
+        private static void GetScoreValue(Sprite sprite)
         {
             ((Player)sprite).Score.Value++;
 

@@ -12,45 +12,28 @@ namespace Matrix
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss : Sprite
+    public class MidBoss : Sprite, ICollidable
     {
         private static MidBoss _instance;
 
         private int counter = 0;
+        private float _shootingTimer;
+        private float _timerStart = 1f;
 
         List<Bombs> bombs = new List<Bombs>();
 
-        /// <summary>
-        /// Provides an instance of the midboss class
-        /// </summary>
-        public static MidBoss Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new MidBoss();
-                }
-                return _instance;
-            }
-        }
+        public MidBoss(Texture2D texture)
+: base(texture)
+        { }
 
-        /// <summary>
-        /// Creates an instance of <see cref="MidBoss" class./>
-        /// </summary>
-        private MidBoss()
-        {
-            image = Arts.Boss2;
-        }
-
-        public void UpdateBombs()
+         public void UpdateBombs()
         {
             if (bombs.Count() < 2)
             {
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
-                bombs.Add(Bombs.Instance);
+                bombs.Add(new Bombs(_texture));
+                //bombs.Add(Bombs.Instance);
+                //bombs.Add(Bombs.Instance);
+                //bombs.Add(Bombs.Instance);
             }
 
             foreach (Bombs bomb in bombs.ToList())
@@ -58,23 +41,14 @@ namespace Matrix
                 bomb.Position += bomb.Velocity;
                 if (bomb.Position.X < 0)
                 {
-                    bomb.IsOutdated = true;
-                }
-
-                for (int i = 0; i < bombs.Count; i++)
-                {
-                    if (!bombs[i].IsOutdated)
-                    {
-                        bombs.RemoveAt(i);
-                        i--;
-                    }
-                }
+                    bomb.IsRemoved = true;
+                }              
             }
         }
 
         public void ShootBombs()
         {
-            Bombs newBomb = Bombs.Instance;
+            Bombs newBomb = new Bombs(_texture);
             newBomb.Velocity.X = Velocity.X - 3f;
             newBomb.Velocity.Y = Velocity.Y + 4f;
             newBomb.Position = Position;
@@ -90,12 +64,15 @@ namespace Matrix
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
-        public override void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
-            if (counter % 100000 == 0)
+            _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_shootingTimer >= _timerStart)
             {
-                Position.X = rand.Next(0, 600);
-                Position.Y = rand.Next(0, 100);
+                Position.X = _random.Next(0, 600);
+                Position.Y = _random.Next(0, 100);
+                _shootingTimer = 0;
             }
 
             counter++;
@@ -115,17 +92,6 @@ namespace Matrix
             UpdateBombs();
         }
 
-        /// <summary>
-        /// <inheritdoc/>
-        /// </summary>        
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            foreach (Bombs singleBomb in bombs)
-            {
-                singleBomb.Draw(spriteBatch);
-            }
-            spriteBatch.Draw(image, Position, Microsoft.Xna.Framework.Color.White);
-        }
 
         // Boss Movement Patterns
         IEnumerable<int> FollowPlayer(float acceleration)
@@ -134,6 +100,11 @@ namespace Matrix
             {
                
             }
+        }
+
+        public void OnCollide(Sprite sprite)
+        {
+            throw new NotImplementedException();
         }
     }
 }
