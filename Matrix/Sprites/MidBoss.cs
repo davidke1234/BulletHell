@@ -13,18 +13,21 @@ namespace Matrix
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss : Sprite
+    public class MidBoss : Sprite, ICollidable
     {
         private float _changePositionTimer = 5;
         private float _timerStart = 5;
         float shoot = 0;
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
+        public int Health;
 
         public MidBoss(Texture2D texture): base(texture)
         {
             Position = new Vector2(Game1.Viewport.Width / 2, 50);
+            Health = 75;
             bomb = new Bomb(Arts.Bomb);
+            Name = "midBoss";
         }
 
          public void UpdateBombs()
@@ -111,9 +114,25 @@ namespace Matrix
             }
         }
 
-        //public void OnCollide(Sprite sprite)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void OnCollide(Sprite sprite)
+        {
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
+            {
+                Health--;
+
+                if (Health <= 0)
+                {
+                    int scoreValue = 10;                                                   
+
+                    IsRemoved = true;
+                    GetScoreValue(sprite.Parent, scoreValue);
+                }
+            }
+        }
+
+        private static void GetScoreValue(Sprite sprite, int scoreValue)
+        {
+            ((Player)sprite).Score.Value += scoreValue;
+        }
     }
 }

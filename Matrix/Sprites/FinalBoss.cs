@@ -11,16 +11,19 @@ namespace Matrix
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class FinalBoss : Sprite
+    public class FinalBoss : Sprite, ICollidable
     {
         float shoot = 0;
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
+        public int Health;
 
         public FinalBoss(Texture2D texture) : base(texture)
         {
             Position = new Vector2(Game1.Viewport.Width, 50);
             bomb = new Bomb(Arts.Bomb2);
+            Name = "finalBoss";
+            Health = 150;
         }
 
         public void UpdateBombs()
@@ -87,9 +90,24 @@ namespace Matrix
             UpdateBombs();
         }
 
-        //public void OnCollide(Sprite sprite)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void OnCollide(Sprite sprite)
+        {
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
+            {
+                Health--;
+
+                if (Health <= 0)
+                {
+                    int scoreValue = 15;
+
+                    IsRemoved = true;
+                    GetScoreValue(sprite.Parent, scoreValue);
+                }
+            }  
+        }
+        private static void GetScoreValue(Sprite sprite, int scoreValue)
+        {
+            ((Player)sprite).Score.Value += scoreValue;
+        }
     }
 }

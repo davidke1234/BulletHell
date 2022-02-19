@@ -93,10 +93,15 @@ namespace Matrix
                 {
                     int scoreValue;
 
-                    if (Name == "GrumpBird")
-                        scoreValue = 5;
-                    else
-                        scoreValue = 1;
+                    switch(Name)
+                    {
+                        case "GrumpBirb":
+                            scoreValue = 5;
+                            break;
+                        default:
+                            scoreValue = 1;
+                            break;                            
+                    }
 
                     IsRemoved = true;
                     GetScoreValue(sprite.Parent, scoreValue);

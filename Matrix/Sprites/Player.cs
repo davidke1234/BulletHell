@@ -33,6 +33,9 @@ namespace Matrix
             if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 Health--;
 
+            if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
+                Health -= 2;
+
             //If player collides with enemy
             if (sprite is Enemy)
                 Health--;
