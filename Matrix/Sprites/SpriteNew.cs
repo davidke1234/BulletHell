@@ -7,9 +7,17 @@ using XnaMatrix= Microsoft.Xna.Framework.Matrix;
 
 namespace Matrix
 {
-    public class SpriteNew : ICloneable
+    public enum SpriteState
     {
+        normalSprite,
+        slowmoSprite
+    }
+
+    public class SpriteNew : ICloneable
+    {   
+        public SpriteState currentState = SpriteState.normalSprite;
         protected Texture2D _texture;
+        protected Texture2D _slowmoSprite;
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
         public Vector2 Position;
@@ -29,7 +37,7 @@ namespace Matrix
         public readonly Color[] TextureData;
         protected float _rotation { get; set; }
         //public List<Sprite> Children { get; set; }
-
+        
         public XnaMatrix Transform
         {
             get
@@ -77,13 +85,37 @@ namespace Matrix
             _texture.GetData(TextureData);
         }
 
+        public SpriteNew(Texture2D texture, Texture2D slowmoTexture)
+        {
+            _texture = texture;
+            _slowmoSprite = slowmoTexture;
+            Name = texture.Name;
+
+            //Children = new List<Sprite>();
+
+            // The default origin in the centre of the sprite
+            Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+
+            Colour = Color.White;
+
+            TextureData = new Color[_texture.Width * _texture.Height];
+            _texture.GetData(TextureData);
+        }
+
         //Note: overridden in each class
         public virtual void Update(GameTime gameTime, List<SpriteNew> sprites)
         { }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(_texture, Position, null, Colour, 0f, Origin, 1f, SpriteEffects.None, 0);
+            switch (currentState) {
+                case SpriteState.normalSprite:
+                    spriteBatch.Draw(_texture, Position, null, Colour, 0f, Origin, 1f, SpriteEffects.None, 0);
+                    break;
+                case SpriteState.slowmoSprite:
+                    spriteBatch.Draw(_slowmoSprite, Position, null, Colour, 0f, Origin, 1f, SpriteEffects.None, 0);
+                    break;
+            }
         }
 
         public bool Intersects(SpriteNew sprite)

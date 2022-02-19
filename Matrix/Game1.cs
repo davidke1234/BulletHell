@@ -72,13 +72,14 @@ namespace Matrix
             _background = Content.Load<Texture2D>("Stars");
 
             var player = Content.Load<Texture2D>("player_ship");
+            var slowmoPlayer = Content.Load<Texture2D>("slowmoShip");
 
             //var song1 = Content.Load<Song>("sample1");
             //MediaPlayer.Play(song1);
             //Sounds.Load(Content);
             Arts.Load(Content);
 
-            _player = new Player(player)
+            _player = new Player(player, slowmoPlayer)
             {
                 Position = new Vector2(375, 335),
                 Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),

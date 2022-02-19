@@ -16,13 +16,14 @@ namespace Matrix
                 return Health <= 0;
             }
         }
-
         
         public Score Score { get; set; }
 
         public Player(Texture2D texture)
       : base(texture)
         { }
+
+        public Player(Texture2D playerTexture, Texture2D slowmoTexture) : base(playerTexture, slowmoTexture) { }
 
         public void OnCollide(SpriteNew sprite)
         {
@@ -44,10 +45,11 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 //move sprite up
-                if (Keyboard.GetState().IsKeyDown(Keys.Up))
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
                     if (Position.Y > 50)
                     {
+                        this.currentState = SpriteState.slowmoSprite;
                         Position -= YVelocitySlow;
                     }
                 }
@@ -55,6 +57,7 @@ namespace Matrix
                 {
                     if (Position.Y > 50)
                     {
+                        this.currentState = SpriteState.normalSprite;
                         Position -= YVelocity;
                     }
                 }
@@ -62,10 +65,11 @@ namespace Matrix
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 //move sprite down
-                if (Keyboard.GetState().IsKeyDown(Keys.Down))
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
                     if (Position.Y < 421)
                     {
+                        this.currentState = SpriteState.slowmoSprite;
                         Position += YVelocitySlow;
                     }
                 }
@@ -73,6 +77,7 @@ namespace Matrix
                 {
                     if (Position.Y < 421)
                     {
+                        this.currentState = SpriteState.normalSprite;
                         Position += YVelocity;
                     }
                 }
@@ -84,6 +89,7 @@ namespace Matrix
                 {
                     if (Position.X > 55)
                     {
+                        this.currentState = SpriteState.slowmoSprite;
                         Position -= XVelocitySlow;
                     }
                 }
@@ -91,6 +97,7 @@ namespace Matrix
                 {
                     if (Position.X > 55)
                     {
+                        this.currentState = SpriteState.normalSprite;
                         Position -= XVelocity;
                     }
                 }
@@ -102,6 +109,7 @@ namespace Matrix
                 {
                     if (Position.X < 740)
                     {
+                        this.currentState = SpriteState.slowmoSprite;
                         Position += XVelocitySlow;
                     }
                 }
@@ -109,6 +117,7 @@ namespace Matrix
                 {
                     if (Position.X < 740)
                     {
+                        this.currentState = SpriteState.normalSprite;
                         Position += XVelocity;
                     }
                 }
