@@ -80,7 +80,7 @@ namespace Matrix
             //If we crash into a player that is still alive
             if (sprite is Player && !((Player)sprite).IsDead)
             {
-                //((Player)sprite).Score.Value++;
+                GetScoreValue(sprite);
 
                 // We want to remove the ship completely
                 IsRemoved = true;
@@ -94,9 +94,19 @@ namespace Matrix
                 if (Health <= 0)
                 {
                     IsRemoved = true;
-                    //((Player)sprite.Parent).Score.Value++;
+                    GetScoreValue(sprite.Parent);
                 }
             }
+        }
+
+        private static void GetScoreValue(SpriteNew sprite)
+        {
+            ((Player)sprite).Score.Value++;
+
+            //if (sprite.Name == "GrumpBird")
+            //    ((Player)sprite).Score.Value += 5;
+            //else
+            //    ((Player)sprite).Score.Value++;
         }
     }
 }

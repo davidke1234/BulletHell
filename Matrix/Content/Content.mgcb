@@ -199,6 +199,13 @@
 /processorParam:TextureFormat=Color
 /build:fireball.bmp
 
+#begin Font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Font.spritefont
+
 #begin GrumpBird.png
 /importer:TextureImporter
 /processor:TextureProcessor

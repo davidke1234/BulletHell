@@ -17,11 +17,12 @@ namespace Matrix
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<SpriteNew> _sprites;
+        private Player _player;
         private EnemyManager _enemyManager;
         private bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
         private bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
         private bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29;
-
+        private SpriteFont _font;
         public static Random Random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
@@ -63,8 +64,9 @@ namespace Matrix
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            _font = Content.Load<SpriteFont>("Font");
             _enemyManager = new EnemyManager(Content);
+          
 
             _background = Content.Load<Texture2D>("Stars");
 
@@ -75,15 +77,18 @@ namespace Matrix
             //Sounds.Load(Content);
             Arts.Load(Content);
 
-            _sprites = new List<SpriteNew>()
+            _player = new Player(player)
             {
-                new Player(player)
-                {
-                    Position = new Vector2(375, 335),
-                    Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
-                    Health=10
-                }
+                Position = new Vector2(375, 335),
+                Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
+                Health = 20,
+                Score = new Score()
             };
+
+            _player.Score.PlayerName = "Player1";
+            _sprites = new List<SpriteNew>();
+            _sprites.Add(_player);
+            
         }
 
         /// <summary>
@@ -183,7 +188,11 @@ namespace Matrix
 
             //Currently used for mid boss and bombs
             SpriteManager.Draw(_spriteBatch);
-            
+
+            _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
+            _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
+            _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
@@ -194,6 +203,7 @@ namespace Matrix
         {
             //if (!_enemyManager.SpawnedWave1)
             //{
+            
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 1, ref spE1));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 2, ref spE2));
             _sprites.AddRange(_enemyManager.GetEnemy(1, Enemy.Type.A, gameTime, 3, ref spE3));

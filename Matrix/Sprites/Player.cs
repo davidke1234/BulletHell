@@ -18,7 +18,7 @@ namespace Matrix
         }
 
         
-        //public Score Score { get; set; }
+        public Score Score { get; set; }
 
         public Player(Texture2D texture)
       : base(texture)
