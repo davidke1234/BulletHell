@@ -26,6 +26,7 @@ namespace Matrix
         public static Random Random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
+        private double _gameOvertimer = 0;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -81,7 +82,7 @@ namespace Matrix
             {
                 Position = new Vector2(375, 335),
                 Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
-                Health = 20,
+                Health = 10,
                 Score = new Score()
             };
 
@@ -123,8 +124,9 @@ namespace Matrix
 
 
             //game time is how much time has elapsed
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))            
                 Exit();
+            
 
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
@@ -193,12 +195,28 @@ namespace Matrix
             _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
             _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
 
+            CheckGameOver(gameTime);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
         }
 
-       #region Get Enemy Waves
+        private void CheckGameOver(GameTime gameTime)
+        {
+            if (_player.Health == 0)
+            {
+                if (_gameOvertimer == 0)
+                    _gameOvertimer = gameTime.TotalGameTime.TotalSeconds;
+
+                if (_gameOvertimer + 5 < gameTime.TotalGameTime.TotalSeconds)
+                    Exit();
+
+                _spriteBatch.DrawString(_font, "Game over", new Vector2(350f, 250f), Color.White);
+            }
+        }
+
+        #region Get Enemy Waves
         private void GetEnemyWave1(GameTime gameTime)
         {
             //if (!_enemyManager.SpawnedWave1)
