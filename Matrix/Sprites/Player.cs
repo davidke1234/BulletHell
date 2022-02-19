@@ -33,8 +33,9 @@ namespace Matrix
             if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 Health--;
 
+            //If player collides with enemy
             if (sprite is Enemy)
-                Health -= 1;
+                Health--;
         }
         
         public override void Update(GameTime gameTime, List<Sprite> sprites)

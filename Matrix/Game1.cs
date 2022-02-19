@@ -154,7 +154,6 @@ namespace Matrix
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
             //For spriteNew sprites
             foreach (var sprite in _sprites.ToArray())
             {
@@ -162,8 +161,6 @@ namespace Matrix
             }
 
             PostUpdate();
-
-            //SpriteManager.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -217,9 +214,6 @@ namespace Matrix
             //Currently used for player, bullets and enemies
             foreach (var sprite in _sprites)
                 sprite.Draw(gameTime, _spriteBatch);
-
-            //Currently used for mid boss and bombs
-            //SpriteManager.Draw(gameTime, _spriteBatch);
 
             _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
             _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);

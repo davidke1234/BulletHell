@@ -10,8 +10,7 @@ namespace Matrix
         private float _shootingTimer;
         public float TimerStart = 1.25f;
         public float Speed = 2f;
-        private bool _collisionDetected = false;
-
+        
         public enum Type { A, B }
         public int Health;
 
@@ -34,9 +33,10 @@ namespace Matrix
 
             //If off screen, remove enemy
             if (Position.Y < -10)
-                this.IsRemoved = true;
+                IsRemoved = true;
 
-            if (this._texture.Name == "GrumpBird")
+            //B Enemies
+            if (_texture.Name == "GrumpBird")
             {
                 Position.X += 1f;
             }
@@ -64,8 +64,8 @@ namespace Matrix
         private void DropBullet(List<Sprite> sprites)
         {
             var bullet = Bullet.Clone() as Bullet;
-            bullet.Direction = this.Direction;
-            bullet.Position = this.Position;
+            bullet.Direction = Direction;
+            bullet.Position = Position;
             bullet.LinearVelocity = 0.05f;
             bullet.LifeSpan = 6f;
             bullet.Parent = this;
@@ -75,36 +75,38 @@ namespace Matrix
 
         public void OnCollide(Sprite sprite)
         {
-            //If we crash into a player that is still alive
+            //If the player hits an enemy, remove enemy, but score
             if (sprite is Player && !((Player)sprite).IsDead)
             {
-                GetScoreValue(sprite);
+                GetScoreValue(sprite, 1);
 
-                // We want to remove the ship completely
+                // We want to remove the enemy
                 IsRemoved = true;
             }
 
-            // If we hit a bullet that belongs to a player      
+            // Hit an enemy.  Deduct 1 health point     
             if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
             {
                 Health--;
 
                 if (Health <= 0)
                 {
+                    int scoreValue;
+
+                    if (Name == "GrumpBird")
+                        scoreValue = 5;
+                    else
+                        scoreValue = 1;
+
                     IsRemoved = true;
-                    GetScoreValue(sprite.Parent);
+                    GetScoreValue(sprite.Parent, scoreValue);
                 }
             }
         }
 
-        private static void GetScoreValue(Sprite sprite)
+        private static void GetScoreValue(Sprite sprite, int scoreValue)
         {
-            ((Player)sprite).Score.Value++;
-
-            //if (sprite.Name == "GrumpBird")
-            //    ((Player)sprite).Score.Value += 5;
-            //else
-            //    ((Player)sprite).Score.Value++;
+            ((Player)sprite).Score.Value += scoreValue;
         }
     }
 }
