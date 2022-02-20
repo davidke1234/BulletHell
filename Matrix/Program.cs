@@ -4,11 +4,17 @@ namespace Matrix
 {
     public static class Program
     {
+        public static bool ShouldRestart;
         [STAThread]
-        static void Main()
+        public static void Main()
         {
-            using (var game = new Game1())
-                game.Run();
+            do
+            {
+                ShouldRestart = false;
+                using (var game = new Game1())
+                    game.Run();
+            }
+            while (ShouldRestart);
         }
     }
 }

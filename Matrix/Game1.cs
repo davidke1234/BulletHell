@@ -45,7 +45,6 @@ namespace Matrix
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
 
-
         public Game1()
         {
             Instance = this;
@@ -79,12 +78,8 @@ namespace Matrix
         }
 
         private void LoadGameContent(ContentManager content)
-        {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            
+        {         
             _enemyManager = new EnemyManager(Content);
-
-
             _background = Content.Load<Texture2D>("Stars");
 
             var player = Content.Load<Texture2D>("player_ship");
@@ -115,27 +110,23 @@ namespace Matrix
         {
             var buttonTexture = content.Load<Texture2D>("Button");
             var buttonFont = content.Load<SpriteFont>("Font");
-            _menuBackground = content.Load<Texture2D>("MainMenu");
-
-            //_components = new List<Component>()
+            _menuBackground = content.Load<Texture2D>("MainMenu_backGround");
 
             Button bStart = new Button(buttonTexture, buttonFont);
             bStart.Text = "Start Game";
-            bStart.Position = new Vector2(Game1.ScreenWidth / 2, 400);
             bStart.Click = new EventHandler(Button_1Player_Clicked);
             bStart.Layer = 0.1f;
             bStart.Texture = buttonTexture;
             _startButton = bStart;
 
-
             Button bQuit = new Button(buttonTexture, buttonFont);
             bQuit.Text = "Quit Game";
-            bQuit.Position = new Vector2(Game1.ScreenWidth / 2, 520);
             bQuit.Click = new EventHandler(Button_Quit_Clicked);
             bQuit.Layer = 0.1f;
             bQuit.Texture = buttonTexture;
             _quitButton = bQuit;
         }
+
         private void Button_1Player_Clicked(object sender, EventArgs args)
         {
             _gameStarted = true;
@@ -286,30 +277,7 @@ namespace Matrix
             {
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.Begin();
-                _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
-                
-                if (!string.IsNullOrWhiteSpace(_startButton.Text))
-                {
-                    var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_startButton.Text).X / 2);
-                    var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_startButton.Text).Y / 2);
-
-                    _startButton.Position = new Vector2(x, y);
-                    _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.01f);
-                    _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -8), 1f, SpriteEffects.None, 0.01f);
-                    
-                }
-
-                if (!string.IsNullOrWhiteSpace(_quitButton.Text))
-                {
-                    var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_quitButton.Text).X / 2);
-                    var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_quitButton.Text).Y / 2);
-
-                    _quitButton.Position = new Vector2(x+40, y);
-                    _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(40, -40), 1f, SpriteEffects.None, 0.01f);
-                    _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -48), 1f, SpriteEffects.None, 0.01f);
-
-                }
-
+                DrawMainMenu();
                 _spriteBatch.End();
                 base.Draw(gameTime);
             }
@@ -319,7 +287,6 @@ namespace Matrix
                 _spriteBatch.Begin();
                 _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
 
-                //Currently used for player, bullets and enemies
                 foreach (var sprite in _sprites)
                     sprite.Draw(gameTime, _spriteBatch);
 
@@ -333,8 +300,33 @@ namespace Matrix
 
                 base.Draw(gameTime);
             }
-            
         }
+
+        private void DrawMainMenu()
+        {
+            _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
+
+            if (!string.IsNullOrWhiteSpace(_startButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_startButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_startButton.Text).Y / 2);
+
+                _startButton.Position = new Vector2(x, y);
+                _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -8), 1f, SpriteEffects.None, 0.01f);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_quitButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_quitButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_quitButton.Text).Y / 2);
+
+                _quitButton.Position = new Vector2(x + 40, y);
+                _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(40, -40), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -48), 1f, SpriteEffects.None, 0.01f);
+            }
+        }
+
         private Rectangle Rectangle
         {
             get
@@ -350,7 +342,11 @@ namespace Matrix
                     _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
 
                 if (_gameOverTimer + 5 < gameTime.TotalGameTime.TotalSeconds)
+                {
+                    //Must exit the game and then start again to show menu.
+                    Program.ShouldRestart = true;
                     Exit();
+                }
 
                 _spriteBatch.DrawString(_font, "Game over", new Vector2(350f, 250f), Color.White);
             }

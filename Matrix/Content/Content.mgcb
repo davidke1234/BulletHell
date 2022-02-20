@@ -242,7 +242,7 @@
 /processorParam:TextureFormat=Color
 /build:GrumpBird.png
 
-#begin MainMenu.png
+#begin MainMenu_background.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -252,7 +252,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:MainMenu.png
+/build:MainMenu_background.png
 
 #begin player_ship.png
 /importer:TextureImporter
