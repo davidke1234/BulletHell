@@ -104,7 +104,7 @@ namespace Matrix
                             scoreValue = 15;
                             break;
                         case "Boss2":
-                            scoreValue = 15;
+                            scoreValue = 10;
                             break;
                         case "GrumpBird":
                             scoreValue = 5;
