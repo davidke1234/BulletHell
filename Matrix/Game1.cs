@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
@@ -15,6 +16,9 @@ namespace Matrix
     public class Game1 : Game
     {
         private Texture2D _background;
+        private Texture2D _menuBackground;
+        private Button _startButton;
+        private Button _quitButton;
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<Sprite> _sprites;
@@ -29,7 +33,12 @@ namespace Matrix
         public static int ScreenHeight = 720;
         private double _gameOverTimer = 0;
         public static SoundEffectInstance soundInstance;
-
+        private bool _gameStarted;
+        private MouseState _currentMouse;
+        private bool _isHovering;
+        private MouseState _previousMouse;
+        public EventHandler Click;
+        
         // helpful properties
         public static GameTime GameTime { get; private set; }
         public static Game1 Instance { get; private set; }
@@ -64,9 +73,15 @@ namespace Matrix
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _font = Content.Load<SpriteFont>("Font");
+            LoadMenuContent(Content);
+        }
+
+        private void LoadGameContent(ContentManager content)
+        {
+            // Create a new SpriteBatch, which can be used to draw textures.
+            
             _enemyManager = new EnemyManager(Content);
 
 
@@ -96,6 +111,41 @@ namespace Matrix
             soundInstance.IsLooped = true;
         }
 
+        private void LoadMenuContent(ContentManager content)
+        {
+            var buttonTexture = content.Load<Texture2D>("Button");
+            var buttonFont = content.Load<SpriteFont>("Font");
+            _menuBackground = content.Load<Texture2D>("MainMenu");
+
+            //_components = new List<Component>()
+
+            Button bStart = new Button(buttonTexture, buttonFont);
+            bStart.Text = "Start Game";
+            bStart.Position = new Vector2(Game1.ScreenWidth / 2, 400);
+            bStart.Click = new EventHandler(Button_1Player_Clicked);
+            bStart.Layer = 0.1f;
+            bStart.Texture = buttonTexture;
+            _startButton = bStart;
+
+
+            Button bQuit = new Button(buttonTexture, buttonFont);
+            bQuit.Text = "Quit Game";
+            bQuit.Position = new Vector2(Game1.ScreenWidth / 2, 520);
+            bQuit.Click = new EventHandler(Button_Quit_Clicked);
+            bQuit.Layer = 0.1f;
+            bQuit.Texture = buttonTexture;
+            _quitButton = bQuit;
+        }
+        private void Button_1Player_Clicked(object sender, EventArgs args)
+        {
+            _gameStarted = true;
+            LoadGameContent(Content);
+        }
+
+        private void Button_Quit_Clicked(object sender, EventArgs args)
+        {
+            Exit();
+        }
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// game-specific content.
@@ -103,8 +153,11 @@ namespace Matrix
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
-            _finalBoss.IsRemoved = true;
-            _finalBoss.bomb.IsRemoved = true;
+            if (_finalBoss != null)
+            {
+                _finalBoss.IsRemoved = true;
+                _finalBoss.bomb.IsRemoved = true;
+            }
         }
 
         /// <summary>
@@ -114,55 +167,79 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            _sprites.AddRange(_enemyManager.GetEnemyWave1(gameTime));
-            _sprites.AddRange(_enemyManager.GetEnemyWave2(gameTime));
-            _sprites.AddRange(_enemyManager.GetEnemyWave3(gameTime));
-
-            if (gameTime.TotalGameTime.TotalSeconds >= 40)
+            if(!_gameStarted)
             {
-                if (!_sprites.Contains(_midBoss))
-                {
-                    _sprites.Add(_midBoss);
-                }
+                _previousMouse = _currentMouse;
+                _currentMouse = Mouse.GetState();
 
-                if(!_sprites.Contains(bomb))
-                {
-                    _sprites.Add(_midBoss.bomb);
-                }
-            }
+                var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
 
-            if (gameTime.TotalGameTime.TotalSeconds >= 60)
-            {
-                _midBoss.bomb.IsRemoved = true;
-                _midBoss.IsRemoved = true;
-                soundInstance.Stop();
-            }
+                _isHovering = false;
 
-            if(gameTime.TotalGameTime.TotalSeconds > 60 && gameTime.TotalGameTime.TotalSeconds < 90)
-            {
-                if (!_sprites.Contains(_finalBoss))
+                if (mouseRectangle.Intersects(Rectangle))
                 {
-                    _sprites.Add(_finalBoss);
-                }
-                if (!_sprites.Contains(bomb))
-                {
-                    _sprites.Add(_finalBoss.bomb);
+                    _isHovering = true;
+
+                    if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                    {
+                        _startButton.Click?.Invoke(this, new EventArgs());
+                    }
                 }
             }
-
-            //game time is how much time has elapsed
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            //For spriteNew sprites
-            foreach (var sprite in _sprites.ToArray())
+            
+            if (_gameStarted)
             {
-                sprite.Update(gameTime, _sprites);
+                _sprites.AddRange(_enemyManager.GetEnemyWave1(gameTime));
+                _sprites.AddRange(_enemyManager.GetEnemyWave2(gameTime));
+                _sprites.AddRange(_enemyManager.GetEnemyWave3(gameTime));
+
+                if (gameTime.TotalGameTime.TotalSeconds >= 40)
+                {
+                    if (!_sprites.Contains(_midBoss))
+                    {
+                        _sprites.Add(_midBoss);
+                    }
+
+                    if (!_sprites.Contains(bomb))
+                    {
+                        _sprites.Add(_midBoss.bomb);
+                    }
+                }
+
+                if (gameTime.TotalGameTime.TotalSeconds >= 60)
+                {
+                    _midBoss.bomb.IsRemoved = true;
+                    _midBoss.IsRemoved = true;
+                    soundInstance.Stop();
+                }
+
+                if (gameTime.TotalGameTime.TotalSeconds > 60 && gameTime.TotalGameTime.TotalSeconds < 90)
+                {
+                    if (!_sprites.Contains(_finalBoss))
+                    {
+                        _sprites.Add(_finalBoss);
+                    }
+                    if (!_sprites.Contains(bomb))
+                    {
+                        _sprites.Add(_finalBoss.bomb);
+                    }
+                }
+
+                //game time is how much time has elapsed
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+
+                //For spriteNew sprites
+                foreach (var sprite in _sprites.ToArray())
+                {
+                    sprite.Update(gameTime, _sprites);
+                }
+
+                PostUpdate();
+
+                base.Update(gameTime);
             }
-
-            PostUpdate();
-
-            base.Update(gameTime);
+            
         }
 
         private void PostUpdate()
@@ -205,27 +282,66 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
+            if (!_gameStarted)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                
+                if (!string.IsNullOrWhiteSpace(_startButton.Text))
+                {
+                    var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_startButton.Text).X / 2);
+                    var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_startButton.Text).Y / 2);
 
-            _spriteBatch.Begin();
+                    _startButton.Position = new Vector2(x, y);
+                    _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.01f);
+                    _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -8), 1f, SpriteEffects.None, 0.01f);
+                    
+                }
 
-            _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
+                if (!string.IsNullOrWhiteSpace(_quitButton.Text))
+                {
+                    var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_quitButton.Text).X / 2);
+                    var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_quitButton.Text).Y / 2);
 
-            //Currently used for player, bullets and enemies
-            foreach (var sprite in _sprites)
-                sprite.Draw(gameTime, _spriteBatch);
+                    _quitButton.Position = new Vector2(x+40, y);
+                    _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(40, -40), 1f, SpriteEffects.None, 0.01f);
+                    _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -48), 1f, SpriteEffects.None, 0.01f);
 
-            _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
-            _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
-            _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
+                }
 
-            CheckGameOver(gameTime);
+                _spriteBatch.End();
+                base.Draw(gameTime);
+            }
+            else
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
 
-            _spriteBatch.End();
+                //Currently used for player, bullets and enemies
+                foreach (var sprite in _sprites)
+                    sprite.Draw(gameTime, _spriteBatch);
 
-            base.Draw(gameTime);
+                _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
+                _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
+                _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
+
+                CheckGameOver(gameTime);
+
+                _spriteBatch.End();
+
+                base.Draw(gameTime);
+            }
+            
         }
-
+        private Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle(0, 0, 800, 480);
+            }
+        }
         private void CheckGameOver(GameTime gameTime)
         {
             if (_player.Health == 0)
