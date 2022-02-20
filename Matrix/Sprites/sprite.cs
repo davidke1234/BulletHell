@@ -36,6 +36,8 @@ namespace Matrix
         public Color Colour = Color.White;
         public readonly Color[] TextureData;
         public Random _random = new Random();
+       
+
         protected float _rotation { get; set; }
 
         //public List<Sprite> Children { get; set; }
@@ -70,6 +72,8 @@ namespace Matrix
                 return new Rectangle(Rectangle.X, Rectangle.Y, MathHelper.Max(Rectangle.Width, Rectangle.Height), MathHelper.Max(Rectangle.Width, Rectangle.Height));
             }
         }
+
+        public float Layer { get; internal set; }
 
         public Sprite(Texture2D texture)
         {
