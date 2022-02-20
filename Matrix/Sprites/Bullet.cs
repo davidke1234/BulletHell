@@ -32,13 +32,11 @@ namespace Matrix
             if (sprite is Enemy && this.Parent is Player)
             {
                 IsRemoved = true;
-                //AddExplosion();
             }
 
             if (sprite is Player && this.Parent is Enemy)
             {
                 IsRemoved = true;
-                //AddExplosion();
             }
         }
 
@@ -52,15 +50,6 @@ namespace Matrix
             Position += Direction * LinearVelocity;
         }
 
-        //private void AddExplosion()
-        //{
-        //    if (Explosion == null)
-        //        return;
-
-        //    var explosion = Explosion.Clone() as Explosion;
-        //    explosion.Position = this.Position;
-
-        //    Children.Add(explosion);
-        //}
+      
     }
 }

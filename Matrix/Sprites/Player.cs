@@ -30,10 +30,18 @@ namespace Matrix
             if (IsDead)
                 return;
 
-            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
+           
+
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name=="Bomb")
+                Health -= 2;
+
+            else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb2")
+                Health -= 4;
+
+            else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 Health--;
 
-            if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
+           else if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
                 Health -= 2;
 
             //If player collides with enemy

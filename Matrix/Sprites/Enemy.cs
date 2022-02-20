@@ -11,7 +11,12 @@ namespace Matrix
         public float TimerStart = 1.25f;
         public float Speed = 2f;
         
-        public enum Type { A, B }
+        public enum Type { 
+            A, //small grunts
+            B, //larger
+            C, //midboss
+            D  //finalboss
+        }
         public int Health;
 
         public Enemy(Texture2D texture)
@@ -36,7 +41,7 @@ namespace Matrix
                 IsRemoved = true;
 
             //B Enemies
-            if (_texture.Name == "GrumpBird")
+            if (_texture.Name == "GrumpBird" || _texture.Name == "Boss" || _texture.Name == "Boss2")
             {
                 Position.X += 1f;
             }
@@ -95,7 +100,13 @@ namespace Matrix
 
                     switch(Name)
                     {
-                        case "GrumpBirb":
+                        case "Boss":
+                            scoreValue = 15;
+                            break;
+                        case "Boss2":
+                            scoreValue = 15;
+                            break;
+                        case "GrumpBird":
                             scoreValue = 5;
                             break;
                         default:

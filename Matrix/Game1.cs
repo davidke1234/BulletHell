@@ -94,7 +94,7 @@ namespace Matrix
             {
                 Position = new Vector2(375, 335),
                 Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
-                Health = 10,
+                Health = 20,
                 Score = new Score()
             };
             _midBoss = new MidBoss(Arts.Boss2);
@@ -186,34 +186,37 @@ namespace Matrix
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
                 {
-                    if (!_sprites.Contains(_midBoss))
-                    {
-                        _sprites.Add(_midBoss);
-                    }
+                    _sprites.AddRange(_enemyManager.GetEnemyWave4(gameTime));
 
-                    if (!_sprites.Contains(bomb))
-                    {
-                        _sprites.Add(_midBoss.bomb);
-                    }
+                    //    if (!_sprites.Contains(_midBoss))
+                    //    {
+                    //        _sprites.Add(_midBoss);
+                    //    }
+
+                    //    if (!_sprites.Contains(bomb))
+                    //    {
+                    //        _sprites.Add(_midBoss.bomb);
+                    //    }
                 }
 
-                if (gameTime.TotalGameTime.TotalSeconds >= 60)
-                {
-                    _midBoss.bomb.IsRemoved = true;
-                    _midBoss.IsRemoved = true;
-                    soundInstance.Stop();
-                }
+                //if (gameTime.TotalGameTime.TotalSeconds >= 60)
+                //{
+                //    _midBoss.bomb.IsRemoved = true;
+                //    _midBoss.IsRemoved = true;
+                //    soundInstance.Stop();
+                //}
 
                 if (gameTime.TotalGameTime.TotalSeconds > 60 && gameTime.TotalGameTime.TotalSeconds < 90)
                 {
-                    if (!_sprites.Contains(_finalBoss))
-                    {
-                        _sprites.Add(_finalBoss);
-                    }
-                    if (!_sprites.Contains(bomb))
-                    {
-                        _sprites.Add(_finalBoss.bomb);
-                    }
+                    _sprites.AddRange(_enemyManager.GetEnemyWave5(gameTime));
+                    //if (!_sprites.Contains(_finalBoss))
+                    //{
+                    //    _sprites.Add(_finalBoss);
+                    //}
+                    //if (!_sprites.Contains(bomb))
+                    //{
+                    //    _sprites.Add(_finalBoss.bomb);
+                    //}
                 }
 
                 //game time is how much time has elapsed
@@ -336,7 +339,7 @@ namespace Matrix
         }
         private void CheckGameOver(GameTime gameTime)
         {
-            if (_player.Health == 0)
+            if (_player.Health <= 0)
             {
                 if (_gameOverTimer == 0)
                     _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
