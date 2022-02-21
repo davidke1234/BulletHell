@@ -85,8 +85,8 @@ namespace Matrix
             var player = Content.Load<Texture2D>("player_ship");
             var slowmoPlayer = Content.Load<Texture2D>("slowmoShip");
 
-            //var song1 = Content.Load<Song>("sample1");
-            //MediaPlayer.Play(song1);
+            var song1 = Content.Load<Song>("sample1");
+            MediaPlayer.Play(song1);
             Sounds.Load(Content);
             Arts.Load(Content);
 
@@ -183,13 +183,13 @@ namespace Matrix
             
             if (_gameStarted)
             {
-                _sprites.AddRange(_enemyManager.GetEnemyWave1(gameTime));
-                _sprites.AddRange(_enemyManager.GetEnemyWave2(gameTime));
-                _sprites.AddRange(_enemyManager.GetEnemyWave3(gameTime));
+                //Phase 1
+                _sprites.AddRange(_enemyManager.GetEnemyPhase1(gameTime));
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
                 {
-                    _sprites.AddRange(_enemyManager.GetEnemyWave4(gameTime));
+                    //Phase 2
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase2(gameTime));
 
                     //    if (!_sprites.Contains(_midBoss))
                     //    {
@@ -209,9 +209,10 @@ namespace Matrix
                 //    soundInstance.Stop();
                 //}
 
-                if (gameTime.TotalGameTime.TotalSeconds > 60 && gameTime.TotalGameTime.TotalSeconds < 90)
+                if (gameTime.TotalGameTime.TotalSeconds > 80) // && gameTime.TotalGameTime.TotalSeconds < 90)
                 {
-                    _sprites.AddRange(_enemyManager.GetEnemyWave5(gameTime));
+                    //Phase 3
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase3(gameTime));
                     //if (!_sprites.Contains(_finalBoss))
                     //{
                     //    _sprites.Add(_finalBoss);
@@ -220,6 +221,12 @@ namespace Matrix
                     //{
                     //    _sprites.Add(_finalBoss.bomb);
                     //}
+                }
+
+                //Phase 4
+                if (gameTime.TotalGameTime.TotalSeconds > 120) 
+                {
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
                 }
 
                 //game time is how much time has elapsed
