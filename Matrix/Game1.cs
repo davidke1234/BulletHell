@@ -158,7 +158,7 @@ namespace Matrix
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if(!_gameStarted)
+            if (!_gameStarted)
             {
                 _previousMouse = _currentMouse;
                 _currentMouse = Mouse.GetState();
@@ -173,7 +173,10 @@ namespace Matrix
 
                     if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                     {
-                        _startButton.Click?.Invoke(this, new EventArgs());
+                        if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
+                            _startButton.Click?.Invoke(this, new EventArgs());
+                        else
+                            _quitButton.Click?.Invoke(this, new EventArgs());
                     }
                 }
             }
