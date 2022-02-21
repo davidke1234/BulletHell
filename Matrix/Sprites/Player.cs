@@ -28,9 +28,7 @@ namespace Matrix
         public void OnCollide(Sprite sprite)
         {
             if (IsDead)
-                return;
-
-           
+                return;      
 
             if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name=="Bomb")
                 Health -= 2;

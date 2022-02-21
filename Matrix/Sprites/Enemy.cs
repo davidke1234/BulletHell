@@ -29,7 +29,18 @@ namespace Matrix
 
             if (_shootingTimer >= TimerStart)
             {
-                DropBullet(sprites);
+                if (_texture.Name == "Boss")
+                {
+                    DropBullet(sprites, new Vector2(15, 15));
+                    DropBullet(sprites, new Vector2(-20, -20));
+                }
+
+                if (_texture.Name == "Boss2")
+                {
+                    DropBullet(sprites, new Vector2(5, 5));
+                }
+
+                DropBullet(sprites, new Vector2(0, 0));
                 _shootingTimer = 0;
             }
 
@@ -66,10 +77,10 @@ namespace Matrix
             }
         }
 
-        private void DropBullet(List<Sprite> sprites)
+        private void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
         {
             var bullet = Bullet.Clone() as Bullet;
-            bullet.Direction = Direction;
+            bullet.Direction = Direction + extraDirection;
             bullet.Position = Position;
             bullet.LinearVelocity = 0.05f;
             bullet.LifeSpan = 6f;

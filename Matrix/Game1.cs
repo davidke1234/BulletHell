@@ -209,7 +209,7 @@ namespace Matrix
                 //    soundInstance.Stop();
                 //}
 
-                if (gameTime.TotalGameTime.TotalSeconds > 80) // && gameTime.TotalGameTime.TotalSeconds < 90)
+                if (gameTime.TotalGameTime.TotalSeconds >= 80) // && gameTime.TotalGameTime.TotalSeconds < 90)
                 {
                     //Phase 3
                     _sprites.AddRange(_enemyManager.GetEnemyPhase3(gameTime));
@@ -224,7 +224,7 @@ namespace Matrix
                 }
 
                 //Phase 4
-                if (gameTime.TotalGameTime.TotalSeconds > 120) 
+                if (gameTime.TotalGameTime.TotalSeconds >= 120) 
                 {
                     _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
                 }
