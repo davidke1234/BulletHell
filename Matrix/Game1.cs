@@ -38,7 +38,7 @@ namespace Matrix
         private bool _isHovering;
         private MouseState _previousMouse;
         public EventHandler Click;
-        
+
         // helpful properties
         public static GameTime GameTime { get; private set; }
         public static Game1 Instance { get; private set; }
@@ -78,7 +78,7 @@ namespace Matrix
         }
 
         private void LoadGameContent(ContentManager content)
-        {         
+        {
             _enemyManager = new EnemyManager(Content);
             _background = Content.Load<Texture2D>("Stars");
 
@@ -180,7 +180,7 @@ namespace Matrix
                     }
                 }
             }
-            
+
             if (_gameStarted)
             {
                 //Phase 1
@@ -224,9 +224,14 @@ namespace Matrix
                 }
 
                 //Phase 4
-                if (gameTime.TotalGameTime.TotalSeconds >= 120) 
+                if (gameTime.TotalGameTime.TotalSeconds >= 120)
                 {
                     _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
+                }
+
+                if (gameTime.TotalGameTime.TotalSeconds >= 170)
+                {
+                    CheckGameOver(gameTime, true);
                 }
 
                 //game time is how much time has elapsed
@@ -243,7 +248,7 @@ namespace Matrix
 
                 base.Update(gameTime);
             }
-            
+
         }
 
         private void PostUpdate()
@@ -307,7 +312,7 @@ namespace Matrix
                 _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
                 _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
 
-                CheckGameOver(gameTime);
+                CheckGameOver(gameTime, false);
 
                 _spriteBatch.End();
 
@@ -347,21 +352,27 @@ namespace Matrix
                 return new Rectangle(0, 0, 800, 480);
             }
         }
-        private void CheckGameOver(GameTime gameTime)
+        private void CheckGameOver(GameTime gameTime, bool timesUp)
         {
-            if (_player.Health <= 0)
+            if (timesUp || _player.Health <= 0)
             {
+                int score = _player.Score.Value;
+                string winLoss = _player.Health > 0 && score > 0 ? " You won!!" : " you lost";
+
                 if (_gameOverTimer == 0)
                     _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
 
                 if (_gameOverTimer + 5 < gameTime.TotalGameTime.TotalSeconds)
                 {
-                    //Must exit the game and then start again to show menu.
+                    //Must exit the game and then start again.
                     Program.ShouldRestart = true;
                     Exit();
                 }
 
-                _spriteBatch.DrawString(_font, "Game over", new Vector2(350f, 250f), Color.White);
+                //TODO not working for win.
+                _spriteBatch.Begin();
+                _spriteBatch.DrawString(_font, "Game over - " + winLoss, new Vector2(350f, 250f), Color.White);
+                _spriteBatch.End();
             }
         }
     }

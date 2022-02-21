@@ -34,7 +34,7 @@ namespace Matrix
                 Health -= 2;
 
             else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb2")
-                Health -= 4;
+                Health -= 2;
 
             else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 Health--;
