@@ -86,7 +86,7 @@ namespace Matrix
             var slowmoPlayer = Content.Load<Texture2D>("slowmoShip");
 
             var song1 = Content.Load<Song>("sample1");
-            MediaPlayer.Play(song1);
+            //MediaPlayer.Play(song1);
             Sounds.Load(Content);
             Arts.Load(Content);
 

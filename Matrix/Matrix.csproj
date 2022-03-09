@@ -11,8 +11,8 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Utilities\GameState.cs" />
-    <Compile Remove="Utilities\MenuState.cs" />
+    <Compile Remove="Helper\GameState.cs" />
+    <Compile Remove="Helper\MenuState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Content\Bullet.png" />
