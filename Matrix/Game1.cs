@@ -32,12 +32,15 @@ namespace Matrix
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
         private double _gameOverTimer = 0;
+        private bool _gameOver = false;
         public static SoundEffectInstance soundInstance;
         private bool _gameStarted;
         private MouseState _currentMouse;
         private bool _isHovering;
         private MouseState _previousMouse;
         public EventHandler Click;
+        private int playerHealth = 20;
+        private int secondsToDisplayWinLossMessage = 4;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -94,7 +97,7 @@ namespace Matrix
             {
                 Position = new Vector2(375, 335),
                 Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
-                Health = 20,
+                Health = playerHealth,
                 Score = new Score()
             };
             _midBoss = new MidBoss(Arts.Boss2);
@@ -104,6 +107,195 @@ namespace Matrix
             _sprites.Add(_player);
             soundInstance = Sounds.soundEffects[0].CreateInstance();
             soundInstance.IsLooped = true;
+        }
+
+        private void Button_1Player_Clicked(object sender, EventArgs args)
+        {
+            _gameStarted = true;
+            LoadGameContent(Content);
+        }
+
+        private void Button_Quit_Clicked(object sender, EventArgs args)
+        {
+            Exit();
+        }
+
+        /// <summary>
+        /// UnloadContent will be called once per game and is the place to unload
+        /// game-specific content.
+        /// </summary>
+        protected override void UnloadContent()
+        {
+            // TODO: Unload any non ContentManager content here
+            if (_finalBoss != null)
+            {
+                _finalBoss.IsRemoved = true;
+                _finalBoss.bomb.IsRemoved = true;
+            }
+        }
+
+        /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Update(GameTime gameTime)
+        {
+            if (_gameOver)
+                CheckGameOver(gameTime, true);
+
+            if (!_gameStarted)
+            {
+                SetupMenu();
+            }
+
+            if (_gameStarted)
+            {
+                // Phase 1
+                _sprites.AddRange(_enemyManager.GetEnemyPhase1(gameTime));
+
+                // Phase 2
+                if (gameTime.TotalGameTime.TotalSeconds >= 40)
+                {
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase2(gameTime));
+                }
+
+                // Phase 3
+                if (gameTime.TotalGameTime.TotalSeconds >= 80)
+                {
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase3(gameTime));
+                }
+
+                //Phase 4
+                if (gameTime.TotalGameTime.TotalSeconds >= 120)
+                {
+                    _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
+                }
+
+                if (gameTime.TotalGameTime.TotalSeconds >= 170)  
+                {
+                    CheckGameOver(gameTime, true);
+                }
+
+                //game time is how much time has elapsed
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+
+                //For spriteNew sprites
+                foreach (var sprite in _sprites.ToArray())
+                {
+                    sprite.Update(gameTime, _sprites);
+                }
+
+                PostUpdate();
+
+                base.Update(gameTime);
+            }
+        }
+
+        private void PostUpdate()
+        {
+            HandleCollisions();
+            CleanUpRemovedSprites();
+        }
+
+        private void CleanUpRemovedSprites()
+        {
+            //Clean up no longer needed sprites
+            for (int i = 0; i < _sprites.Count; i++)
+            {
+                if (_sprites[i].IsRemoved)
+                {
+                    _sprites.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        private void HandleCollisions()
+        {
+            var collidedSprites = _sprites.Where(c => c is ICollidable);
+
+            foreach (var sprite1 in collidedSprites)
+            {
+                foreach (var sprite2 in collidedSprites)
+                {
+                    if (sprite1 == sprite2)  //same sprite so continue
+                        continue;
+
+                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
+                        continue;
+
+                    //If the sprite is Player and is shooting this sprite as a bullet, continue
+                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
+                        continue;
+
+                    if (sprite1.Intersects(sprite2))
+                        ((ICollidable)sprite1).OnCollide(sprite2);
+                }
+            }
+        }
+
+        /// <summary>
+        /// This is called when the game should draw itself.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected override void Draw(GameTime gameTime)
+        {
+            if (!_gameStarted)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                DrawMainMenu();
+                _spriteBatch.End();
+                base.Draw(gameTime);
+            }
+            else if (!_gameOver)
+            {
+                GraphicsDevice.Clear(Color.Black);
+                _spriteBatch.Begin();
+                _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
+
+                foreach (var sprite in _sprites)
+                    sprite.Draw(gameTime, _spriteBatch);
+
+                _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
+                _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
+                _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
+                _spriteBatch.End();
+
+                base.Draw(gameTime);
+            }
+
+            CheckGameOver(gameTime, false);
+        }
+
+        private void CheckGameOver(GameTime gameTime, bool timesUp)
+        {
+            string winLoss = "";
+
+            if (_player != null && (timesUp || _player.Health <= 0))
+            {
+                _gameOver = true;
+                if (_gameOverTimer == 0)
+                {
+                    _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
+                    int score = _player.Score.Value;
+                    winLoss = _player.Health > 0 && score > 0 ? " You won!!" : " you lost";
+                    _spriteBatch.Begin();
+                    _spriteBatch.DrawString(_font, "Game over - " + winLoss, new Vector2(350f, 250f), Color.White);
+                    _spriteBatch.End();
+                }
+                else
+                {
+                    if (_gameOverTimer + secondsToDisplayWinLossMessage < gameTime.TotalGameTime.TotalSeconds)
+                    {
+                        //Must exit the game and return to start menu
+                        Program.ShouldRestart = true;
+                        Exit();
+                    }
+                }
+            }
         }
 
         private void LoadMenuContent(ContentManager content)
@@ -127,196 +319,26 @@ namespace Matrix
             _quitButton = bQuit;
         }
 
-        private void Button_1Player_Clicked(object sender, EventArgs args)
+        private void SetupMenu()
         {
-            _gameStarted = true;
-            LoadGameContent(Content);
-        }
+            _previousMouse = _currentMouse;
+            _currentMouse = Mouse.GetState();
 
-        private void Button_Quit_Clicked(object sender, EventArgs args)
-        {
-            Exit();
-        }
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// game-specific content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-            if (_finalBoss != null)
+            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+            _isHovering = false;
+
+            if (mouseRectangle.Intersects(Rectangle))
             {
-                _finalBoss.IsRemoved = true;
-                _finalBoss.bomb.IsRemoved = true;
-            }
-        }
+                _isHovering = true;
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            if (!_gameStarted)
-            {
-                _previousMouse = _currentMouse;
-                _currentMouse = Mouse.GetState();
-
-                var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
-
-                _isHovering = false;
-
-                if (mouseRectangle.Intersects(Rectangle))
+                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
-                    _isHovering = true;
-
-                    if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                    {
-                        if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
-                            _startButton.Click?.Invoke(this, new EventArgs());
-                        else
-                            _quitButton.Click?.Invoke(this, new EventArgs());
-                    }
+                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
+                        _startButton.Click?.Invoke(this, new EventArgs());
+                    else
+                        _quitButton.Click?.Invoke(this, new EventArgs());
                 }
-            }
-
-            if (_gameStarted)
-            {
-                //Phase 1
-                _sprites.AddRange(_enemyManager.GetEnemyPhase1(gameTime));
-
-                if (gameTime.TotalGameTime.TotalSeconds >= 40)
-                {
-                    //Phase 2
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase2(gameTime));
-
-                    //    if (!_sprites.Contains(_midBoss))
-                    //    {
-                    //        _sprites.Add(_midBoss);
-                    //    }
-
-                    //    if (!_sprites.Contains(bomb))
-                    //    {
-                    //        _sprites.Add(_midBoss.bomb);
-                    //    }
-                }
-
-                //if (gameTime.TotalGameTime.TotalSeconds >= 60)
-                //{
-                //    _midBoss.bomb.IsRemoved = true;
-                //    _midBoss.IsRemoved = true;
-                //    soundInstance.Stop();
-                //}
-
-                if (gameTime.TotalGameTime.TotalSeconds >= 80) // && gameTime.TotalGameTime.TotalSeconds < 90)
-                {
-                    //Phase 3
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase3(gameTime));
-                    //if (!_sprites.Contains(_finalBoss))
-                    //{
-                    //    _sprites.Add(_finalBoss);
-                    //}
-                    //if (!_sprites.Contains(bomb))
-                    //{
-                    //    _sprites.Add(_finalBoss.bomb);
-                    //}
-                }
-
-                //Phase 4
-                if (gameTime.TotalGameTime.TotalSeconds >= 120)
-                {
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
-                }
-
-                if (gameTime.TotalGameTime.TotalSeconds >= 170)
-                {
-                    CheckGameOver(gameTime, true);
-                }
-
-                //game time is how much time has elapsed
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    Exit();
-
-                //For spriteNew sprites
-                foreach (var sprite in _sprites.ToArray())
-                {
-                    sprite.Update(gameTime, _sprites);
-                }
-
-                PostUpdate();
-
-                base.Update(gameTime);
-            }
-
-        }
-
-        private void PostUpdate()
-        {
-            var collidedSprites = _sprites.Where(c => c is ICollidable);
-
-            foreach (var sprite1 in collidedSprites)
-            {
-                foreach (var sprite2 in collidedSprites)
-                {
-                    if (sprite1 == sprite2)  //same sprite so continue
-                        continue;
-
-                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
-                        continue;
-
-                    //If the sprite is Player and is shooting this sprite as a bullet, continue
-                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
-                        continue;
-
-                    if (sprite1.Intersects(sprite2))
-                        ((ICollidable)sprite1).OnCollide(sprite2);
-                }
-            }
-
-            //Clean up no longer needed sprites
-            for (int i = 0; i < _sprites.Count; i++)
-            {
-                if (_sprites[i].IsRemoved)
-                {
-                    _sprites.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
-        {
-            if (!_gameStarted)
-            {
-                GraphicsDevice.Clear(Color.Black);
-                _spriteBatch.Begin();
-                DrawMainMenu();
-                _spriteBatch.End();
-                base.Draw(gameTime);
-            }
-            else
-            {
-                GraphicsDevice.Clear(Color.Black);
-                _spriteBatch.Begin();
-                _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
-
-                foreach (var sprite in _sprites)
-                    sprite.Draw(gameTime, _spriteBatch);
-
-                _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
-                _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
-                _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
-
-                CheckGameOver(gameTime, false);
-
-                _spriteBatch.End();
-
-                base.Draw(gameTime);
             }
         }
 
@@ -352,28 +374,6 @@ namespace Matrix
                 return new Rectangle(0, 0, 800, 480);
             }
         }
-        private void CheckGameOver(GameTime gameTime, bool timesUp)
-        {
-            if (timesUp || _player.Health <= 0)
-            {
-                int score = _player.Score.Value;
-                string winLoss = _player.Health > 0 && score > 0 ? " You won!!" : " you lost";
 
-                if (_gameOverTimer == 0)
-                    _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
-
-                if (_gameOverTimer + 5 < gameTime.TotalGameTime.TotalSeconds)
-                {
-                    //Must exit the game and then start again.
-                    Program.ShouldRestart = true;
-                    Exit();
-                }
-
-                //TODO not working for win.
-                _spriteBatch.Begin();
-                _spriteBatch.DrawString(_font, "Game over - " + winLoss, new Vector2(350f, 250f), Color.White);
-                _spriteBatch.End();
-            }
-        }
     }
 }
