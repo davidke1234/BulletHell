@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Matrix.Controllers;
 
 namespace Matrix
 {
@@ -24,6 +25,7 @@ namespace Matrix
         private List<Sprite> _sprites;
         private Player _player;
         private EnemyManager _enemyManager;
+        private PlayerManager _playerManager;
         private FinalBoss _finalBoss;
         private SpriteFont _font;
         public static int ScreenWidth = 1280;
@@ -35,7 +37,6 @@ namespace Matrix
         private MouseState _currentMouse;
         private MouseState _previousMouse;
         public EventHandler Click;
-        private int playerHealth = 20;
         private int secondsToDisplayWinLossMessage = 4;
 
         // helpful properties
@@ -71,38 +72,29 @@ namespace Matrix
         /// </summary>
         protected override void LoadContent()
         {
+            Arts.Load(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _font = Content.Load<SpriteFont>("Font");
+            _font = Arts.Font;
             LoadMenuContent(Content);
         }
 
         private void LoadGameContent(ContentManager content)
         {
-            _enemyManager = new EnemyManager(Content);
-            _background = Content.Load<Texture2D>("Stars");
+            _enemyManager = new EnemyManager();
+            _playerManager = new PlayerManager();
+            _background = Arts.Stars;
 
-            var player = Content.Load<Texture2D>("player_ship");
-            var slowmoPlayer = Content.Load<Texture2D>("slowmoShip");
+            var song1 = Arts.Song1;
+            MediaPlayer.Play(song1);
+            Sounds.Load(content);
 
-            var song1 = Content.Load<Song>("sample1");
-            //MediaPlayer.Play(song1);
-            Sounds.Load(Content);
-            Arts.Load(Content);
-
-            _player = new Player(player, slowmoPlayer)
-            {
-                Position = new Vector2(375, 335),
-                Bullet = new Bullet(Content.Load<Texture2D>("Bullet")),
-                Health = playerHealth,
-                Score = new Score()
-            };
+            _player = _playerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20);
             _finalBoss = new FinalBoss(Arts.Boss);
-            _player.Score.PlayerName = "Player1";
             _sprites = new List<Sprite>();
             _sprites.Add(_player);
             soundInstance = Sounds.soundEffects[0].CreateInstance();
             soundInstance.IsLooped = true;
-        }
+        }      
 
         private void Button_1Player_Clicked(object sender, EventArgs args)
         {
@@ -254,9 +246,7 @@ namespace Matrix
                 foreach (var sprite in _sprites)
                     sprite.Draw(gameTime, _spriteBatch);
 
-                _spriteBatch.DrawString(_font, "Player: " + _player.Score.PlayerName, new Vector2(10f, 10f), Color.White);
-                _spriteBatch.DrawString(_font, "Health: " + _player.Health, new Vector2(10f, 30f), Color.White);
-                _spriteBatch.DrawString(_font, "Score: " + _player.Score.Value, new Vector2(10f, 50f), Color.White);
+                _playerManager.DrawPlayerStatus(_spriteBatch, _player);
                 _spriteBatch.End();
 
                 base.Draw(gameTime);
@@ -264,6 +254,8 @@ namespace Matrix
 
             CheckGameOver(gameTime, false);
         }
+
+
 
         private void CheckGameOver(GameTime gameTime, bool timesUp)
         {
@@ -295,9 +287,9 @@ namespace Matrix
 
         private void LoadMenuContent(ContentManager content)
         {
-            var buttonTexture = content.Load<Texture2D>("Button");
-            var buttonFont = content.Load<SpriteFont>("Font");
-            _menuBackground = content.Load<Texture2D>("MainMenu_backGround");
+            var buttonTexture = Arts.Button;
+            var buttonFont = Arts.Font;
+            _menuBackground = Arts.MainMenuBackGround;
 
             Button bStart = new Button(buttonTexture, buttonFont);
             bStart.Text = "Start Game";

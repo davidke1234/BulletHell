@@ -35,27 +35,26 @@ namespace Matrix
 
         public Bullet Bullet { get; set; }
 
-        public EnemyManager(ContentManager content)
+        public EnemyManager()
         {
             _textures = new List<Texture2D>()
             {
-               content.Load<Texture2D>("dngn_blood_fountain"),
-               content.Load<Texture2D>("dngn_blue_fountain"),
-               content.Load<Texture2D>("dngn_green_fountain"),
-               content.Load<Texture2D>("dngn_black_fountain")
+                Arts.EnemyBlack,
+                Arts.EnemyBlood,
+                Arts.EnemyBlue,
+                Arts.EnemyGreen,
             };
 
-             _enemyButterfly = content.Load<Texture2D>("GrumpBird");
-            _enemyMidBoss = content.Load<Texture2D>("Boss2");
-            _enemyFinalBoss = content.Load<Texture2D>("Boss");
-
-            _bulletRed = content.Load<Texture2D>("BulletRed");
-            _bulletBlue = content.Load<Texture2D>("BulletBlue");
-            _bulletBlack = content.Load<Texture2D>("BulletBlack");
-            _bulletGreen = content.Load<Texture2D>("BulletGreen");
-            _bulletOrange = content.Load<Texture2D>("BulletOrange");
-            _BulletBomb = content.Load<Texture2D>("Bomb");
-            _BulletBomb2 = content.Load<Texture2D>("Bomb2");
+            _enemyButterfly = Arts.EnemyButterfly;
+            _enemyMidBoss = Arts.Boss2;
+            _enemyFinalBoss = Arts.Boss;
+            _bulletRed = Arts.BulletRed;
+            _bulletBlue = Arts.BulletBlue;
+            _bulletBlack = Arts.BulletBlack;
+            _bulletGreen = Arts.BulletGreen;
+            _bulletOrange = Arts.BulletOrange;
+            _BulletBomb = Arts.Bomb;
+            _BulletBomb2 = Arts.Bomb2;
         }
 
         public Enemy GetEnemy(Texture2D texture, float x, float y)
