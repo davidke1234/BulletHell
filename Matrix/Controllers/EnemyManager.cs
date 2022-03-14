@@ -6,36 +6,36 @@ using System.Collections.Generic;
 
 namespace Matrix
 {
-    public class EnemyManager
+    static class EnemyManager
     {
-        private List<Texture2D> _textures;
-        private Texture2D _bulletRed;
-        private Texture2D _bulletBlue;
-        private Texture2D _bulletBlack;
-        private Texture2D _bulletGreen;
-        private Texture2D _bulletOrange;
-        private Texture2D _BulletBomb;
-        private Texture2D _BulletBomb2;
-        private Texture2D _enemyButterfly;
-        private Texture2D _enemyMidBoss;
-        private Texture2D _enemyFinalBoss;
-        public Random _random = new Random();
+        static List<Texture2D> _textures;
+        static Texture2D _bulletRed;
+        static Texture2D _bulletBlue;
+        static Texture2D _bulletBlack;
+        static Texture2D _bulletGreen;
+        static Texture2D _bulletOrange;
+        static Texture2D _BulletBomb;
+        static Texture2D _BulletBomb2;
+        static Texture2D _enemyButterfly;
+        static Texture2D _enemyMidBoss;
+        static Texture2D _enemyFinalBoss;
+        static Random _random = new Random();
 
         #region - private bools for enemy spawning
-        private bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
-        private bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
-        private bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29, spE30;
-        private bool spE31, spE32, spE33, spE34, spE35, spE36, spE37, spE38, spE39, spE40;
-        private bool spE41, spE42, spE43, spE44, spE45, spE46, spE47, spE48, spE49, spE50;
-        private bool spE51, spE52, spE53, spE54, spE55, spE56, spE57, spE58, spE59, spE60;
-        private bool spE61, spE62, spE63, spE64, spE65, spE66, spE67, spE68, spE69, spE70;
-        private bool spE71, spE72, spE73, spE74, spE75, spE76, spE77, spE78, spE79, spE80;
-        private bool spE81, spE82, spE83, spE84, spE85;
+        static bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
+        static bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
+        static bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29, spE30;
+        static bool spE31, spE32, spE33, spE34, spE35, spE36, spE37, spE38, spE39, spE40;
+        static bool spE41, spE42, spE43, spE44, spE45, spE46, spE47, spE48, spE49, spE50;
+        static bool spE51, spE52, spE53, spE54, spE55, spE56, spE57, spE58, spE59, spE60;
+        static bool spE61, spE62, spE63, spE64, spE65, spE66, spE67, spE68, spE69, spE70;
+        static bool spE71, spE72, spE73, spE74, spE75, spE76, spE77, spE78, spE79, spE80;
+        static bool spE81, spE82, spE83, spE84, spE85;
         #endregion
 
-        public Bullet Bullet { get; set; }
+        public static Bullet Bullet { get; set; }
 
-        public EnemyManager()
+         static EnemyManager()
         {
             _textures = new List<Texture2D>()
             {
@@ -57,7 +57,7 @@ namespace Matrix
             _BulletBomb2 = Arts.Bomb2;
         }
 
-        public Enemy GetEnemy(Texture2D texture, float x, float y)
+        public static Enemy GetEnemy(Texture2D texture, float x, float y)
         {
             var e = new Enemy(texture);
 
@@ -96,8 +96,8 @@ namespace Matrix
 
             return e;
         }
-      
-        public IEnumerable<Sprite> GetEnemy(Enemy.Type type, GameTime gameTime, float seconds, ref bool spawned)
+
+        public static IEnumerable<Sprite> GetEnemy(Enemy.Type type, GameTime gameTime, float seconds, ref bool spawned)
         {
             //Note this currently returns 1 enemy
 
@@ -155,7 +155,7 @@ namespace Matrix
         }
 
     #region Phases of game - spawing enemies
-        public IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
+        public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
         {
             List<Sprite> _sprites = new List<Sprite>();
 
@@ -194,7 +194,7 @@ namespace Matrix
             return _sprites;
         }
 
-       internal IEnumerable<Sprite> GetEnemyPhase2(GameTime gameTime)
+        static internal IEnumerable<Sprite> GetEnemyPhase2(GameTime gameTime)
         {
             List<Sprite> _sprites = new List<Sprite>();
 
@@ -222,7 +222,7 @@ namespace Matrix
             return _sprites;
         }
 
-        internal IEnumerable<Sprite> GetEnemyPhase3(GameTime gameTime)
+        static internal IEnumerable<Sprite> GetEnemyPhase3(GameTime gameTime)
         {
             List<Sprite> _sprites = new List<Sprite>();
 
@@ -247,7 +247,7 @@ namespace Matrix
 
             return _sprites;
         }
-        internal IEnumerable<Sprite> GetEnemyPhase4(GameTime gameTime)
+        static internal IEnumerable<Sprite> GetEnemyPhase4(GameTime gameTime)
         {
             List<Sprite> _sprites = new List<Sprite>();
 

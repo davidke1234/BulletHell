@@ -80,5 +80,42 @@ namespace Matrix
             foreach (var sprite in sprites)
                 sprite.Draw(gameTime, spriteBatch);
         }
+
+        public static void HandleCollisions(List<Sprite> sprites)
+        {
+            var collidedSprites = sprites.Where(c => c is ICollidable);
+
+            foreach (var sprite1 in collidedSprites)
+            {
+                foreach (var sprite2 in collidedSprites)
+                {
+                    if (sprite1 == sprite2)  //same sprite so continue
+                        continue;
+
+                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
+                        continue;
+
+                    //If the sprite is Player and is shooting this sprite as a bullet, continue
+                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
+                        continue;
+
+                    if (sprite1.Intersects(sprite2))
+                        ((ICollidable)sprite1).OnCollide(sprite2);
+                }
+            }
+        }
+
+        public static void CleanUpRemovedSprites(List<Sprite> sprites)
+        {
+            //Clean up no longer needed sprites
+            for (int i = 0; i < sprites.Count; i++)
+            {
+                if (sprites[i].IsRemoved)
+                {
+                    sprites.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
     }
 }

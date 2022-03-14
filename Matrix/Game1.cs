@@ -24,8 +24,6 @@ namespace Matrix
         SpriteBatch _spriteBatch;
         private List<Sprite> _sprites;
         private Player _player;
-        private EnemyManager _enemyManager;
-        private PlayerManager _playerManager;
         private FinalBoss _finalBoss;
         private SpriteFont _font;
         public static int ScreenWidth = 1280;
@@ -80,15 +78,13 @@ namespace Matrix
 
         private void LoadGameContent(ContentManager content)
         {
-            _enemyManager = new EnemyManager();
-            _playerManager = new PlayerManager();
             _background = Arts.Stars;
 
             var song1 = Arts.Song1;
             MediaPlayer.Play(song1);
             Sounds.Load(content);
 
-            _player = _playerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20);
+            _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20);
             _finalBoss = new FinalBoss(Arts.Boss);
             _sprites = new List<Sprite>();
             _sprites.Add(_player);
@@ -139,24 +135,24 @@ namespace Matrix
             if (_gameStarted)
             {
                 // Phase 1
-                _sprites.AddRange(_enemyManager.GetEnemyPhase1(gameTime));
+                _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
 
                 // Phase 2
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
                 {
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase2(gameTime));
+                    _sprites.AddRange(EnemyManager.GetEnemyPhase2(gameTime));
                 }
 
                 // Phase 3
                 if (gameTime.TotalGameTime.TotalSeconds >= 80)
                 {
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase3(gameTime));
+                    _sprites.AddRange(EnemyManager.GetEnemyPhase3(gameTime));
                 }
 
                 //Phase 4
                 if (gameTime.TotalGameTime.TotalSeconds >= 120)
                 {
-                    _sprites.AddRange(_enemyManager.GetEnemyPhase4(gameTime));
+                    _sprites.AddRange(EnemyManager.GetEnemyPhase4(gameTime));
                 }
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 170)  
@@ -182,45 +178,8 @@ namespace Matrix
 
         private void PostUpdate()
         {
-            HandleCollisions();
-            CleanUpRemovedSprites();
-        }
-
-        private void CleanUpRemovedSprites()
-        {
-            //Clean up no longer needed sprites
-            for (int i = 0; i < _sprites.Count; i++)
-            {
-                if (_sprites[i].IsRemoved)
-                {
-                    _sprites.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        private void HandleCollisions()
-        {
-            var collidedSprites = _sprites.Where(c => c is ICollidable);
-
-            foreach (var sprite1 in collidedSprites)
-            {
-                foreach (var sprite2 in collidedSprites)
-                {
-                    if (sprite1 == sprite2)  //same sprite so continue
-                        continue;
-
-                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
-                        continue;
-
-                    //If the sprite is Player and is shooting this sprite as a bullet, continue
-                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
-                        continue;
-
-                    if (sprite1.Intersects(sprite2))
-                        ((ICollidable)sprite1).OnCollide(sprite2);
-                }
-            }
+            SpriteManager.HandleCollisions(_sprites);
+            SpriteManager.CleanUpRemovedSprites(_sprites);
         }
 
         /// <summary>
@@ -246,7 +205,7 @@ namespace Matrix
                 foreach (var sprite in _sprites)
                     sprite.Draw(gameTime, _spriteBatch);
 
-                _playerManager.DrawPlayerStatus(_spriteBatch, _player);
+                PlayerManager.DrawPlayerStatus(_spriteBatch, _player);
                 _spriteBatch.End();
 
                 base.Draw(gameTime);
