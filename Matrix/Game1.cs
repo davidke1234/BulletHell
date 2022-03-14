@@ -24,11 +24,8 @@ namespace Matrix
         private List<Sprite> _sprites;
         private Player _player;
         private EnemyManager _enemyManager;
-        private MidBoss _midBoss;
-        private Bomb bomb;
         private FinalBoss _finalBoss;
         private SpriteFont _font;
-        private Random _random;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
         private double _gameOverTimer = 0;
@@ -36,7 +33,6 @@ namespace Matrix
         public static SoundEffectInstance soundInstance;
         private bool _gameStarted;
         private MouseState _currentMouse;
-        private bool _isHovering;
         private MouseState _previousMouse;
         public EventHandler Click;
         private int playerHealth = 20;
@@ -65,7 +61,7 @@ namespace Matrix
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _random = new Random();
+            //_random = new Random();
             base.Initialize();
         }
 
@@ -100,7 +96,6 @@ namespace Matrix
                 Health = playerHealth,
                 Score = new Score()
             };
-            _midBoss = new MidBoss(Arts.Boss2);
             _finalBoss = new FinalBoss(Arts.Boss);
             _player.Score.PlayerName = "Player1";
             _sprites = new List<Sprite>();
@@ -326,12 +321,8 @@ namespace Matrix
 
             var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
 
-            _isHovering = false;
-
             if (mouseRectangle.Intersects(Rectangle))
             {
-                _isHovering = true;
-
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
                     if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
