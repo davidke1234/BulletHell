@@ -294,8 +294,8 @@ namespace Matrix
                 var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_startButton.Text).Y / 2);
 
                 _startButton.Position = new Vector2(x, y);
-                _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -8), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(25, 0), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -8), 1f, SpriteEffects.None, 0.01f);
             }
 
             if (!string.IsNullOrWhiteSpace(_quitButton.Text))
@@ -304,8 +304,8 @@ namespace Matrix
                 var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_quitButton.Text).Y / 2);
 
                 _quitButton.Position = new Vector2(x + 40, y);
-                _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(40, -40), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-20, -48), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(67, -40), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
             }
         }
 
