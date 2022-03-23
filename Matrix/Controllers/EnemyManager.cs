@@ -60,21 +60,22 @@ namespace Matrix
         public static Enemy GetEnemy(Texture2D texture, float x, float y)
         {
             var e = new Enemy(texture);
+            string name = texture.Name.ToLower();
 
-            {
-                if (texture.Name.Contains("blood"))
+            {             
+                if (name.Contains("blood"))
                     Bullet = new Bullet(_bulletRed);
-                else if (texture.Name.Contains("blue"))
+                else if (name.Contains("blue"))
                     Bullet = new Bullet(_bulletBlue);
-                else if (texture.Name.Contains("black"))
+                else if (name.Contains("black"))
                     Bullet = new Bullet(_bulletBlack);
-                else if (texture.Name.Contains("green"))
+                else if (name.Contains("green"))
                     Bullet = new Bullet(_bulletGreen);
-                else if (texture.Name.Contains("GrumpBird"))
+                else if (name.Contains("grumpbird"))
                     Bullet = new Bullet(_bulletOrange);
-                else if (texture.Name.Contains("Boss2"))
+                else if (name.Contains("boss2"))
                     Bullet = new Bullet(_BulletBomb);
-                else if (texture.Name.Contains("Boss"))
+                else if (name.Contains("boss"))
                     Bullet = new Bullet(_BulletBomb2);
                 else
                     Bullet = new Bullet(_bulletBlack);
@@ -85,11 +86,11 @@ namespace Matrix
             e.Speed = 2 + (float)_random.NextDouble();
             e.TimerStart = 1.5f + (float)_random.NextDouble();
 
-            if (e.Name == "Boss") //finalboss
+            if (name == "boss") //finalboss
                 e.Health = 15;
-            else if (e.Name == "Boss2") //midboss
+            else if (name == "boss2") //midboss
                 e.Health = 10;
-            else if (e.Name == "GrumpBird")
+            else if (name == "grumpbird")
                 e.Health = 5;
             else
                 e.Health = 1;
