@@ -23,7 +23,7 @@ namespace Matrix
         public Vector2 Origin;
         public Vector2 Direction;
         public Vector2 Velocity;
-        public Vector2 YVelocity = new Vector2(0,2);
+        public Vector2 YVelocity = new Vector2(0, 2);
         public Vector2 XVelocity = new Vector2(2, 0);
         public Vector2 YVelocitySlow = new Vector2(0, 1);
         public Vector2 XVelocitySlow = new Vector2(1, 0);
@@ -36,11 +36,8 @@ namespace Matrix
         public Color Colour = Color.White;
         public readonly Color[] TextureData;
         public Random _random = new Random();
-       
-
         protected float _rotation { get; set; }
 
-        //public List<Sprite> Children { get; set; }
 
         public XnaMatrix Transform
         {
@@ -59,10 +56,22 @@ namespace Matrix
             {
                 if (_texture != null)
                 {
-                    return new Rectangle((int)Position.X - (int)Origin.X, (int)Position.Y - (int)Origin.Y, _texture.Width, _texture.Height);
+                    if (this.Name == "player_ship")
+                    {
+                        //shrink hit box, move x to right, shrink width
+                        int xValue = 30;
+                        int yValue = 0;
+                        int widthValue = -30;
+                        int heightValue = 0;
+                        return new Rectangle((int)Position.X - (int)Origin.X + xValue, (int)Position.Y - (int)Origin.Y + yValue, _texture.Width + widthValue, _texture.Height + heightValue);
+                    }
+                    else
+                    {
+                        return new Rectangle((int)Position.X - (int)Origin.X, (int)Position.Y - (int)Origin.Y, _texture.Width, _texture.Height);
+                    }
                 }
 
-              throw new Exception("sprite not found");
+                throw new Exception("sprite not found");
             }
         }
         public Rectangle CollisionArea
@@ -112,10 +121,6 @@ namespace Matrix
         public virtual void Update(GameTime gameTime, List<Sprite> sprites)
         { }
 
-        //public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
-        //{
-        //    spriteBatch.Draw(_texture, Position, null, Colour, 0f, Origin, 1f, SpriteEffects.None, 0);
-        //}
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
@@ -192,6 +197,6 @@ namespace Matrix
         public object Clone()
         {
             return this.MemberwiseClone();
-        }       
+        }
     }
 }
