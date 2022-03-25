@@ -17,8 +17,26 @@ namespace Matrix
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
         public int Health;
+        private FinalBoss FinalBossInstance;
 
-        public FinalBoss(Texture2D texture) : base(texture)
+        /// <summary>
+        /// Returns a singleton instance of Final Boss.
+        /// </summary>
+        /// <returns>Final Boss instance.</returns>
+        public FinalBoss CreateInstance ()
+        {
+            if (FinalBossInstance == null)
+            {
+                FinalBossInstance = new FinalBoss(Arts.Boss);
+            }
+            return FinalBossInstance;
+        }
+
+        /// <summary>
+        /// Initializes an instance of <see cref="FinalBoss"/> class.
+        /// </summary>
+        /// <param name="texture"></param>
+        private FinalBoss(Texture2D texture) : base(texture)
         {
             Position = new Vector2(Game1.Viewport.Width, 50);
             bomb = new Bomb(Arts.Bomb2);
