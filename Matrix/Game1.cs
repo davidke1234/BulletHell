@@ -20,6 +20,8 @@ namespace Matrix
         private Texture2D _menuBackground;
         private Button _startButton;
         private Button _quitButton;
+        private Button _configButton;
+
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private List<Sprite> _sprites;
@@ -257,6 +259,13 @@ namespace Matrix
             bStart.Texture = buttonTexture;
             _startButton = bStart;
 
+            Button bConfig = new Button(buttonTexture, buttonFont);
+            bConfig.Text = "Configuration";
+            bConfig.Click = new EventHandler(Button_Quit_Clicked);
+            bConfig.Layer = 0.1f;
+            bConfig.Texture = buttonTexture;
+            _configButton = bConfig;
+
             Button bQuit = new Button(buttonTexture, buttonFont);
             bQuit.Text = "Quit Game";
             bQuit.Click = new EventHandler(Button_Quit_Clicked);
@@ -298,14 +307,26 @@ namespace Matrix
                 _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -8), 1f, SpriteEffects.None, 0.01f);
             }
 
+
+            if (!string.IsNullOrWhiteSpace(_configButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_configButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_configButton.Text).Y / 2);
+
+                _configButton.Position = new Vector2(x + 40, y);
+                _spriteBatch.Draw(_configButton.Texture, _configButton.Position, null, Color.White, 0f, new Vector2(58, -40), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _configButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
+            }
+
+
             if (!string.IsNullOrWhiteSpace(_quitButton.Text))
             {
                 var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_quitButton.Text).X / 2);
                 var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_quitButton.Text).Y / 2);
 
-                _quitButton.Position = new Vector2(x + 40, y);
-                _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(67, -40), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
+                _quitButton.Position = new Vector2(x + 80, y);
+                _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
             }
         }
 
