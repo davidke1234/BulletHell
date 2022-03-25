@@ -21,13 +21,33 @@ namespace Matrix
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
         public int Health;
+        private static MidBoss MidBossInstance = null;
 
-        public MidBoss(Texture2D texture): base(texture)
+        /// <summary>
+        /// Returns a singleton instance of midboss
+        /// </summary>
+        /// <returns>An instance of the midboss</returns>
+        public static MidBoss GetInstance
+        {
+            get
+            {
+                if (MidBossInstance == null)
+                {
+                    MidBossInstance = new MidBoss(Arts.Boss2);
+                }
+                return MidBossInstance;
+            }
+        }
+
+        /// <summary>
+        /// Initializes an instance of <see cref="MidBoss"/> class.
+        /// </summary>
+        /// <param name="texture"></param>
+        private MidBoss(Texture2D texture): base(texture)
         {
             Position = new Vector2(Game1.Viewport.Width / 2, 50);
             Health = 75;
             bomb = new Bomb(Arts.Bomb);
-            Name = "midBoss";
         }
 
          public void UpdateBombs()
@@ -62,7 +82,6 @@ namespace Matrix
             bomb.Position = this.Position;
             bomb.Direction = this.Direction;
             bomb.Parent = this;
-            //Game1.soundInstance.Play();
 
             if (bombs.Count() < 3)
             {

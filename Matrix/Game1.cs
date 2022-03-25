@@ -87,7 +87,7 @@ namespace Matrix
             Sounds.Load(content);
 
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20);
-            _finalBoss = new FinalBoss(Arts.Boss);
+            _finalBoss = FinalBoss.GetInstance;
             _sprites = new List<Sprite>();
             _sprites.Add(_player);
             soundInstance = Sounds.soundEffects[0].CreateInstance();
