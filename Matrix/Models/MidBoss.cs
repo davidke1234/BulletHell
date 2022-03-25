@@ -21,19 +21,22 @@ namespace Matrix
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
         public int Health;
-        private MidBoss MidBossInstance;
+        private static MidBoss MidBossInstance = null;
 
         /// <summary>
         /// Returns a singleton instance of midboss
         /// </summary>
         /// <returns>An instance of the midboss</returns>
-        public MidBoss GetInstance ()
+        public static MidBoss GetInstance
         {
-            if (MidBossInstance == null)
+            get
             {
-                MidBossInstance = new MidBoss(Arts.Boss2);
+                if (MidBossInstance == null)
+                {
+                    MidBossInstance = new MidBoss(Arts.Boss2);
+                }
+                return MidBossInstance;
             }
-            return MidBossInstance;
         }
 
         /// <summary>

@@ -17,19 +17,22 @@ namespace Matrix
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
         public int Health;
-        private FinalBoss FinalBossInstance;
+        private static FinalBoss FinalBossInstance = null;
 
         /// <summary>
         /// Returns a singleton instance of Final Boss.
         /// </summary>
         /// <returns>Final Boss instance.</returns>
-        public FinalBoss CreateInstance ()
+        public static FinalBoss GetInstance
         {
-            if (FinalBossInstance == null)
+            get
             {
-                FinalBossInstance = new FinalBoss(Arts.Boss);
+                if (FinalBossInstance == null)
+                {
+                    FinalBossInstance = new FinalBoss(Arts.Boss);
+                }
+                return FinalBossInstance;
             }
-            return FinalBossInstance;
         }
 
         /// <summary>
