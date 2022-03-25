@@ -21,6 +21,9 @@ namespace Matrix
         private Button _startButton;
         private Button _quitButton;
         private Button _configButton;
+        private Button _arrowKeysButton;
+        private Button _WASDKeysButton;
+        private Button _MainMenuButton;
 
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
@@ -38,12 +41,16 @@ namespace Matrix
         private MouseState _previousMouse;
         public EventHandler Click;
         private int secondsToDisplayWinLossMessage = 4;
+        private bool _configButtonClicked;
+        private ContentManager _content;
+        private string _keysType = "arrows";
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
         public static Game1 Instance { get; private set; }
         public static Viewport Viewport { get { return Instance.GraphicsDevice.Viewport; } }
         public static Vector2 ScreenSize { get { return new Vector2(Viewport.Width, Viewport.Height); } }
+        
 
         public Game1()
         {
@@ -72,10 +79,12 @@ namespace Matrix
         /// </summary>
         protected override void LoadContent()
         {
+            _content = Content;
             Arts.Load(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _font = Arts.Font;
             LoadMenuContent(Content);
+
         }
 
         private void LoadGameContent(ContentManager content)
@@ -86,7 +95,7 @@ namespace Matrix
             MediaPlayer.Play(song1);
             Sounds.Load(content);
 
-            _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20);
+            _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
             _finalBoss = FinalBoss.GetInstance;
             _sprites = new List<Sprite>();
             _sprites.Add(_player);
@@ -98,6 +107,26 @@ namespace Matrix
         {
             _gameStarted = true;
             LoadGameContent(Content);
+        }
+
+        private void Button_Config_Clicked(object sender, EventArgs args)
+        {
+            _configButtonClicked = true;
+            LoadConfigMenu(_content);
+        }
+        private void Button_ArrowKeys_Clicked(object sender, EventArgs args)
+        {
+            _keysType = "arrows";
+        }
+        private void Button_WasdKeys_Clicked(object sender, EventArgs args)
+        {
+            _keysType = "wasd";
+        }
+
+        private void Button_MainMenu_Clicked(object sender, EventArgs args)
+        {
+            _configButtonClicked = false;
+            SetupMainMenu();
         }
 
         private void Button_Quit_Clicked(object sender, EventArgs args)
@@ -131,10 +160,15 @@ namespace Matrix
 
             if (!_gameStarted)
             {
-                SetupMenu();
+                if (_configButtonClicked)
+                {
+                    SetupConfigMenu();
+                }
+                else
+                    SetupMainMenu();
             }
-
-            if (_gameStarted)
+           
+            else if (_gameStarted)
             {
                 // Phase 1
                 _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
@@ -164,7 +198,10 @@ namespace Matrix
 
                 //game time is how much time has elapsed
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Program.ShouldRestart = true;
                     Exit();
+                }
 
                 //For spriteNew sprites
                 foreach (var sprite in _sprites.ToArray())
@@ -192,12 +229,24 @@ namespace Matrix
         {
             if (!_gameStarted)
             {
-                GraphicsDevice.Clear(Color.Black);
-                _spriteBatch.Begin();
-                DrawMainMenu();
-                _spriteBatch.End();
-                base.Draw(gameTime);
+                if (_configButtonClicked)
+                {
+                    GraphicsDevice.Clear(Color.Black);
+                    _spriteBatch.Begin();
+                    DrawConfigMenu();
+                    _spriteBatch.End();
+                    base.Draw(gameTime);
+                }
+                else
+                {
+                    GraphicsDevice.Clear(Color.Black);
+                    _spriteBatch.Begin();
+                    DrawMainMenu();
+                    _spriteBatch.End();
+                    base.Draw(gameTime);
+                }
             }
+            
             else if (!_gameOver)
             {
                 GraphicsDevice.Clear(Color.Black);
@@ -261,7 +310,7 @@ namespace Matrix
 
             Button bConfig = new Button(buttonTexture, buttonFont);
             bConfig.Text = "Configuration";
-            bConfig.Click = new EventHandler(Button_Quit_Clicked);
+            bConfig.Click = new EventHandler(Button_Config_Clicked);
             bConfig.Layer = 0.1f;
             bConfig.Texture = buttonTexture;
             _configButton = bConfig;
@@ -274,7 +323,35 @@ namespace Matrix
             _quitButton = bQuit;
         }
 
-        private void SetupMenu()
+        public void LoadConfigMenu(ContentManager content)
+        {
+            var buttonTexture = Arts.Button;
+            var buttonFont = Arts.Font;
+            _menuBackground = Arts.MainMenuBackGround;
+
+            Button arrowKeys = new Button(buttonTexture, buttonFont);
+            arrowKeys.Text = "Arrow keys";
+            arrowKeys.Click = new EventHandler(Button_ArrowKeys_Clicked);
+            arrowKeys.Layer = 0.1f;
+            arrowKeys.Texture = buttonTexture;
+            _arrowKeysButton = arrowKeys;
+
+            Button wasdKeys = new Button(buttonTexture, buttonFont);
+            wasdKeys.Text = "WASD keys";
+            wasdKeys.Click = new EventHandler(Button_WasdKeys_Clicked);
+            wasdKeys.Layer = 0.1f;
+            wasdKeys.Texture = buttonTexture;
+            _WASDKeysButton = wasdKeys;
+
+            Button mainMenu = new Button(buttonTexture, buttonFont);
+            mainMenu.Text = "Main Menu";
+            mainMenu.Click = new EventHandler(Button_MainMenu_Clicked);
+            mainMenu.Layer = 0.1f;
+            mainMenu.Texture = buttonTexture;
+            _MainMenuButton = mainMenu;
+        }
+
+        private void SetupMainMenu()
         {
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
@@ -287,8 +364,30 @@ namespace Matrix
                 {
                     if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
                         _startButton.Click?.Invoke(this, new EventArgs());
-                    else
+                    else if(mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
+                        _configButton.Click?.Invoke(this, new EventArgs());
+                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
                         _quitButton.Click?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+        private void SetupConfigMenu()
+        {
+            _previousMouse = _currentMouse;
+            _currentMouse = Mouse.GetState();
+
+            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+            if (mouseRectangle.Intersects(Rectangle))
+            {
+                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                {
+                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
+                        _arrowKeysButton.Click?.Invoke(this, new EventArgs());
+                    else if (mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
+                        _WASDKeysButton.Click?.Invoke(this, new EventArgs());
+                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
+                        _MainMenuButton.Click?.Invoke(this, new EventArgs());
                 }
             }
         }
@@ -327,6 +426,44 @@ namespace Matrix
                 _quitButton.Position = new Vector2(x + 80, y);
                 _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
                 _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
+            }
+        }
+
+        private void DrawConfigMenu()
+        {
+            _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
+
+            //Create a text box for keys selected
+            _spriteBatch.DrawString(Arts.Font, "Keys Selected: " + _keysType, new Vector2(320f, 200f), Color.White);
+
+            if (!string.IsNullOrWhiteSpace(_arrowKeysButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_arrowKeysButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_arrowKeysButton.Text).Y / 2);
+
+                _arrowKeysButton.Position = new Vector2(x, y);
+                _spriteBatch.Draw(_arrowKeysButton.Texture, _arrowKeysButton.Position, null, Color.White, 0f, new Vector2(26, 0), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _arrowKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -8), 1f, SpriteEffects.None, 0.01f);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_WASDKeysButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_WASDKeysButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_WASDKeysButton.Text).Y / 2);
+
+                _WASDKeysButton.Position = new Vector2(x + 40, y);
+                _spriteBatch.Draw(_WASDKeysButton.Texture, _WASDKeysButton.Position, null, Color.White, 0f, new Vector2(62, -40), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _WASDKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_MainMenuButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_MainMenuButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_MainMenuButton.Text).Y / 2);
+
+                _MainMenuButton.Position = new Vector2(x + 80, y);
+                _spriteBatch.Draw(_quitButton.Texture, _MainMenuButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _MainMenuButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
             }
         }
 

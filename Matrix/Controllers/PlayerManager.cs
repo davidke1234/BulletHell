@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Models;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Matrix.Controllers
 {
     static class PlayerManager
     {
-         public static Player GetPlayer(Texture2D player, Texture2D slowmoPlayer, int health)
+         public static Player GetPlayer(Texture2D player, Texture2D slowmoPlayer, int health, string keysType)
         {
             return new Player(player, slowmoPlayer)
             {
@@ -15,7 +16,8 @@ namespace Matrix.Controllers
                 Score = new Score()
                 {
                     PlayerName = "Player1"
-                }
+                },
+                GameKeys = new GameKeys(keysType)
             };
         }
         public static void DrawPlayerStatus(SpriteBatch spriteBatch, Player _player)

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Models;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -16,8 +17,11 @@ namespace Matrix
                 return Health <= 0;
             }
         }
+        MouseState _prevMouseState;
+        MouseState _currMouseState;
         
         public Score Score { get; set; }
+        public GameKeys GameKeys { get; set; }
 
         public Player(Texture2D texture)
       : base(texture)
@@ -51,8 +55,10 @@ namespace Matrix
         {
             _previousKey = _currentKey;
             _currentKey = Keyboard.GetState();
+            _prevMouseState = _currMouseState;
+            _currMouseState = Mouse.GetState();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Up))
+            if (Keyboard.GetState().IsKeyDown(GameKeys.Up) || Keyboard.GetState().IsKeyDown(GameKeys.UpUpperCase))
             {
                 //move sprite up
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -71,7 +77,7 @@ namespace Matrix
                     }
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Down))
+            if (Keyboard.GetState().IsKeyDown(GameKeys.Down) || Keyboard.GetState().IsKeyDown(GameKeys.DownUpperCase))
             {
                 //move sprite down
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -91,7 +97,7 @@ namespace Matrix
                     }
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Left))
+            if (Keyboard.GetState().IsKeyDown(GameKeys.Left) || Keyboard.GetState().IsKeyDown(GameKeys.LeftUpperCase))
             {
                 //move sprite left
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -111,7 +117,7 @@ namespace Matrix
                     }
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
+            if (Keyboard.GetState().IsKeyDown(GameKeys.Right) || Keyboard.GetState().IsKeyDown(GameKeys.RightUpperCase))
             {
                 //move sprite right
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
@@ -132,8 +138,11 @@ namespace Matrix
                 }
             }
 
-            if (_currentKey.IsKeyDown(Keys.F) &&
-          _previousKey.IsKeyUp(Keys.F))
+
+           
+
+            //if (_currentKey.IsKeyDown(Keys.F) && _previousKey.IsKeyUp(Keys.F))
+            if(_currMouseState.LeftButton == ButtonState.Pressed && _prevMouseState.LeftButton == ButtonState.Released)
             {
                 //Used for bullets
                 Direction.X = 0;
