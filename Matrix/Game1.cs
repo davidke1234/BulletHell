@@ -170,6 +170,15 @@ namespace Matrix
            
             else if (_gameStarted)
             {
+                if (_player.Respawn)
+                {
+                    PlayerManager.Respawn(_sprites);
+                    if (PlayerManager.ResetPlayer(gameTime))
+                    {
+                        _player.Respawn = false;
+                    }
+                }
+
                 // Phase 1
                 _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
 
