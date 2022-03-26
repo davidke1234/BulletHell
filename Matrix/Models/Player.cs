@@ -10,7 +10,7 @@ namespace Matrix
     {
         public Bullet Bullet;
         public int Health { get; set; }
-        public bool IsDead
+        public bool Die
         {
             get
             {
@@ -22,6 +22,7 @@ namespace Matrix
         
         public Score Score { get; set; }
         public GameKeys GameKeys { get; set; }
+        public bool Respawn { get; set; }
 
         public Player(Texture2D texture)
       : base(texture)
@@ -31,26 +32,32 @@ namespace Matrix
 
         public void OnCollide(Sprite sprite)
         {
-            if (IsDead)
-                return;      
+            if (Die)
+                return;
 
-            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name=="Bomb")
-                Health -= 2;
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb")
+                AdjustHealth();
 
             else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb2")
-                Health -= 2;
+                AdjustHealth();
 
             else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
-                Health--;
+                AdjustHealth();
 
-           else if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
-                Health -= 2;
+            else if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
+                AdjustHealth();
 
             //If player collides with enemy
             if (sprite is Enemy)
-                Health--;
+                AdjustHealth();
         }
-        
+
+        private void AdjustHealth()
+        {
+            Health--;
+            Respawn = true;
+        }
+
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _previousKey = _currentKey;
@@ -154,7 +161,7 @@ namespace Matrix
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (IsDead)
+            if (Die)
                 return;
 
             base.Draw(gameTime, spriteBatch);

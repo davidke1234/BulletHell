@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -103,6 +104,7 @@ namespace Matrix
             //Note this currently returns 1 enemy
 
             List<Sprite> enemies = new List<Sprite>();
+
             float xFactor;
             float yFactor;
 
@@ -148,7 +150,27 @@ namespace Matrix
                     texture = _textures[_random.Next(0, _textures.Count)];  
                 }
 
-                enemies.Add(GetEnemy(texture, xFactor, yFactor));
+                Enemy enemy = GetEnemy(texture, xFactor, yFactor);
+
+                // TODO: Temp code
+                List<Movement> movements = new List<Movement>();
+
+                for (int i = 0; i < 20; i++)
+                {
+                    Movement movement = new Movement();
+                    movement.Seconds = i+.5f;
+                    movement.StartX = xFactor;
+                    movement.StartY = yFactor;
+                    movement.X = i;
+                    movement.Y = i;
+                    movements.Add(movement);
+                }
+
+                enemy.Movements = movements;
+                // end temp code
+
+                enemies.Add(enemy);
+
                 spawned = true;
             }
 
@@ -158,7 +180,7 @@ namespace Matrix
     #region Phases of game - spawing enemies
         public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
         {
-            List<Sprite> _sprites = new List<Sprite>();
+            List<Sprite> _sprites = new List<Sprite>();                  
 
             _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 1, ref spE1));
             _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 2, ref spE2));

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -75,6 +76,14 @@ namespace Matrix
                     Position.Y += 1f;
                 }
             }
+
+            // TODO: temp code
+            Movement movement = new Movement();
+            movement.X = this.Position.X;
+            movement.Y = this.Position.Y;
+            this.ActualMovements.Add(movement);
+            // end temp code
+
         }
 
         private void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
@@ -92,7 +101,7 @@ namespace Matrix
         public void OnCollide(Sprite sprite)
         {
             //If the player hits an enemy, remove enemy, but score
-            if (sprite is Player && !((Player)sprite).IsDead)
+            if (sprite is Player && !((Player)sprite).Die)
             {
                 GetScoreValue(sprite, 1);
 

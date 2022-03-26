@@ -30,7 +30,7 @@ namespace Matrix
                 return;
 
             // Can't hit a player if they're dead
-            if (sprite is Player && ((Player)sprite).IsDead)
+            if (sprite is Player && ((Player)sprite).Die)
                 return;
 
             if (sprite is Enemy && this.Parent is Player)

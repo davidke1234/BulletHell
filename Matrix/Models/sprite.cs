@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Sprites;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -37,7 +38,8 @@ namespace Matrix
         public readonly Color[] TextureData;
         public Random _random = new Random();
         protected float _rotation { get; set; }
-
+        public List<Movement> Movements = new List<Movement>();
+        public List<Movement> ActualMovements = new List<Movement>();
 
         public XnaMatrix Transform
         {
