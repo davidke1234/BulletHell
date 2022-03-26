@@ -30,13 +30,13 @@ namespace Matrix
 
             if (_shootingTimer >= TimerStart)
             {
-                if (_texture.Name == "Boss")
+                if (_texture.Name == "boss")
                 {
                     DropBullet(sprites, new Vector2(15, 15));
                     DropBullet(sprites, new Vector2(-20, -20));
                 }
 
-                if (_texture.Name == "Boss2")
+                if (_texture.Name == "boss2")
                 {
                     DropBullet(sprites, new Vector2(5, 5));
                 }
@@ -53,7 +53,7 @@ namespace Matrix
                 IsRemoved = true;
 
             //B Enemies
-            if (_texture.Name == "GrumpBird" || _texture.Name == "Boss" || _texture.Name == "Boss2")
+            if (_texture.Name == "grumpBird" || _texture.Name == "boss" || _texture.Name == "boss2")
             {
                 Position.X += 1f;
             }
@@ -120,13 +120,13 @@ namespace Matrix
 
                     switch(Name)
                     {
-                        case "Boss":
+                        case "boss":
                             scoreValue = 15;
                             break;
-                        case "Boss2":
+                        case "boss2":
                             scoreValue = 10;
                             break;
-                        case "GrumpBird":
+                        case "grumpbird":
                             scoreValue = 5;
                             break;
                         default:

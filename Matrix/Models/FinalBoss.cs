@@ -43,7 +43,7 @@ namespace Matrix
         {
             Position = new Vector2(Game1.Viewport.Width, 50);
             bomb = new Bomb(Arts.Bomb2);
-            Name = "finalBoss";
+            Name = "finalboss";
             Health = 150;
         }
 
