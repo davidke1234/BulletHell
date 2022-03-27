@@ -24,22 +24,14 @@ namespace Matrix
         static Texture2D _enemyMidBoss;
         static Texture2D _enemyFinalBoss;
         static Random _random = new Random();
-
-        #region - private bools for enemy spawning
-        static bool spE1, spE2, spE3, spE4, spE5, spE6, spE7, spE8, spE9, spE10;
-        static bool spE11, spE12, spE13, spE14, spE15, spE16, spE17, spE18, spE19, spE20;
-        static bool spE21, spE22, spE23, spE24, spE25, spE26, spE27, spE28, spE29, spE30;
-        static bool spE31, spE32, spE33, spE34, spE35, spE36, spE37, spE38, spE39, spE40;
-        static bool spE41, spE42, spE43, spE44, spE45, spE46, spE47, spE48, spE49, spE50;
-        static bool spE51, spE52, spE53, spE54, spE55, spE56, spE57, spE58, spE59, spE60;
-        static bool spE61, spE62, spE63, spE64, spE65, spE66, spE67, spE68, spE69, spE70;
-        static bool spE71, spE72, spE73, spE74, spE75, spE76, spE77, spE78, spE79, spE80;
-        static bool spE81, spE82, spE83, spE84, spE85;
-        #endregion
+        static List<Spawner> enemiesPhase1 = new List<Spawner>();
+        static List<Spawner> enemiesPhase2 = new List<Spawner>();
+        static List<Spawner> enemiesPhase3 = new List<Spawner>();
+        static List<Spawner> enemiesPhase4 = new List<Spawner>();
 
         public static Bullet Bullet { get; set; }
 
-         static EnemyManager()
+        static EnemyManager()
         {
             _textures = new List<Texture2D>()
             {
@@ -66,7 +58,7 @@ namespace Matrix
             var e = new Enemy(texture);
             string name = texture.Name.ToLower();
 
-            {             
+            {
                 if (name.Contains("blood"))
                     Bullet = new Bullet(_bulletRed);
                 else if (name.Contains("blue"))
@@ -105,18 +97,14 @@ namespace Matrix
                 e.Health = 5;
             else
                 e.Health = 1;
-            
+
             _logger.Info("Build enemy: " + e.Name);
 
             return e;
         }
 
-        public static IEnumerable<Sprite> GetEnemy(Enemy.Type type, GameTime gameTime, float seconds, ref bool spawned)
+        public static Enemy GetEnemy(Enemy.Type type)
         {
-            //Note this currently returns 1 enemy
-
-            List<Sprite> enemies = new List<Sprite>();
-
             float xFactor;
             float yFactor;
 
@@ -138,167 +126,248 @@ namespace Matrix
                 yFactor = -80;
             }
 
-            if (gameTime.TotalGameTime.TotalSeconds > seconds && !spawned)
+            Texture2D texture;
+
+            if (type == Enemy.Type.D)
             {
-                Texture2D texture;
+                texture = _enemyFinalBoss;
+            }
+            else if (type == Enemy.Type.C)
+            {
+                texture = _enemyMidBoss;
+            }
+            else if (type == Enemy.Type.B)
+            {
+                texture = _enemyButterfly;
+            }
+            else
+            {
+                //Type A
+                xFactor += 30;
+                yFactor += 90;
+                texture = _textures[_random.Next(0, _textures.Count)];
+            }
 
-                if (type == Enemy.Type.D)
+            return GetEnemy(texture, xFactor, yFactor);
+        }
+
+        #region Phases of game - spawing enemies
+        public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
+        {
+            if (enemiesPhase1.Count == 0)
+            {
+                for (int i = 1; i < 10; i++)
                 {
-                    texture = _enemyFinalBoss;
+                    enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = i });
                 }
-                else if (type == Enemy.Type.C)
-                {
-                    texture = _enemyMidBoss;
-                }
-                else if (type == Enemy.Type.B)
-                {
-                    texture = _enemyButterfly;
-                }
-                else
-                {
-                    //Type A
-                    xFactor += 30;
-                    yFactor += 90;
-                    texture = _textures[_random.Next(0, _textures.Count)];  
-                }
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.B, SpawnSeconds = 12 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 15 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 16 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 17 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 18 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.B, SpawnSeconds = 20 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 22 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 23 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 25 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 26 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 27 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 28 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 29 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.B, SpawnSeconds = 32 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 34 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 35 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 36 });
+            }
 
-                Enemy enemy = GetEnemy(texture, xFactor, yFactor);
+            return LoadEnemiesIntoPhase(gameTime, enemiesPhase1);
+        }
 
-                // TODO: Temp code
-                List<Movement> movements = new List<Movement>();
+        public static IEnumerable<Sprite> GetEnemyPhase2(GameTime gameTime)
+        {
+            if (enemiesPhase2.Count == 0)
+            {
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 40 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 42 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 43 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.C, SpawnSeconds = 48 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 52 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 54 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 55 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.C, SpawnSeconds = 60 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 65 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 66 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 67 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.C, SpawnSeconds = 72 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 76 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 78 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 79 });
+            }
 
-                for (int i = 0; i < 20; i++)
-                {
-                    Movement movement = new Movement();
-                    movement.Seconds = i+.5f;
-                    movement.StartX = xFactor;
-                    movement.StartY = yFactor;
-                    movement.X = i;
-                    movement.Y = i;
-                    movements.Add(movement);
-                }
+            return LoadEnemiesIntoPhase(gameTime, enemiesPhase2);
+        }    
 
-                enemy.Movements = movements;
-                // end temp code
+        public static IEnumerable<Sprite> GetEnemyPhase3(GameTime gameTime)
+        {
+            if (enemiesPhase3.Count == 0)
+            {
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 81 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 85 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 86 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 90 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 94 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 97 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 101 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 106 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 109 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 115});
+                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.A, SpawnSeconds = 116});
+            }
 
-                enemies.Add(enemy);
+            return LoadEnemiesIntoPhase(gameTime, enemiesPhase3);
+        }
 
-                spawned = true;
+        public static IEnumerable<Sprite> GetEnemyPhase4(GameTime gameTime)
+        {
+            if (enemiesPhase4.Count == 0)
+            {
+                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 121 });
+                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 131});
+                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 141});
+                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 151});
+                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.D, SpawnSeconds = 161});
+            }
+
+            return LoadEnemiesIntoPhase(gameTime, enemiesPhase4);
+        }
+
+        private static IEnumerable<Sprite> LoadEnemiesIntoPhase(GameTime gameTime, List<Spawner> spawnedEnemies)
+        {
+            List<Sprite> enemies = new List<Sprite>();
+
+            //Load enemies each second
+            double gameSecond = 0;
+            double returnValue = Math.Round(gameTime.TotalGameTime.TotalSeconds, 2) % 1;
+
+            if (returnValue == 0)
+            {
+                gameSecond = Math.Round(gameTime.TotalGameTime.TotalSeconds, 0);
+
+                //Check if a certain enemy should be sent to view based on time
+                Spawner spawner = spawnedEnemies.Find(e => e.SpawnSeconds == gameSecond);
+                if (spawner != null)
+                    enemies.Add(GetEnemy(spawner.EnemyType));
             }
 
             return enemies;
         }
 
-    #region Phases of game - spawing enemies
-        public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
-        {
-            List<Sprite> _sprites = new List<Sprite>();                  
+        //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 1, ref spE1));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 2, ref spE2));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 3, ref spE3));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 4, ref spE4));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 5, ref spE5));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 6, ref spE6));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 7, ref spE7));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 8, ref spE8));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 9, ref spE9));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 12, ref spE12));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 13, ref spE13));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 14, ref spE14));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 15, ref spE15));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 16, ref spE16));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 17, ref spE17));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 18, ref spE18));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 19, ref spE19));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 20, ref spE20));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 21, ref spE21));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 24, ref spE22));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 25, ref spE23));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 26, ref spE24));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 27, ref spE25));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 28, ref spE26));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 29, ref spE27));
+        //   // _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 30, ref spE28));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 33, ref spE29));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 34, ref spE30));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 35, ref spE31));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 37, ref spE32));
 
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 1, ref spE1));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 2, ref spE2));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 3, ref spE3));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 4, ref spE4));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 5, ref spE5));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 6, ref spE6));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 7, ref spE7));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 8, ref spE8));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 9, ref spE9));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 12, ref spE12));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 13, ref spE13));
-            _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 14, ref spE14));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 15, ref spE15));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 16, ref spE16));
-            _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 17, ref spE17));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 18, ref spE18));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 19, ref spE19));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 20, ref spE20));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 21, ref spE21));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 24, ref spE22));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 25, ref spE23));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 26, ref spE24));
-            _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 27, ref spE25));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 28, ref spE26));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 29, ref spE27));
-           // _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 30, ref spE28));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 33, ref spE29));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 34, ref spE30));
-            _sprites.AddRange(GetEnemy(Enemy.Type.B, gameTime, 35, ref spE31));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 37, ref spE32));
+        //static internal IEnumerable<Sprite> GetEnemyPhase2Old(GameTime gameTime)
+        //{
+        //    List<Sprite> _sprites = new List<Sprite>();
 
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 40, ref spE32));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 42, ref spE33));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 43, ref spE34));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 44, ref spE35));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 48, ref spE36));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 52, ref spE37));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 53, ref spE38));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 54, ref spE39));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 55, ref spE38));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 56, ref spE39));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 60, ref spE40));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 65, ref spE41));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 66, ref spE42));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 67, ref spE43));
+        //   // _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 68, ref spE44));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 72, ref spE45));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 76, ref spE46));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 77, ref spE47));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 78, ref spE48));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 79, ref spE49));
 
-            return _sprites;
-        }
+        //    return _sprites;
+        //}
 
-        static internal IEnumerable<Sprite> GetEnemyPhase2(GameTime gameTime)
-        {
-            List<Sprite> _sprites = new List<Sprite>();
+        //static internal IEnumerable<Sprite> GetEnemyPhase3Old(GameTime gameTime)
+        //{
+        //    List<Sprite> _sprites = new List<Sprite>();
 
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 40, ref spE32));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 42, ref spE33));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 43, ref spE34));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 44, ref spE35));
-            _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 48, ref spE36));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 52, ref spE37));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 53, ref spE38));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 54, ref spE39));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 55, ref spE38));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 56, ref spE39));
-            _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 60, ref spE40));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 65, ref spE41));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 66, ref spE42));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 67, ref spE43));
-           // _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 68, ref spE44));
-            _sprites.AddRange(GetEnemy(Enemy.Type.C, gameTime, 72, ref spE45));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 76, ref spE46));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 77, ref spE47));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 78, ref spE48));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 79, ref spE49));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 81, ref spE50));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 85, ref spE51));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 86, ref spE52));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 90, ref spE53));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 94, ref spE54));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 95, ref spE56));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 96, ref spE57));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 97, ref spE58));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 101, ref spE60));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 105, ref spE61));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 106, ref spE62));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 107, ref spE63));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 108, ref spE64));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 109, ref spE65));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 112, ref spE66));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 115, ref spE67));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 116, ref spE68));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 118, ref spE72));
 
-            return _sprites;
-        }
+        //    return _sprites;
+        //}
+        //static internal IEnumerable<Sprite> GetEnemyPhase4Old(GameTime gameTime)
+        //{
+        //    List<Sprite> _sprites = new List<Sprite>();
 
-        static internal IEnumerable<Sprite> GetEnemyPhase3(GameTime gameTime)
-        {
-            List<Sprite> _sprites = new List<Sprite>();
-
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 81, ref spE50));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 85, ref spE51));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 86, ref spE52));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 90, ref spE53));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 94, ref spE54));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 95, ref spE56));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 96, ref spE57));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 97, ref spE58));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 101, ref spE60));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 105, ref spE61));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 106, ref spE62));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 107, ref spE63));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 108, ref spE64));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 109, ref spE65));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 112, ref spE66));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 115, ref spE67));
-            _sprites.AddRange(GetEnemy(Enemy.Type.A, gameTime, 116, ref spE68));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 118, ref spE72));
-
-            return _sprites;
-        }
-        static internal IEnumerable<Sprite> GetEnemyPhase4(GameTime gameTime)
-        {
-            List<Sprite> _sprites = new List<Sprite>();
-
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 121, ref spE75));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 126, ref spE76));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 131, ref spE77));
-           // _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 136, ref spE78));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 141, ref spE79));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 146, ref spE80));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 151, ref spE81));
-            //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 156, ref spE82));
-            _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 161, ref spE83));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 121, ref spE75));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 126, ref spE76));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 131, ref spE77));
+        //   // _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 136, ref spE78));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 141, ref spE79));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 146, ref spE80));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 151, ref spE81));
+        //    //_sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 156, ref spE82));
+        //    _sprites.AddRange(GetEnemy(Enemy.Type.D, gameTime, 161, ref spE83));
 
 
-            return _sprites;
-        }
+        //    return _sprites;
+        //}
         #endregion
+    }
+     class Spawner
+    {
+        public Enemy.Type EnemyType;
+        public float SpawnSeconds;
+        //public bool spawned;
     }
 }

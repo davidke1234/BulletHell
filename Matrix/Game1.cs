@@ -184,7 +184,10 @@ namespace Matrix
                 }
 
                 // Phase 1
-                _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
+                if (gameTime.TotalGameTime.TotalSeconds < 40)
+                {
+                    _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
+                }
 
                 // Phase 2
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
