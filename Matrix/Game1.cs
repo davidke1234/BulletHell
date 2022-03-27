@@ -96,7 +96,7 @@ namespace Matrix
             _background = Arts.Stars;
 
             var song1 = Arts.Song1;
-            MediaPlayer.Play(song1);
+            //MediaPlayer.Play(song1);
             Sounds.Load(content);
 
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
@@ -105,35 +105,35 @@ namespace Matrix
             _sprites.Add(_player);
             soundInstance = Sounds.soundEffects[0].CreateInstance();
             soundInstance.IsLooped = true;
-        }      
+        }
 
-        private void Button_1Player_Clicked(object sender, EventArgs args)
+        public void Button_1Player_Clicked(object sender, EventArgs args)
         {
             _gameStarted = true;
             LoadGameContent(Content);
         }
 
-        private void Button_Config_Clicked(object sender, EventArgs args)
+        public void Button_Config_Clicked(object sender, EventArgs args)
         {
             _configButtonClicked = true;
             LoadConfigMenu(_content);
         }
-        private void Button_ArrowKeys_Clicked(object sender, EventArgs args)
+        public void Button_ArrowKeys_Clicked(object sender, EventArgs args)
         {
             _keysType = "arrows";
         }
-        private void Button_WasdKeys_Clicked(object sender, EventArgs args)
+        public void Button_WasdKeys_Clicked(object sender, EventArgs args)
         {
             _keysType = "wasd";
         }
 
-        private void Button_MainMenu_Clicked(object sender, EventArgs args)
+        public void Button_MainMenu_Clicked(object sender, EventArgs args)
         {
             _configButtonClicked = false;
-            SetupMainMenu();
+            MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
         }
 
-        private void Button_Quit_Clicked(object sender, EventArgs args)
+        public void Button_Quit_Clicked(object sender, EventArgs args)
         {
             Exit();
         }
@@ -166,12 +166,12 @@ namespace Matrix
             {
                 if (_configButtonClicked)
                 {
-                    SetupConfigMenu();
+                    MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _MainMenuButton, this);
                 }
                 else
-                    SetupMainMenu();
+                    MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
             }
-           
+
             else if (_gameStarted)
             {
                 if (_player.Respawn)
@@ -313,27 +313,10 @@ namespace Matrix
             var buttonTexture = Arts.Button;
             var buttonFont = Arts.Font;
             _menuBackground = Arts.MainMenuBackGround;
-
-            Button bStart = new Button(buttonTexture, buttonFont);
-            bStart.Text = "Start Game";
-            bStart.Click = new EventHandler(Button_1Player_Clicked);
-            bStart.Layer = 0.1f;
-            bStart.Texture = buttonTexture;
-            _startButton = bStart;
-
-            Button bConfig = new Button(buttonTexture, buttonFont);
-            bConfig.Text = "Configuration";
-            bConfig.Click = new EventHandler(Button_Config_Clicked);
-            bConfig.Layer = 0.1f;
-            bConfig.Texture = buttonTexture;
-            _configButton = bConfig;
-
-            Button bQuit = new Button(buttonTexture, buttonFont);
-            bQuit.Text = "Quit Game";
-            bQuit.Click = new EventHandler(Button_Quit_Clicked);
-            bQuit.Layer = 0.1f;
-            bQuit.Texture = buttonTexture;
-            _quitButton = bQuit;
+ 
+            _startButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Start Game", this.Button_1Player_Clicked);
+            _configButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Configuration", this.Button_Config_Clicked);
+            _quitButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Quit Game", this.Button_Quit_Clicked);
         }
 
         public void LoadConfigMenu(ContentManager content)
@@ -342,69 +325,11 @@ namespace Matrix
             var buttonFont = Arts.Font;
             _menuBackground = Arts.MainMenuBackGround;
 
-            Button arrowKeys = new Button(buttonTexture, buttonFont);
-            arrowKeys.Text = "Arrow keys";
-            arrowKeys.Click = new EventHandler(Button_ArrowKeys_Clicked);
-            arrowKeys.Layer = 0.1f;
-            arrowKeys.Texture = buttonTexture;
-            _arrowKeysButton = arrowKeys;
-
-            Button wasdKeys = new Button(buttonTexture, buttonFont);
-            wasdKeys.Text = "WASD keys";
-            wasdKeys.Click = new EventHandler(Button_WasdKeys_Clicked);
-            wasdKeys.Layer = 0.1f;
-            wasdKeys.Texture = buttonTexture;
-            _WASDKeysButton = wasdKeys;
-
-            Button mainMenu = new Button(buttonTexture, buttonFont);
-            mainMenu.Text = "Main Menu";
-            mainMenu.Click = new EventHandler(Button_MainMenu_Clicked);
-            mainMenu.Layer = 0.1f;
-            mainMenu.Texture = buttonTexture;
-            _MainMenuButton = mainMenu;
+            _arrowKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Arrow keys", this.Button_ArrowKeys_Clicked);
+            _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
+            _MainMenuButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Main Menu", this.Button_MainMenu_Clicked);
         }
-
-        private void SetupMainMenu()
-        {
-            _previousMouse = _currentMouse;
-            _currentMouse = Mouse.GetState();
-
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
-
-            if (mouseRectangle.Intersects(Rectangle))
-            {
-                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                {
-                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
-                        _startButton.Click?.Invoke(this, new EventArgs());
-                    else if(mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
-                        _configButton.Click?.Invoke(this, new EventArgs());
-                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
-                        _quitButton.Click?.Invoke(this, new EventArgs());
-                }
-            }
-        }
-        private void SetupConfigMenu()
-        {
-            _previousMouse = _currentMouse;
-            _currentMouse = Mouse.GetState();
-
-            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
-
-            if (mouseRectangle.Intersects(Rectangle))
-            {
-                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
-                {
-                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
-                        _arrowKeysButton.Click?.Invoke(this, new EventArgs());
-                    else if (mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
-                        _WASDKeysButton.Click?.Invoke(this, new EventArgs());
-                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
-                        _MainMenuButton.Click?.Invoke(this, new EventArgs());
-                }
-            }
-        }
-
+           
         private void DrawMainMenu()
         {
             _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);

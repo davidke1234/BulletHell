@@ -1,12 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.Xna.Framework.Input;
+using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Matrix.Controllers
 {
-    public class MenuManager
+    public static class MenuManager
     {
+        private static MouseState _currentMouse;
+        private static MouseState _previousMouse;
 
+        public static void SetupConfigMenu(ref Button _arrowKeysButton, ref Button _WASDKeysButton, ref Button _MainMenuButton,  Game game1)
+        {
+            _previousMouse = _currentMouse;
+            _currentMouse = Mouse.GetState();
 
+            Rectangle mouseRectangle = new Rectangle (_currentMouse.X, _currentMouse.Y, 1, 1);
+
+            if (mouseRectangle.Intersects(Rectangle))
+            {
+                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                {
+                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
+                        _arrowKeysButton.Click?.Invoke(game1, new EventArgs());
+                    else if (mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
+                        _WASDKeysButton.Click?.Invoke(game1, new EventArgs());
+                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
+                        _MainMenuButton.Click?.Invoke(game1, new EventArgs());
+                }
+            }
+        }
+
+        public static void SetupMainMenu(ref Button _startButton, ref Button _configButton, ref Button _quitButton, Game1 game1)
+        {
+            _previousMouse = _currentMouse;
+            _currentMouse = Mouse.GetState();
+
+            var mouseRectangle = new Rectangle(_currentMouse.X, _currentMouse.Y, 1, 1);
+
+            if (mouseRectangle.Intersects(Rectangle))
+            {
+                if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
+                {
+                    if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
+                        _startButton.Click?.Invoke(game1, new EventArgs());
+                    else if (mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
+                        _configButton.Click?.Invoke(game1, new EventArgs());
+                    else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
+                        _quitButton.Click?.Invoke(game1, new EventArgs());
+                }
+            }
+        }
+
+        public static Button MakeButton(Texture2D buttonTexture, SpriteFont buttonFont, string buttonText, Action<object, EventArgs> eventHandler)
+        {
+            Button bStart = new Button(buttonTexture, buttonFont);
+            bStart.Text = buttonText;
+            bStart.Click = new EventHandler(eventHandler);
+            bStart.Layer = 0.1f;
+            bStart.Texture = buttonTexture;
+            return bStart;
+        }
+
+        private static Rectangle Rectangle
+        {
+            get
+            {
+                return new Rectangle(0, 0, 800, 480);
+            }
+        }
     }
 }
