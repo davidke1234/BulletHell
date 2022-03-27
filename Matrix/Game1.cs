@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Matrix.Controllers;
+using NLog;
 
 namespace Matrix
 {
@@ -16,6 +17,8 @@ namespace Matrix
     /// </summary>
     public class Game1 : Game
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         private Texture2D _background;
         private Texture2D _menuBackground;
         private Button _startButton;
@@ -58,6 +61,7 @@ namespace Matrix
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            _logger.Info("Starting Game");
         }
 
         /// <summary>

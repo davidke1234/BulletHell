@@ -27,16 +27,20 @@ namespace Matrix
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
             _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            string name = _texture.Name.ToLower();
+
+            if (_shootingTimer >= LifeSpan)
+                this.IsRemoved = true;
 
             if (_shootingTimer >= TimerStart)
             {
-                if (_texture.Name == "boss")
+                if (name == "boss")
                 {
                     DropBullet(sprites, new Vector2(15, 15));
                     DropBullet(sprites, new Vector2(-20, -20));
                 }
 
-                if (_texture.Name == "boss2")
+                if (name == "boss2")
                 {
                     DropBullet(sprites, new Vector2(5, 5));
                 }
@@ -52,8 +56,8 @@ namespace Matrix
             if (Position.Y < -10)
                 IsRemoved = true;
 
-            //B Enemies
-            if (_texture.Name == "grumpBird" || _texture.Name == "boss" || _texture.Name == "boss2")
+            //B,C,D Enemies
+            if (name == "grumpbird" || name == "boss" || name == "boss2")
             {
                 Position.X += 1f;
             }

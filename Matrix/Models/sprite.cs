@@ -89,7 +89,7 @@ namespace Matrix
         public Sprite(Texture2D texture)
         {
             _texture = texture;
-            Name = texture.Name;
+            Name = texture.Name.ToLower();
 
             //Children = new List<Sprite>();
 
@@ -106,7 +106,7 @@ namespace Matrix
         {
             _texture = texture;
             _slowmoSprite = slowmoTexture;
-            Name = texture.Name;
+            Name = texture.Name.ToLower();
 
             //Children = new List<Sprite>();
 

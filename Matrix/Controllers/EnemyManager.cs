@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using NLog;
 using System;
 using System.Collections.Generic;
 
@@ -9,6 +10,8 @@ namespace Matrix
 {
     static class EnemyManager
     {
+        private static Logger _logger = LogManager.GetCurrentClassLogger();
+
         static List<Texture2D> _textures;
         static Texture2D _bulletRed;
         static Texture2D _bulletBlue;
@@ -86,15 +89,24 @@ namespace Matrix
             e.Position = new Vector2(x, y);
             e.Speed = 2 + (float)_random.NextDouble();
             e.TimerStart = 1.5f + (float)_random.NextDouble();
+            e.LifeSpan = 5;
 
-            if (name == "boss") //finalboss
+            if (name == "boss")
+            {//finalboss
+                e.LifeSpan = 5;
                 e.Health = 15;
-            else if (name == "boss2") //midboss
+            }
+            else if (name == "boss2")
+            { //midboss
+                e.LifeSpan = 5;
                 e.Health = 10;
+            }
             else if (name == "grumpbird")
                 e.Health = 5;
             else
                 e.Health = 1;
+            
+            _logger.Info("Build enemy: " + e.Name);
 
             return e;
         }
