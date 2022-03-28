@@ -1,4 +1,5 @@
 ﻿using Matrix;
+using Matrix.Models.Factories;
 using Matrix.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -8,20 +9,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Matrix
+namespace Matrix.Models
 {
     /// <summary>
     /// The Midboss class
     /// </summary>
-    public class MidBoss : Sprite, ICollidable
+    public class MidBoss : Enemy
     {
         private float _changePositionTimer = 5;
         private float _timerStart = 5;
         float shoot = 0;
-        public Bomb bomb;
-        public List<Bomb> bombs = new List<Bomb>();
+        public Sprite bomb;
+        public List<Sprite> bombs = new List<Sprite>();
         public int Health;
         private static MidBoss MidBossInstance = null;
+        private static ProjectileFactory projectileFactory = new ProjectileFactory();
 
         /// <summary>
         /// Returns a singleton instance of midboss
@@ -46,15 +48,18 @@ namespace Matrix
         private MidBoss(Texture2D texture): base(texture)
         {
             Position = new Vector2(Game1.Viewport.Width / 2, 50);
-            Health = 75;
-            bomb = new Bomb(Arts.Bomb);
+            Health = 15;
+            //bomb = new Bomb(Arts.Bomb);
+            bomb = projectileFactory.Create("bomb", Enemy.Type.Boss);
+            bombs.Add(bomb);
+
         }
 
-         public void UpdateBombs()
+        public void UpdateBombs()
         {
             if (bombs.Count() < 2)
             {
-                bombs.Add(bomb);
+                bombs.Add((Bomb)bomb);
             }
 
             foreach (Bomb bomb in bombs.ToList())
@@ -85,7 +90,7 @@ namespace Matrix
 
             if (bombs.Count() < 3)
             {
-                bombs.Add(bomb);
+                bombs.Add((Bomb)bomb);
             }
             if(!sprites.Contains(bomb))
             {
@@ -100,7 +105,7 @@ namespace Matrix
         {
             float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _changePositionTimer -= elasped;
-            if(_changePositionTimer < 0)
+            if (_changePositionTimer < 0)
             {
                 Position.X = _random.Next(50, 600);
                 Position.Y = _random.Next(50, 100);
@@ -113,16 +118,30 @@ namespace Matrix
                 Position.X = 0;
             }
 
-            shoot += elasped;
-            if (shoot > 1)
-            {
-                shoot = 0;
-                ShootBombs(sprites);
-            }
+            //shoot += elasped;
+            //if (shoot > 1)
+            //{
+            //    shoot = 0;
+            //    //ShootBombs(sprites);
+            //    DropBomb(sprites, new Vector2(5, 5));
+            //    DropBomb(sprites, new Vector2(0, 0));
+            //}
 
-            UpdateBombs();
+            string name = _texture.Name.ToLower();
+
+            if (elasped >= LifeSpan)
+                this.IsRemoved = true;
+
+           // if (elasped >= TimerStart)
+            //{
+               // DropBullet(sprites, new Vector2(5, 5));
+               // DropBullet(sprites, new Vector2(0, 0));
+                elasped = 0;
+           // }
+            
+          //  Direction.X = 10f;
+          //  Direction.Y = 25f;
         }
-
 
         // Boss Movement Patterns
         IEnumerable<int> FollowPlayer(float acceleration)

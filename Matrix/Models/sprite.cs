@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using XnaMatrix= Microsoft.Xna.Framework.Matrix;
 
-namespace Matrix
+namespace Matrix.Models
 {
     public enum SpriteState
     {
@@ -35,7 +35,7 @@ namespace Matrix
         public bool IsRemoved = false;
         public string Name;
         public Color Colour = Color.White;
-        public readonly Color[] TextureData;
+        public Color[] TextureData;
         public Random _random = new Random();
         protected float _rotation { get; set; }
         public List<Movement> Movements = new List<Movement>();

@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Matrix
+namespace Matrix.Models
 {
     /// <summary>
     /// The Midboss class

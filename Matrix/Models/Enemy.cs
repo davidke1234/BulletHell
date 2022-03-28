@@ -1,9 +1,10 @@
-﻿using Matrix.Sprites;
+﻿using Matrix.Models.Factories;
+using Matrix.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Matrix
+namespace Matrix.Models
 {
     public class Enemy : Sprite, ICollidable
     {
@@ -11,14 +12,15 @@ namespace Matrix
         private float _shootingTimer;
         public float TimerStart = 1.25f;
         public float Speed = 2f;
-        
+        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+
         public enum Type { 
-            A, //small grunts
-            B, //larger
-            C, //midboss
-            D  //finalboss
+            BasicEnemies, //small grunts
+            ButterFlyEnemies, //larger
+            Boss, //midboss
+            FinalBoss  //finalboss
         }
-        public int Health;
+        public int Health { get; set; }
 
         public Enemy(Texture2D texture)
       : base(texture)
@@ -38,14 +40,16 @@ namespace Matrix
                 {
                     DropBullet(sprites, new Vector2(15, 15));
                     DropBullet(sprites, new Vector2(-20, -20));
+                    DropBullet(sprites, new Vector2(0, 0));
                 }
-
-                if (name == "boss2")
+                else if (name == "boss2")
                 {
                     DropBullet(sprites, new Vector2(5, 5));
+                    DropBullet(sprites, new Vector2(0, 0));
                 }
+                else
+                    DropBullet(sprites, new Vector2(0, 0));
 
-                DropBullet(sprites, new Vector2(0, 0));
                 _shootingTimer = 0;
             }
 
@@ -80,17 +84,9 @@ namespace Matrix
                     Position.Y += 1f;
                 }
             }
-
-            // TODO: temp code
-            Movement movement = new Movement();
-            movement.X = this.Position.X;
-            movement.Y = this.Position.Y;
-            this.ActualMovements.Add(movement);
-            // end temp code
-
         }
 
-        private void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
+        public void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
         {
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = Direction + extraDirection;
@@ -100,6 +96,18 @@ namespace Matrix
             bullet.Parent = this;
 
             sprites.Add(bullet);
+        }
+
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection)
+        {
+            var bomb = projectileFactory.Create("bomb", Enemy.Type.Boss);
+            bomb.Direction = Direction + extraDirection;
+            bomb.Position = Position;
+            bomb.LinearVelocity = 0.05f;
+            bomb.LifeSpan = 6f;
+            bomb.Parent = this;
+
+            sprites.Add(bomb);
         }
 
         public void OnCollide(Sprite sprite)

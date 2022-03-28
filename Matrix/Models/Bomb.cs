@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Matrix
+namespace Matrix.Models
 {
     public class Bomb : Sprite, ICollidable
     {
@@ -43,6 +43,12 @@ namespace Matrix
 
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
+            _timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (_timer >= LifeSpan)
+                this.IsRemoved = true;
+
+            Position += Direction * LinearVelocity;
         }
     }
 }

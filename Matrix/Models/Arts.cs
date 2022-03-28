@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 
-namespace Matrix
+namespace Matrix.Models
 {
     /// <summary>
     /// Class for adding arts.

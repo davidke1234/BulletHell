@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Matrix.Controllers;
 using NLog;
+using Matrix.Models;
 
 namespace Matrix
 {

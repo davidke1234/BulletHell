@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace Matrix
+namespace Matrix.Models
 {
     public class Bullet : Sprite, ICollidable
     {
