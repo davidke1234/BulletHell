@@ -105,13 +105,12 @@ namespace Matrix
             return e;
         }
 
-
-
         public static Enemy GetEnemy(Enemy.Type type)
         {
             float xFactor;
             float yFactor;
 
+            //TODO:
             //if (type == Enemy.Type.Boss)
             //{
             //    return MidBoss.GetInstance;

@@ -19,9 +19,6 @@ namespace Matrix
 
         static List<Sprite> addedSprites = new List<Sprite>();
 
-        //TODO: TEMP to look at movements
-        static List<Enemy> removedEnemies = new List<Enemy>();
-
         /// <summary>
         /// The number of sprites
         /// </summary>
@@ -115,12 +112,7 @@ namespace Matrix
             for (int i = 0; i < sprites.Count; i++)
             {
                 if (sprites[i].IsRemoved)
-                {
-                    // TODO: temp to look at all positions
-                    if (sprites[i] is Enemy)
-                    {
-                        removedEnemies.Add((Enemy)sprites[i]);
-                    }
+                {                   
                     sprites.RemoveAt(i);
                     i--;
                 }

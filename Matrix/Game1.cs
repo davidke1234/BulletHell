@@ -3,13 +3,12 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Matrix.Controllers;
 using NLog;
 using Matrix.Models;
+using Microsoft.Xna.Framework.Media;
 
 namespace Matrix
 {
@@ -41,8 +40,6 @@ namespace Matrix
         private bool _gameOver = false;
         public static SoundEffectInstance soundInstance;
         private bool _gameStarted;
-        private MouseState _currentMouse;
-        private MouseState _previousMouse;
         public EventHandler Click;
         private int secondsToDisplayWinLossMessage = 4;
         private bool _configButtonClicked;
@@ -73,8 +70,6 @@ namespace Matrix
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            //_random = new Random();
             base.Initialize();
         }
 
@@ -89,7 +84,6 @@ namespace Matrix
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _font = Arts.Font;
             LoadMenuContent(Content);
-
         }
 
         private void LoadGameContent(ContentManager content)
@@ -97,7 +91,7 @@ namespace Matrix
             _background = Arts.Stars;
 
             var song1 = Arts.Song1;
-            //MediaPlayer.Play(song1);
+            MediaPlayer.Play(song1);
             Sounds.Load(content);
 
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
@@ -220,7 +214,6 @@ namespace Matrix
                     Exit();
                 }
 
-                //For spriteNew sprites
                 foreach (var sprite in _sprites.ToArray())
                 {
                     sprite.Update(gameTime, _sprites);
@@ -281,8 +274,6 @@ namespace Matrix
 
             CheckGameOver(gameTime, false);
         }
-
-
 
         private void CheckGameOver(GameTime gameTime, bool timesUp)
         {
