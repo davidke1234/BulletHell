@@ -1,0 +1,686 @@
+{
+    "Easy": 
+    {
+        "Stage1": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage2": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage3": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage4": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        }
+    },
+    "Standard": 
+    {
+        "Stage1": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage2": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }                
+            ]
+        },
+        "Stage3": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage4": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        }
+    },
+    "Expert": 
+    {
+        "Stage1": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage2": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage3": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage4": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        }
+    },
+    "Hellish": 
+    {
+        "Stage1": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage2": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage3": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        },
+        "Stage4": 
+        {
+            "Waves": 
+            [
+                {
+                    "Health": 1,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "Basic",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 2,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bullet"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "MidBoss",
+                    "projectileType": "Bomb"
+                },
+                {
+                    "Health": 10,
+                    "Speed": 2,
+                    "InitialPosition": {"X": 0, "Y": 50},
+                    "Direction": {"X": 0, "Y": -1},
+                    "EnemyCount": 20,
+                    "EnemyType": "TypeB",
+                    "projectileType": "Bomb"
+                }
+            ]
+        }
+    }
+}
