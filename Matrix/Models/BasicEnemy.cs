@@ -11,19 +11,19 @@ namespace Matrix.Models
     {
         private static ProjectileFactory projectileFactory = new ProjectileFactory();
 
-        public BasicEnemy(Texture2D texture) : base(texture)
-        {
-            _texture = texture;
-            Name = texture.Name;
+        //public BasicEnemy(Texture2D texture) : base(texture)
+        //{
+        //    _texture = texture;
+        //    Name = texture.Name;
 
-            // The default origin in the centre of the sprite
-            Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+        //    // The default origin in the centre of the sprite
+        //    Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
 
-            Colour = Color.White;
+        //    Colour = Color.White;
 
-            TextureData = new Color[_texture.Width * _texture.Height];
-            _texture.GetData(TextureData);
-        }
+        //    TextureData = new Color[_texture.Width * _texture.Height];
+        //    _texture.GetData(TextureData);
+        //}
 
         public BasicEnemy(Texture2D texture, Type basicEnemyType ) : base(texture)
         {
@@ -37,13 +37,7 @@ namespace Matrix.Models
                 Position.Y = 10;
                 Bullet = (Bullet)projectileFactory.Create("bullet");
             }
-            else if (basicEnemyType == Type.ButterFlyEnemies)
-            {
-                Health = 5;
-                Position.X = 70;
-                Position.Y = 40;
-                Bullet = (Bullet)projectileFactory.Create("orangeBullet");
-            }
+           
             else if (basicEnemyType == Type.Boss)
             {
                 Health = 10;

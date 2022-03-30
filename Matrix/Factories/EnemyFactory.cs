@@ -37,7 +37,7 @@ namespace Matrix
                     }
                 case Enemy.Type.ButterFlyEnemies:
                     {
-                        return new BasicEnemy(Arts.EnemyButterfly, Enemy.Type.ButterFlyEnemies);
+                        return new ButterflyEnemy(Arts.EnemyButterfly);
                     }
                 case Enemy.Type.Boss:
                     {

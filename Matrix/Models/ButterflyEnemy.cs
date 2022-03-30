@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Models.Factories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,20 @@ namespace Matrix.Models
 {
     public class ButterflyEnemy : Enemy
     {
+        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+
         public ButterflyEnemy(Texture2D texture) : base(texture)
         {
             _texture = texture;
             Name = texture.Name;
 
-            //Children = new List<Sprite>();
+            Health = 5;
+            Position.X = 70;
+            Position.Y = 40;
+            Bullet = (Bullet)projectileFactory.Create("orangeBullet");
+
+            LifeSpan = 5;
+            Speed = 2.65f;
 
             // The default origin in the centre of the sprite
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
