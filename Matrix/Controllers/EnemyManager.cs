@@ -155,8 +155,18 @@ namespace Matrix
                 yFactor += 90;
                 texture = _textures[_random.Next(0, _textures.Count)];
             }
+            Enemy enemy = null;
 
-            return GetEnemy(texture, xFactor, yFactor);
+            if (type == Enemy.Type.BasicEnemies)
+            {
+                enemy = (Enemy)enemyFactory.Create("basicEnemy", Enemy.Type.BasicEnemies);
+            }
+            else
+            {
+                enemy = GetEnemy(texture, xFactor, yFactor);
+            }
+
+            return enemy;
         }
 
         #region Phases of game - spawing enemies

@@ -13,10 +13,10 @@ namespace Matrix
         {
             switch(name.ToLower())
             {
-                case "basicEnemy":
+                case "basicenemy":
                     Enemy newBasicEnemy = GetBasicEnemyType(basicEnemyType);
                     return newBasicEnemy;
-                case "butterflyEnemy":
+                case "butterflyenemy":
                     return new ButterflyEnemy(Arts.EnemyButterfly);
                 default:
                     throw new Exception("Invalid object type requested");

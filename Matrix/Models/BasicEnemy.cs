@@ -26,6 +26,12 @@ namespace Matrix.Models
         {
             _texture = texture;
             Name = texture.Name;
+            Health = 1;
+            LifeSpan = 5;
+            Position.X = 70;
+            Position.Y = 10;
+            Speed = 2.65f;
+            Bullet = new Bullet(Arts.BulletBlack);
 
             // The default origin in the centre of the sprite
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
@@ -34,6 +40,7 @@ namespace Matrix.Models
 
             TextureData = new Color[_texture.Width * _texture.Height];
             _texture.GetData(TextureData);
+
         }
     }
 }
