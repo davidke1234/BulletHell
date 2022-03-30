@@ -46,6 +46,9 @@ namespace Matrix
         {
             if (enemiesPhase1.Count == 0)
             {
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.FinalBoss, SpawnSeconds = 3 });
+
+
                 for (int i = 1; i < 15; i++)
                 {
                     enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = i });

@@ -145,9 +145,10 @@ namespace Matrix.Models
                 //Position += Velocity;
                 _shootingTimer = 0;
             }
-          
-           // Direction.X = 10f;
-           // Direction.Y = 25f;
+
+            // Direction.X = 10f;
+            // Direction.Y = 25f;
+
         }
 
         //public new void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)

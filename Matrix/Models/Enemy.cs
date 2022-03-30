@@ -134,6 +134,7 @@ namespace Matrix.Models
             bomb.LinearVelocity = 0.07f;
             bomb.LifeSpan = 4f;
             bomb.Parent = this;
+            bomb.Velocity = new Vector2(Speed, 0f);
 
             sprites.Add(bomb);
         }

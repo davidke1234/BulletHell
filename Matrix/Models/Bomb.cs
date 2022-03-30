@@ -48,7 +48,11 @@ namespace Matrix.Models
             if (_timer >= LifeSpan)
                 this.IsRemoved = true;
 
+            Direction.X = 10f;
+            Direction.Y = 25f;
+
             Position += Direction * LinearVelocity;
+
         }
     }
 }
