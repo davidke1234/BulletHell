@@ -10,90 +10,24 @@ namespace Matrix
     static class EnemyManager
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-
-        static Texture2D _bulletOrange;
-        static Texture2D _BulletBomb;
-        static Texture2D _BulletBomb2;
-        static Texture2D _enemyButterfly;
-        static Texture2D _enemyMidBoss;
-        static Texture2D _enemyFinalBoss;
-        static Random _random = new Random();
+      
         static List<Spawner> enemiesPhase1 = new List<Spawner>();
         static List<Spawner> enemiesPhase2 = new List<Spawner>();
         static List<Spawner> enemiesPhase3 = new List<Spawner>();
         static List<Spawner> enemiesPhase4 = new List<Spawner>();
         static EnemyFactory enemyFactory = new EnemyFactory();
 
-        public static Bullet Bullet { get; set; }
-
-        static EnemyManager()
-        {
-           
-            _enemyMidBoss = Arts.Boss2;
-            _enemyFinalBoss = Arts.Boss;
-            _bulletOrange = Arts.BulletOrange;
-            _BulletBomb = Arts.Bomb;
-            _BulletBomb2 = Arts.Bomb2;
-        }
-
-        public static Enemy GetEnemy(Texture2D texture, float x, float y)
-        {
-            var e = new Enemy(texture);
-            string name = texture.Name.ToLower();
-
-            {
-                if (name.Contains("boss2"))
-                    Bullet = new Bullet(_BulletBomb);
-                else if (name.Contains("boss"))
-                    Bullet = new Bullet(_BulletBomb2);
-            }
-
-            e.Bullet = Bullet;
-            e.Position = new Vector2(x, y);
-            e.Speed = 2 + (float)_random.NextDouble();
-            e.TimerStart = 1.5f + (float)_random.NextDouble();
-            e.LifeSpan = 5;
-
-            if (name == "boss")
-            {//finalboss
-                e.LifeSpan = 5;
-                e.Health = 15;
-            }
-            else if (name == "boss2")
-            { //midboss
-                e.LifeSpan = 5;
-                e.Health = 10;
-            }
-
-            _logger.Info("Build enemy: " + e.Name);
-
-            return e;
-        }
-
         public static Enemy GetEnemy(Enemy.Type type)
         {
             Enemy enemy = null;
-            Texture2D texture = null;
-
-            float xFactor = 0;
-            float yFactor = 0;
-
-            //Set initial starting x,y
-            if (type == Enemy.Type.Boss || type == Enemy.Type.FinalBoss)
-            {
-                xFactor = -40;
-                yFactor = 80;
-            }
-            
+                        
             if (type == Enemy.Type.FinalBoss)
             {
-                texture = _enemyFinalBoss;
-                enemy = GetEnemy(texture, xFactor, yFactor);
+                enemy = (Enemy)enemyFactory.Create("finalBoss", Enemy.Type.FinalBoss);
             }
             else if (type == Enemy.Type.Boss)
             {
-                texture = _enemyMidBoss;
-                enemy = GetEnemy(texture, xFactor, yFactor);
+                enemy = (Enemy)enemyFactory.Create("boss", Enemy.Type.Boss);
             }
             else if (type == Enemy.Type.ButterFlyEnemies)
             {

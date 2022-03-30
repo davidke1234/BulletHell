@@ -30,19 +30,33 @@ namespace Matrix.Models
             _texture = texture;
             Name = texture.Name;
 
-            if (basicEnemyType == Type.ButterFlyEnemies)
+             if (basicEnemyType == Type.BasicEnemies)
+            {
+                Health = 1;
+                Position.X = 70;
+                Position.Y = 10;
+                Bullet = (Bullet)projectileFactory.Create("bullet");
+            }
+            else if (basicEnemyType == Type.ButterFlyEnemies)
             {
                 Health = 5;
                 Position.X = 70;
                 Position.Y = 40;
                 Bullet = (Bullet)projectileFactory.Create("orangeBullet");
             }
-            else // (basicEnemyType == Type.BasicEnemies)
+            else if (basicEnemyType == Type.Boss)
             {
-                Health = 1;
+                Health = 10;
                 Position.X = 70;
-                Position.Y = 10;
-                Bullet = (Bullet)projectileFactory.Create("bullet");
+                Position.Y = 60;
+                Bomb = (Bomb)projectileFactory.Create("bomb");
+            }
+            else if (basicEnemyType == Type.FinalBoss)
+            {
+                Health = 15;
+                Position.X = 70;
+                Position.Y = 60;
+                Bomb = (Bomb)projectileFactory.Create("bomb2");
             }
 
             LifeSpan = 5;

@@ -9,6 +9,7 @@ namespace Matrix.Models
     public class Enemy : Sprite, ICollidable
     {
         public Bullet Bullet;
+        public Bomb Bomb;
         private float _shootingTimer;
         public float TimerStart = 1.25f;
         public float Speed = 2f;
@@ -37,20 +38,26 @@ namespace Matrix.Models
 
             if (_shootingTimer >= TimerStart)
             {
-                if (name == "boss")
+                if (name == "boss") //finalboss
                 {
-                    DropBullet(sprites, new Vector2(15, 15));
-                    DropBullet(sprites, new Vector2(-20, -20));
-                    DropBullet(sprites, new Vector2(0, 0));
+                    if (ShouldShoot(gameTime, 2))
+                    {
+                        DropBomb(sprites, new Vector2(15, 15), "bomb2", Enemy.Type.FinalBoss);
+                        DropBomb(sprites, new Vector2(-20, -20), "bomb2", Enemy.Type.FinalBoss);
+                        DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
+                    }
                 }
-                else if (name == "boss2")
+                else if (name == "boss2")  //midboss
                 {
-                    DropBullet(sprites, new Vector2(5, 5));
-                    DropBullet(sprites, new Vector2(0, 0));
+                    if (ShouldShoot(gameTime, 2))
+                    {
+                        DropBomb(sprites, new Vector2(5, 5), "bomb", Enemy.Type.Boss);
+                        DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
+                    }
                 }
                 else
                 {
-                    if (ShouldShoot(gameTime))
+                    if (ShouldShoot(gameTime, 2))
                     {
                         DropBullet(sprites, new Vector2(-1, -1));
                     }
@@ -92,13 +99,13 @@ namespace Matrix.Models
             }
         }
 
-        private bool ShouldShoot(GameTime gameTime)
+        private bool ShouldShoot(GameTime gameTime, int addSeconds)
         {
-            //This limits bullets to 1 per 3 sec
+            //This limits bullets 
             bool shouldShoot = false;
             double second = Math.Round(gameTime.TotalGameTime.TotalSeconds, 0);
 
-            if (second > _lastShotSecond + 2)
+            if (second > _lastShotSecond + addSeconds)
             {
                 _lastShotSecond = second;
                 shouldShoot = true;
@@ -119,13 +126,13 @@ namespace Matrix.Models
             sprites.Add(bullet);
         }
 
-        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection)
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
         {
-            var bomb = _projectileFactory.Create("bomb", Enemy.Type.Boss);
+            var bomb = _projectileFactory.Create(bombName, enemyType);
             bomb.Direction = Direction + extraDirection;
             bomb.Position = Position;
-            bomb.LinearVelocity = 0.05f;
-            bomb.LifeSpan = 6f;
+            bomb.LinearVelocity = 0.07f;
+            bomb.LifeSpan = 4f;
             bomb.Parent = this;
 
             sprites.Add(bomb);

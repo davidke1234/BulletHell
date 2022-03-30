@@ -12,15 +12,19 @@ namespace Matrix
     {
         public override Sprite Create(string name, Enemy.Type? basicEnemyType)
         {
-            switch(name.ToLower())
-            {
-                case "basicenemy":
-                    return GetBasicEnemyType(basicEnemyType);
-                case "butterflyenemy":
-                    return GetBasicEnemyType(basicEnemyType);
-                default:
-                    throw new Exception("Invalid object type requested");
-            }
+            return GetBasicEnemyType(basicEnemyType);
+
+            //switch (name.ToLower())
+            //{
+            //    case "basicenemy":
+            //        return GetBasicEnemyType(basicEnemyType);
+            //    case "butterflyenemy":
+            //        return GetBasicEnemyType(basicEnemyType);
+            //    case "boss":
+            //        return GetBasicEnemyType(basicEnemyType);
+            //    default:
+            //        throw new Exception("Invalid object type requested");
+            //}
         }
 
         private Enemy GetBasicEnemyType(Enemy.Type? typeOfBasicEnemy)
@@ -37,11 +41,11 @@ namespace Matrix
                     }
                 case Enemy.Type.Boss:
                     {
-                        return new BasicEnemy(Arts.EnemyBlack, Enemy.Type.Boss);
+                        return new BasicEnemy(Arts.Boss2, Enemy.Type.Boss);
                     }
                 case Enemy.Type.FinalBoss:
                     {
-                        return new BasicEnemy(Arts.EnemyBlack, Enemy.Type.FinalBoss);
+                        return new BasicEnemy(Arts.Boss, Enemy.Type.FinalBoss);
                     }
                 default:
                     throw new ArgumentException("The provided type does not exist.");
