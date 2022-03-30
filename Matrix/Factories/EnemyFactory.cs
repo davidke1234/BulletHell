@@ -1,4 +1,5 @@
 ﻿using Matrix.Models;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,8 @@ namespace Matrix
             {
                 case Enemy.Type.BasicEnemies:
                     {
-                        return new BasicEnemy(Arts.EnemyBlack, Enemy.Type.BasicEnemies);
+
+                        return new BasicEnemy(GetRandomTexture(), Enemy.Type.BasicEnemies);
                     }
                 case Enemy.Type.ButterFlyEnemies:
                     {
@@ -46,6 +48,19 @@ namespace Matrix
                 default:
                     throw new ArgumentException("The provided type does not exist.");
             }
+        }
+
+        private Texture2D GetRandomTexture()
+        {
+            Random random = new Random();
+            List<Texture2D> textures = new List<Texture2D>()
+            {
+                Arts.EnemyBlack,
+                Arts.EnemyBlood,
+                Arts.EnemyBlue,
+                Arts.EnemyGreen,
+            };
+            return textures[random.Next(0, textures.Count)];
         }
     }
 }

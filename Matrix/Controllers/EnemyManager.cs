@@ -13,11 +13,6 @@ namespace Matrix
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
-        static List<Texture2D> _textures;
-        static Texture2D _bulletRed;
-        static Texture2D _bulletBlue;
-        static Texture2D _bulletBlack;
-        static Texture2D _bulletGreen;
         static Texture2D _bulletOrange;
         static Texture2D _BulletBomb;
         static Texture2D _BulletBomb2;
@@ -35,21 +30,9 @@ namespace Matrix
 
         static EnemyManager()
         {
-            _textures = new List<Texture2D>()
-            {
-                Arts.EnemyBlack,
-                Arts.EnemyBlood,
-                Arts.EnemyBlue,
-                Arts.EnemyGreen,
-            };
-
             _enemyButterfly = Arts.EnemyButterfly;
             _enemyMidBoss = Arts.Boss2;
             _enemyFinalBoss = Arts.Boss;
-            _bulletRed = Arts.BulletRed;
-            _bulletBlue = Arts.BulletBlue;
-            _bulletBlack = Arts.BulletBlack;
-            _bulletGreen = Arts.BulletGreen;
             _bulletOrange = Arts.BulletOrange;
             _BulletBomb = Arts.Bomb;
             _BulletBomb2 = Arts.Bomb2;
@@ -60,23 +43,13 @@ namespace Matrix
             var e = new Enemy(texture);
             string name = texture.Name.ToLower();
 
-            {
-                if (name.Contains("blood"))
-                    Bullet = new Bullet(_bulletRed);
-                else if (name.Contains("blue"))
-                    Bullet = new Bullet(_bulletBlue);
-                else if (name.Contains("black"))
-                    Bullet = new Bullet(_bulletBlack);
-                else if (name.Contains("green"))
-                    Bullet = new Bullet(_bulletGreen);
-                else if (name.Contains("grumpbird"))
+            {           
+                if (name.Contains("grumpbird"))
                     Bullet = new Bullet(_bulletOrange);
                 else if (name.Contains("boss2"))
                     Bullet = new Bullet(_BulletBomb);
                 else if (name.Contains("boss"))
                     Bullet = new Bullet(_BulletBomb2);
-                else
-                    Bullet = new Bullet(_bulletBlack);
             }
 
             e.Bullet = Bullet;
@@ -134,7 +107,7 @@ namespace Matrix
                 yFactor = -80;
             }
 
-            Texture2D texture;
+            Texture2D texture = null;
 
             if (type == Enemy.Type.FinalBoss)
             {
@@ -148,13 +121,13 @@ namespace Matrix
             {
                 texture = _enemyButterfly;
             }
-            else
-            {
-                //Type A
-                xFactor += 30;
-                yFactor += 90;
-                texture = _textures[_random.Next(0, _textures.Count)];
-            }
+            //else
+            //{
+            //    //Type A
+            //    xFactor += 30;
+            //    yFactor += 90;
+            //    texture = _textures[_random.Next(0, _textures.Count)];
+            //}
             Enemy enemy = null;
 
             if (type == Enemy.Type.BasicEnemies)
@@ -174,7 +147,7 @@ namespace Matrix
         {
             if (enemiesPhase1.Count == 0)
             {
-                for (int i = 1; i < 10; i++)
+                for (int i = 1; i < 9; i++)
                 {
                     enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = i });
                 }
@@ -186,8 +159,8 @@ namespace Matrix
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.ButterFlyEnemies, SpawnSeconds = 20 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 22 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 23 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 25 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 26 });
+                //enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 25 });
+                //enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 26 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 27 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 28 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 29 });
