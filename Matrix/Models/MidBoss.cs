@@ -17,13 +17,14 @@ namespace Matrix.Models
     public class MidBoss : Enemy
     {
         private float _changePositionTimer = 5;
-        private float _timerStart = 5;
+        private float _timerStart = 1.25f; // 5;
+        private float _shootingTimer;
         float shoot = 0;
-        public Sprite bomb;
-        public List<Sprite> bombs = new List<Sprite>();
-        public int Health;
+        public Bomb bomb;
+        public List<Bomb> bombs = new List<Bomb>();
+        public new int Health;
         private static MidBoss MidBossInstance = null;
-        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+        private static ProjectileFactory _projectileFactory = new ProjectileFactory();
 
         /// <summary>
         /// Returns a singleton instance of midboss
@@ -45,14 +46,23 @@ namespace Matrix.Models
         /// Initializes an instance of <see cref="MidBoss"/> class.
         /// </summary>
         /// <param name="texture"></param>
-        private MidBoss(Texture2D texture): base(texture)
+        public MidBoss(Texture2D texture): base(texture)
         {
-            Position = new Vector2(Game1.Viewport.Width / 2, 50);
+            //Position = new Vector2(Game1.Viewport.Width / 2, 50);
             Health = 15;
-            //bomb = new Bomb(Arts.Bomb);
-            bomb = projectileFactory.Create("bomb", Enemy.Type.Boss);
+            Position.X = 70;
+            Position.Y = 60;
+            Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.Boss);
+            //Bullet = (Bullet)_projectileFactory.Create("bullet");
             bombs.Add(bomb);
 
+            LifeSpan = 5;
+            Speed = 2.65f;
+            Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+
+            Colour = Color.White;
+            TextureData = new Color[_texture.Width * _texture.Height];
+            _texture.GetData(TextureData);
         }
 
         public void UpdateBombs()
@@ -81,22 +91,22 @@ namespace Matrix.Models
             }
         }
 
-        public void ShootBombs(List<Sprite> sprites)
-        {            
-            bomb.Velocity.Y = this.Velocity.Y + 6f;
-            bomb.Position = this.Position;
-            bomb.Direction = this.Direction;
-            bomb.Parent = this;
+        //public void ShootBombs(List<Sprite> sprites)
+        //{            
+        //    bomb.Velocity.Y = this.Velocity.Y + 6f;
+        //    bomb.Position = this.Position;
+        //    bomb.Direction = this.Direction;
+        //    bomb.Parent = this;
 
-            if (bombs.Count() < 3)
-            {
-                bombs.Add((Bomb)bomb);
-            }
-            if(!sprites.Contains(bomb))
-            {
-                sprites.Add(bomb);
-            }
-        }        
+        //    if (bombs.Count() < 3)
+        //    {
+        //        bombs.Add((Bomb)bomb);
+        //    }
+        //    if(!sprites.Contains(bomb))
+        //    {
+        //        sprites.Add(bomb);
+        //    }
+        //}        
 
         /// <summary>
         /// <inheritdoc/>
@@ -105,6 +115,9 @@ namespace Matrix.Models
         {
             float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _changePositionTimer -= elasped;
+
+            _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             if (_changePositionTimer < 0)
             {
                 Position.X = _random.Next(50, 600);
@@ -113,34 +126,54 @@ namespace Matrix.Models
                 _changePositionTimer = _timerStart;
             }
 
+            if (_shootingTimer >= LifeSpan)
+                this.IsRemoved = true;
+
             if (Position.X > Game1.Viewport.Width)
             {
                 Position.X = 0;
             }
 
             //shoot += elasped;
-            //if (shoot > 1)
-            //{
-            //    shoot = 0;
-            //    //ShootBombs(sprites);
-            //    DropBomb(sprites, new Vector2(5, 5));
-            //    DropBomb(sprites, new Vector2(0, 0));
-            //}
+            //        if (shoot > 1)
+            if (_shootingTimer >= TimerStart)
+            {
+                //shoot = 0;
+                //ShootBombs(sprites);
+                DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
+                //DropBullet(sprites, new Vector2(-1, -1));
+                //Position += Velocity;
+                _shootingTimer = 0;
+            }
+          
+           // Direction.X = 10f;
+           // Direction.Y = 25f;
+        }
 
-            string name = _texture.Name.ToLower();
+        //public new void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
+        //{
+        //    var bomb = _projectileFactory.Create(bombName, enemyType);
+        //    bomb.Direction = Direction + extraDirection;
+        //    bomb.Position = Position;
+        //    //bomb.LinearVelocity = 1f;
+        //    bomb.LinearVelocity = this.LinearVelocity * 1.1f;
+        //    bomb.LifeSpan = 4f;
+        //    bomb.Parent = this;
+        //    bomb.Velocity = new Vector2(5, 5);
 
-            if (elasped >= LifeSpan)
-                this.IsRemoved = true;
+        //    sprites.Add(bomb);
+        //}
 
-           // if (elasped >= TimerStart)
-            //{
-               // DropBullet(sprites, new Vector2(5, 5));
-               // DropBullet(sprites, new Vector2(0, 0));
-                elasped = 0;
-           // }
-            
-          //  Direction.X = 10f;
-          //  Direction.Y = 25f;
+        public new void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
+        {
+            var bullet = Bullet.Clone() as Bullet;
+            bullet.Direction = Direction + extraDirection;
+            bullet.Position = Position;
+            bullet.LinearVelocity = 0.07f;
+            bullet.LifeSpan = 5f;
+            bullet.Parent = this;
+
+            sprites.Add(bullet);
         }
 
         // Boss Movement Patterns
@@ -152,7 +185,7 @@ namespace Matrix.Models
             }
         }
 
-        public void OnCollide(Sprite sprite)
+        public new void OnCollide(Sprite sprite)
         {
             if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
             {

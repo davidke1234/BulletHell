@@ -41,11 +41,11 @@ namespace Matrix
                     }
                 case Enemy.Type.Boss:
                     {
-                        return new BasicEnemy(Arts.Boss2, Enemy.Type.Boss);
+                        return new MidBoss(Arts.Boss2);
                     }
                 case Enemy.Type.FinalBoss:
                     {
-                        return new BasicEnemy(Arts.Boss, Enemy.Type.FinalBoss);
+                        return new FinalBoss(Arts.Boss);
                     }
                 default:
                     throw new ArgumentException("The provided type does not exist.");
