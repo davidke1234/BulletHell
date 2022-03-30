@@ -20,7 +20,7 @@ namespace Matrix.Models
         float shoot = 0;
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
-        public new int Health;
+        //public new int Health;
         private static FinalBoss FinalBossInstance = null;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
 
@@ -46,11 +46,7 @@ namespace Matrix.Models
         /// <param name="texture"></param>
         public FinalBoss(Texture2D texture) : base(texture)
         {
-            //Position = new Vector2(Game1.Viewport.Width, 50);
-            //bomb = new Bomb(Arts.Bomb2);
-            //Name = "finalboss";
-            //Health = 150;
-            Health = 15;
+            Health = 10;
             Position.X = 70;
             Position.Y = 60;
             bomb = (Bomb) _projectileFactory.Create("bomb2", Enemy.Type.FinalBoss);
@@ -108,28 +104,24 @@ namespace Matrix.Models
         //    }
         //}
 
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
+        {
+            var bomb = _projectileFactory.Create(bombName, enemyType);
+            bomb.Direction = Direction + extraDirection;
+            bomb.Position = Position;
+            bomb.LinearVelocity = 0.07f;
+            bomb.LifeSpan = 4f;
+            bomb.Parent = this;
+            bomb.Velocity = new Vector2(Speed, 0f);
+
+            sprites.Add(bomb);
+        }
+
         /// <summary>
         /// <inheritdoc/>
         /// </summary>
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
-            //float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            //Position.X -= 60.0f * elasped;
-            //if (Position.X > Game1.Viewport.Width)
-            //{
-            //    Position.X = 0;
-            //}
-
-            //shoot += elasped;
-            //if (shoot > 1)
-            //{
-            //    shoot = 0;
-            //    ShootBombs(sprites);
-            //}
-
-            //UpdateBombs();
-
-            //Copied from midboss
             float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _changePositionTimer -= elasped;
 

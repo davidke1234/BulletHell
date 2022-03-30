@@ -38,24 +38,24 @@ namespace Matrix.Models
 
             if (_shootingTimer >= TimerStart)
             {
-                if (name == "boss") //finalboss
-                {
-                    if (ShouldShoot(gameTime, 2))
-                    {
-                        DropBomb(sprites, new Vector2(15, 15), "bomb2", Enemy.Type.FinalBoss);
-                        DropBomb(sprites, new Vector2(-20, -20), "bomb2", Enemy.Type.FinalBoss);
-                        DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
-                    }
-                }
-                else if (name == "boss2")  //midboss
-                {
-                    if (ShouldShoot(gameTime, 2))
-                    {
-                        DropBomb(sprites, new Vector2(5, 5), "bomb", Enemy.Type.Boss);
-                        DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
-                    }
-                }
-                else
+                //if (name == "boss") //finalboss
+                //{
+                //    if (ShouldShoot(gameTime, 2))
+                //    {
+                //        DropBomb(sprites, new Vector2(15, 15), "bomb2", Enemy.Type.FinalBoss);
+                //        DropBomb(sprites, new Vector2(-20, -20), "bomb2", Enemy.Type.FinalBoss);
+                //        DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
+                //    }
+                //}
+                //else if (name == "boss2")  //midboss
+                //{
+                //    if (ShouldShoot(gameTime, 2))
+                //    {
+                //        DropBomb(sprites, new Vector2(5, 5), "bomb", Enemy.Type.Boss);
+                //        DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
+                //    }
+                //}
+                //else
                 {
                     if (ShouldShoot(gameTime, 2))
                     {
@@ -124,19 +124,6 @@ namespace Matrix.Models
             bullet.Parent = this;
             
             sprites.Add(bullet);
-        }
-
-        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
-        {
-            var bomb = _projectileFactory.Create(bombName, enemyType);
-            bomb.Direction = Direction + extraDirection;
-            bomb.Position = Position;
-            bomb.LinearVelocity = 0.07f;
-            bomb.LifeSpan = 4f;
-            bomb.Parent = this;
-            bomb.Velocity = new Vector2(Speed, 0f);
-
-            sprites.Add(bomb);
         }
 
         public void OnCollide(Sprite sprite)

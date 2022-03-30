@@ -2,9 +2,6 @@
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using static Matrix.Models.Enemy;
 
 namespace Matrix
 {
@@ -13,18 +10,6 @@ namespace Matrix
         public override Sprite Create(string name, Enemy.Type? basicEnemyType)
         {
             return GetBasicEnemyType(basicEnemyType);
-
-            //switch (name.ToLower())
-            //{
-            //    case "basicenemy":
-            //        return GetBasicEnemyType(basicEnemyType);
-            //    case "butterflyenemy":
-            //        return GetBasicEnemyType(basicEnemyType);
-            //    case "boss":
-            //        return GetBasicEnemyType(basicEnemyType);
-            //    default:
-            //        throw new Exception("Invalid object type requested");
-            //}
         }
 
         private Enemy GetBasicEnemyType(Enemy.Type? typeOfBasicEnemy)

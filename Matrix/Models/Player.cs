@@ -44,7 +44,7 @@ namespace Matrix.Models
             else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 AdjustHealth();
 
-            else if (sprite is Bomb && (((Bomb)sprite).Parent is BasicEnemy || ((Bomb)sprite).Parent is BasicEnemy))
+            else if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
                 AdjustHealth();
 
             //If player collides with enemy

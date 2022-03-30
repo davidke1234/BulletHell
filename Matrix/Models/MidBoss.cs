@@ -22,7 +22,7 @@ namespace Matrix.Models
         float shoot = 0;
         public Bomb bomb;
         public List<Bomb> bombs = new List<Bomb>();
-        public new int Health;
+        //public new int Health;
         private static MidBoss MidBossInstance = null;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
 
@@ -49,7 +49,7 @@ namespace Matrix.Models
         public MidBoss(Texture2D texture): base(texture)
         {
             //Position = new Vector2(Game1.Viewport.Width / 2, 50);
-            Health = 15;
+            Health = 7;
             Position.X = 70;
             Position.Y = 60;
             Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.Boss);
@@ -151,19 +151,18 @@ namespace Matrix.Models
 
         }
 
-        //public new void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
-        //{
-        //    var bomb = _projectileFactory.Create(bombName, enemyType);
-        //    bomb.Direction = Direction + extraDirection;
-        //    bomb.Position = Position;
-        //    //bomb.LinearVelocity = 1f;
-        //    bomb.LinearVelocity = this.LinearVelocity * 1.1f;
-        //    bomb.LifeSpan = 4f;
-        //    bomb.Parent = this;
-        //    bomb.Velocity = new Vector2(5, 5);
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
+        {
+            var bomb = _projectileFactory.Create(bombName, enemyType);
+            bomb.Direction = Direction + extraDirection;
+            bomb.Position = Position;
+            bomb.LinearVelocity = 0.07f;
+            bomb.LifeSpan = 4f;
+            bomb.Parent = this;
+            bomb.Velocity = new Vector2(Speed, 0f);
 
-        //    sprites.Add(bomb);
-        //}
+            sprites.Add(bomb);
+        }
 
         public new void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
         {
