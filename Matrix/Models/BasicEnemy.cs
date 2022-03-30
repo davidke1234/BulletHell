@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Models.Factories;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,8 @@ namespace Matrix.Models
 {
     public class BasicEnemy : Enemy
     {
+        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+
         public BasicEnemy(Texture2D texture) : base(texture)
         {
             _texture = texture;
@@ -26,12 +29,24 @@ namespace Matrix.Models
         {
             _texture = texture;
             Name = texture.Name;
-            Health = 1;
+
+            if (basicEnemyType == Type.ButterFlyEnemies)
+            {
+                Health = 5;
+                Position.X = 70;
+                Position.Y = 40;
+                Bullet = (Bullet)projectileFactory.Create("orangeBullet");
+            }
+            else // (basicEnemyType == Type.BasicEnemies)
+            {
+                Health = 1;
+                Position.X = 70;
+                Position.Y = 10;
+                Bullet = (Bullet)projectileFactory.Create("bullet");
+            }
+
             LifeSpan = 5;
-            Position.X = 70;
-            Position.Y = 10;
-            Speed = 2.65f;
-            Bullet = GetBullet(Name);
+            Speed = 2.65f;            
 
             // The default origin in the centre of the sprite
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
@@ -40,30 +55,6 @@ namespace Matrix.Models
 
             TextureData = new Color[_texture.Width * _texture.Height];
             _texture.GetData(TextureData);
-        }
-
-        private Bullet GetBullet(string name)
-        {
-            Bullet bullet;
-
-            if (name.Contains("blood"))
-                bullet = new Bullet(Arts.BulletRed);
-            else if (name.Contains("blue"))
-                bullet = new Bullet(Arts.BulletBlue);
-            else if (name.Contains("black"))
-                bullet = new Bullet(Arts.BulletBlack);
-            else if (name.Contains("green"))
-                bullet = new Bullet(Arts.BulletGreen);
-            else if (name.Contains("grumpbird"))
-                bullet = new Bullet(Arts.BulletOrange);
-            else if (name.Contains("boss2"))
-                bullet = new Bullet(Arts.Bomb);
-            else if (name.Contains("boss"))
-                bullet = new Bullet(Arts.Bomb2);
-            else
-                bullet = new Bullet(Arts.BulletBlack);
-                    
-            return bullet;
         }
     }
 }

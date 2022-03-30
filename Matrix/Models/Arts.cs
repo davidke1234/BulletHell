@@ -23,7 +23,6 @@ namespace Matrix.Models
         public static Texture2D EnemyBlack;
         public static Texture2D EnemyBlue;
         public static Texture2D EnemyButterfly;
-        public static Texture2D EnemyGrumpBird;
         public static Texture2D BulletRed;
         public static Texture2D BulletBlue;
         public static Texture2D BulletBlack;

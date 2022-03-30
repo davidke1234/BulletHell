@@ -1,7 +1,5 @@
 ﻿using Matrix.Models;
-using Matrix.Sprites;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using NLog;
 using System;
@@ -30,7 +28,7 @@ namespace Matrix
 
         static EnemyManager()
         {
-            _enemyButterfly = Arts.EnemyButterfly;
+           
             _enemyMidBoss = Arts.Boss2;
             _enemyFinalBoss = Arts.Boss;
             _bulletOrange = Arts.BulletOrange;
@@ -43,10 +41,8 @@ namespace Matrix
             var e = new Enemy(texture);
             string name = texture.Name.ToLower();
 
-            {           
-                if (name.Contains("grumpbird"))
-                    Bullet = new Bullet(_bulletOrange);
-                else if (name.Contains("boss2"))
+            {
+                if (name.Contains("boss2"))
                     Bullet = new Bullet(_BulletBomb);
                 else if (name.Contains("boss"))
                     Bullet = new Bullet(_BulletBomb2);
@@ -68,10 +64,6 @@ namespace Matrix
                 e.LifeSpan = 5;
                 e.Health = 10;
             }
-            else if (name == "grumpbird")
-                e.Health = 5;
-            else
-                e.Health = 1;
 
             _logger.Info("Build enemy: " + e.Name);
 
@@ -80,65 +72,38 @@ namespace Matrix
 
         public static Enemy GetEnemy(Enemy.Type type)
         {
-            float xFactor;
-            float yFactor;
+            Enemy enemy = null;
+            Texture2D texture = null;
 
-            //TODO:
-            //if (type == Enemy.Type.Boss)
-            //{
-            //    return MidBoss.GetInstance;
-            //}
+            float xFactor = 0;
+            float yFactor = 0;
 
             //Set initial starting x,y
-            if (type == Enemy.Type.ButterFlyEnemies)
-            {
-                xFactor = -40;
-                yFactor = 125;
-            }
-            else if (type == Enemy.Type.Boss || type == Enemy.Type.FinalBoss)
+            if (type == Enemy.Type.Boss || type == Enemy.Type.FinalBoss)
             {
                 xFactor = -40;
                 yFactor = 80;
             }
-            else
-            {
-                //Type A
-                xFactor = 40;
-                yFactor = -80;
-            }
-
-            Texture2D texture = null;
-
+            
             if (type == Enemy.Type.FinalBoss)
             {
                 texture = _enemyFinalBoss;
+                enemy = GetEnemy(texture, xFactor, yFactor);
             }
             else if (type == Enemy.Type.Boss)
             {
                 texture = _enemyMidBoss;
+                enemy = GetEnemy(texture, xFactor, yFactor);
             }
             else if (type == Enemy.Type.ButterFlyEnemies)
             {
-                texture = _enemyButterfly;
+                enemy = (Enemy)enemyFactory.Create("butterflyenemy", Enemy.Type.ButterFlyEnemies);
             }
-            //else
-            //{
-            //    //Type A
-            //    xFactor += 30;
-            //    yFactor += 90;
-            //    texture = _textures[_random.Next(0, _textures.Count)];
-            //}
-            Enemy enemy = null;
-
-            if (type == Enemy.Type.BasicEnemies)
+            else if (type == Enemy.Type.BasicEnemies)
             {
                 enemy = (Enemy)enemyFactory.Create("basicEnemy", Enemy.Type.BasicEnemies);
             }
-            else
-            {
-                enemy = GetEnemy(texture, xFactor, yFactor);
-            }
-
+                       
             return enemy;
         }
 
@@ -147,7 +112,7 @@ namespace Matrix
         {
             if (enemiesPhase1.Count == 0)
             {
-                for (int i = 1; i < 9; i++)
+                for (int i = 1; i < 15; i++)
                 {
                     enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = i });
                 }
@@ -159,8 +124,8 @@ namespace Matrix
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.ButterFlyEnemies, SpawnSeconds = 20 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 22 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 23 });
-                //enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 25 });
-                //enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 26 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 25 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 26 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 27 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 28 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 29 });

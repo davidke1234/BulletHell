@@ -49,7 +49,7 @@ namespace Matrix.Controllers
             {
                 _spawnTimer = gameTime.TotalGameTime.TotalSeconds;
             }
-            else if (gameTime.TotalGameTime.TotalSeconds - _spawnTimer > 3)
+            else if (gameTime.TotalGameTime.TotalSeconds - _spawnTimer > 2)
             {
                 _spawnTimer = 0;
                 resetSpawning = true;

@@ -15,10 +15,9 @@ namespace Matrix
             switch(name.ToLower())
             {
                 case "basicenemy":
-                    Enemy newBasicEnemy = GetBasicEnemyType(basicEnemyType);
-                    return newBasicEnemy;
+                    return GetBasicEnemyType(basicEnemyType);
                 case "butterflyenemy":
-                    return new ButterflyEnemy(Arts.EnemyButterfly);
+                    return GetBasicEnemyType(basicEnemyType);
                 default:
                     throw new Exception("Invalid object type requested");
             }
@@ -30,12 +29,11 @@ namespace Matrix
             {
                 case Enemy.Type.BasicEnemies:
                     {
-
                         return new BasicEnemy(GetRandomTexture(), Enemy.Type.BasicEnemies);
                     }
                 case Enemy.Type.ButterFlyEnemies:
                     {
-                        return new BasicEnemy(Arts.EnemyBlack, Enemy.Type.ButterFlyEnemies);
+                        return new BasicEnemy(Arts.EnemyButterfly, Enemy.Type.ButterFlyEnemies);
                     }
                 case Enemy.Type.Boss:
                     {

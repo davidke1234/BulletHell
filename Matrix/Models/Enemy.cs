@@ -1,7 +1,7 @@
 ﻿using Matrix.Models.Factories;
-using Matrix.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Matrix.Models
@@ -12,7 +12,8 @@ namespace Matrix.Models
         private float _shootingTimer;
         public float TimerStart = 1.25f;
         public float Speed = 2f;
-        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+        private static ProjectileFactory _projectileFactory = new ProjectileFactory();
+        private double _lastShotSecond = 0;
 
         public enum Type { 
             BasicEnemies, //small grunts
@@ -48,7 +49,12 @@ namespace Matrix.Models
                     DropBullet(sprites, new Vector2(0, 0));
                 }
                 else
-                    DropBullet(sprites, new Vector2(0, 0));
+                {
+                    if (ShouldShoot(gameTime))
+                    {
+                        DropBullet(sprites, new Vector2(-1, -1));
+                    }
+                }
 
                 _shootingTimer = 0;
             }
@@ -86,21 +92,36 @@ namespace Matrix.Models
             }
         }
 
+        private bool ShouldShoot(GameTime gameTime)
+        {
+            //This limits bullets to 1 per 3 sec
+            bool shouldShoot = false;
+            double second = Math.Round(gameTime.TotalGameTime.TotalSeconds, 0);
+
+            if (second > _lastShotSecond + 2)
+            {
+                _lastShotSecond = second;
+                shouldShoot = true;
+            }
+
+            return shouldShoot;
+        } 
+
         public void DropBullet(List<Sprite> sprites, Vector2 extraDirection)
         {
             var bullet = Bullet.Clone() as Bullet;
             bullet.Direction = Direction + extraDirection;
             bullet.Position = Position;
-            bullet.LinearVelocity = 0.05f;
-            bullet.LifeSpan = 6f;
+            bullet.LinearVelocity = 0.07f;
+            bullet.LifeSpan = 5f;
             bullet.Parent = this;
-
+            
             sprites.Add(bullet);
         }
 
         public void DropBomb(List<Sprite> sprites, Vector2 extraDirection)
         {
-            var bomb = projectileFactory.Create("bomb", Enemy.Type.Boss);
+            var bomb = _projectileFactory.Create("bomb", Enemy.Type.Boss);
             bomb.Direction = Direction + extraDirection;
             bomb.Position = Position;
             bomb.LinearVelocity = 0.05f;

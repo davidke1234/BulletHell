@@ -15,6 +15,8 @@ namespace Matrix.Models.Factories
             {
                 case "bullet":
                     return new Bullet(Arts.Bullet);
+                case "orangebullet":
+                    return new Bullet(Arts.BulletOrange);
                 case "bomb":
                     return new Bomb(Arts.Bomb);
                 case "bomb2":
