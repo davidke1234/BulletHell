@@ -16,7 +16,7 @@ namespace Matrix.Models
             _texture = texture;
             Name = texture.Name;
 
-            Health = 3;
+            Health = 5;
             Position.X = 70;
             Position.Y = 40;
             Bullet = (Bullet)projectileFactory.Create("orangeBullet");

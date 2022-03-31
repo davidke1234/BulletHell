@@ -49,7 +49,7 @@ namespace Matrix.Models
         public MidBoss(Texture2D texture): base(texture)
         {
             //Position = new Vector2(Game1.Viewport.Width / 2, 50);
-            Health = 7;
+            Health = 10;
             Position.X = 70;
             Position.Y = 60;
             Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.Boss);

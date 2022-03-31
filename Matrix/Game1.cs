@@ -155,7 +155,7 @@ namespace Matrix
         protected override void Update(GameTime gameTime)
         {
             if (_gameOver)
-                CheckGameOver(gameTime, true);
+                CheckGameOver(gameTime, true, _sprites);
 
             if (!_gameStarted)
             {
@@ -204,7 +204,7 @@ namespace Matrix
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 170)  
                 {
-                    CheckGameOver(gameTime, true);
+                    CheckGameOver(gameTime, true, _sprites);
                 }
 
                 //game time is how much time has elapsed
@@ -272,14 +272,15 @@ namespace Matrix
                 base.Draw(gameTime);
             }
 
-            CheckGameOver(gameTime, false);
+            if (_sprites != null)
+                CheckGameOver(gameTime, false, _sprites);
         }
 
-        private void CheckGameOver(GameTime gameTime, bool timesUp)
+        private void CheckGameOver(GameTime gameTime, bool timesUp, List<Sprite> sprites)
         {
             string winLoss = "";
-
-            if (_player != null && (timesUp || _player.Health <= 0))
+            bool killedLastEnemy = FinalBossKilled(sprites, gameTime);
+            if (_player != null && (timesUp || _player.Health <= 0 || killedLastEnemy))
             {
                 _gameOver = true;
                 if (_gameOverTimer == 0)
@@ -301,6 +302,12 @@ namespace Matrix
                     }
                 }
             }
+        }
+
+        private bool FinalBossKilled(List<Sprite> sprites, GameTime gameTime)
+        {
+            bool finalBossKilled = sprites.Find(f => f.Name == "FinalBoss") == null && gameTime.TotalGameTime.TotalSeconds >= 130;
+            return finalBossKilled;
         }
 
         private void LoadMenuContent(ContentManager content)

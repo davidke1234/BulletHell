@@ -46,7 +46,7 @@ namespace Matrix.Models
         /// <param name="texture"></param>
         public FinalBoss(Texture2D texture) : base(texture)
         {
-            Health = 10;
+            Health = 20;
             Position.X = 70;
             Position.Y = 60;
             bomb = (Bomb) _projectileFactory.Create("bomb2", Enemy.Type.FinalBoss);
