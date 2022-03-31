@@ -17,30 +17,6 @@ namespace Matrix
         static List<Spawner> enemiesPhase4 = new List<Spawner>();
         static EnemyFactory enemyFactory = new EnemyFactory();
 
-        public static Enemy GetEnemy(Enemy.Type type)
-        {
-            Enemy enemy = null;
-                        
-            if (type == Enemy.Type.FinalBoss)
-            {
-                enemy = (Enemy)enemyFactory.Create("finalBoss", Enemy.Type.FinalBoss);
-            }
-            else if (type == Enemy.Type.Boss)
-            {
-                enemy = (Enemy)enemyFactory.Create("boss", Enemy.Type.Boss);
-            }
-            else if (type == Enemy.Type.ButterFlyEnemies)
-            {
-                enemy = (Enemy)enemyFactory.Create("butterflyenemy", Enemy.Type.ButterFlyEnemies);
-            }
-            else if (type == Enemy.Type.BasicEnemies)
-            {
-                enemy = (Enemy)enemyFactory.Create("basicEnemy", Enemy.Type.BasicEnemies);
-            }
-                       
-            return enemy;
-        }
-
         #region Phases of game - spawing enemies
         public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
         {
@@ -152,7 +128,7 @@ namespace Matrix
                 //Check if a certain enemy should be sent to view based on time
                 Spawner spawner = spawnedEnemies.Find(e => e.SpawnSeconds == gameSecond);
                 if (spawner != null)
-                    enemies.Add(GetEnemy(spawner.EnemyType));
+                    enemies.Add(enemyFactory.Create(spawner.EnemyType));
             }
 
             return enemies;

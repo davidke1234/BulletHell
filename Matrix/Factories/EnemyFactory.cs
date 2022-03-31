@@ -9,10 +9,10 @@ namespace Matrix
     {
         public override Sprite Create(string name, Enemy.Type? basicEnemyType)
         {
-            return GetBasicEnemyType(basicEnemyType);
+            return Create(basicEnemyType);
         }
 
-        private Enemy GetBasicEnemyType(Enemy.Type? typeOfBasicEnemy)
+        public Enemy Create(Enemy.Type? typeOfBasicEnemy)
         {
             switch (typeOfBasicEnemy)
             {
