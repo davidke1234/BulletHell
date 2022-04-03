@@ -91,7 +91,7 @@ namespace Matrix
             _background = Arts.Stars;
 
             var song1 = Arts.Song1;
-            MediaPlayer.Play(song1);
+            //MediaPlayer.Play(song1);
             Sounds.Load(content);
 
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
@@ -181,25 +181,25 @@ namespace Matrix
                 // Phase 1
                 if (gameTime.TotalGameTime.TotalSeconds < 40)
                 {
-                    _sprites.AddRange(EnemyManager.GetEnemyPhase1(gameTime));
+                    EnemyManager.GetEnemyPhase1(gameTime, _sprites);
                 }
 
                 // Phase 2
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
                 {
-                    _sprites.AddRange(EnemyManager.GetEnemyPhase2(gameTime));
+                    EnemyManager.GetEnemyPhase2(gameTime, _sprites);
                 }
 
                 // Phase 3
                 if (gameTime.TotalGameTime.TotalSeconds >= 80)
                 {
-                    _sprites.AddRange(EnemyManager.GetEnemyPhase3(gameTime));
+                    EnemyManager.GetEnemyPhase3(gameTime, _sprites);
                 }
 
                 //Phase 4
                 if (gameTime.TotalGameTime.TotalSeconds >= 120)
                 {
-                    _sprites.AddRange(EnemyManager.GetEnemyPhase4(gameTime));
+                    EnemyManager.GetEnemyPhase4(gameTime, _sprites);
                 }
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 170)  

@@ -17,8 +17,10 @@ namespace Matrix
         static List<Spawner> enemiesPhase4 = new List<Spawner>();
         static EnemyFactory enemyFactory = new EnemyFactory();
 
+        public static List<Enemy> Enemies = new List<Enemy>();
+
         #region Phases of game - spawing enemies
-        public static IEnumerable<Sprite> GetEnemyPhase1(GameTime gameTime)
+        public static void GetEnemyPhase1(GameTime gameTime, List<Sprite> _sprites)
         {
             if (enemiesPhase1.Count == 0)
             {
@@ -40,10 +42,10 @@ namespace Matrix
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 36 });
             }
 
-            return LoadEnemiesIntoPhase(gameTime, enemiesPhase1);
+            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase1));
         }
 
-        public static IEnumerable<Sprite> GetEnemyPhase2(GameTime gameTime)
+        public static void GetEnemyPhase2(GameTime gameTime, List<Sprite> _sprites)
         {
             if (enemiesPhase2.Count == 0)
             {
@@ -73,10 +75,10 @@ namespace Matrix
                 enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 79 });
             }
 
-            return LoadEnemiesIntoPhase(gameTime, enemiesPhase2);
-        }    
+            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase2));
+        }
 
-        public static IEnumerable<Sprite> GetEnemyPhase3(GameTime gameTime)
+        public static void GetEnemyPhase3(GameTime gameTime, List<Sprite> _sprites)
         {
             if (enemiesPhase3.Count == 0)
             {
@@ -100,24 +102,24 @@ namespace Matrix
                 enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 116});
             }
 
-            return LoadEnemiesIntoPhase(gameTime, enemiesPhase3);
+            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase3));
         }
 
-        public static IEnumerable<Sprite> GetEnemyPhase4(GameTime gameTime)
+        public static void GetEnemyPhase4(GameTime gameTime, List<Sprite> _sprites)
         {
             if (enemiesPhase4.Count == 0)
             {
                 enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.FinalBoss, SpawnSeconds = 121 });
            }
 
-            return LoadEnemiesIntoPhase(gameTime, enemiesPhase4);
+            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase4));
         }
 
         private static IEnumerable<Sprite> LoadEnemiesIntoPhase(GameTime gameTime, List<Spawner> spawnedEnemies)
         {
-            List<Sprite> enemies = new List<Sprite>();
+           List<Sprite> enemies = new List<Sprite>();
 
-            //Load enemies each second
+            //If gameTime is on the second with no remainder like 1.0034434, add 1 enemy
             double gameSecond = 0;
             double returnValue = Math.Round(gameTime.TotalGameTime.TotalSeconds, 2) % 1;
 
@@ -128,8 +130,33 @@ namespace Matrix
                 //Check if a certain enemy should be sent to view based on time
                 Spawner spawner = spawnedEnemies.Find(e => e.SpawnSeconds == gameSecond);
                 if (spawner != null)
-                    enemies.Add(enemyFactory.Create(spawner.EnemyType));
+                {
+                    //  enemies.Add(enemyFactory.Create(spawner.EnemyType));
+
+                    switch (spawner.EnemyType)
+                    {
+                        case Enemy.Type.BasicEnemies:
+                            enemies.Add(enemyFactory.CreateBasicEnemy());
+                            break;
+                        case Enemy.Type.ButterFlyEnemies:
+                            enemies.Add(enemyFactory.ButterFlyEnemy());
+                            break;
+                        case Enemy.Type.Boss:
+                            enemies.Add(enemyFactory.CreatMidBossEnemy());
+                            break;
+                        case Enemy.Type.FinalBoss:
+                            enemies.Add(enemyFactory.CreateFinalBossEnemy());
+                            break;
+                        default:
+                            enemies.Add(enemyFactory.CreateBasicEnemy());
+                            break;
+                    }
+                }
+
             }
+
+            //store enemies to be used in collision detection
+            Enemies.AddRange(Enemies);
 
             return enemies;
         }

@@ -37,6 +37,25 @@ namespace Matrix
             }
         }
 
+        public Enemy CreateBasicEnemy()
+        {
+            return new BasicEnemy(GetRandomTexture(), Enemy.Type.BasicEnemies);
+        }
+        public Enemy ButterFlyEnemy()
+        {
+            return new ButterflyEnemy(Arts.EnemyButterfly);
+        }
+        public Enemy CreatMidBossEnemy()
+        {
+            return new MidBoss(Arts.Boss2);
+        }
+        public Enemy CreateFinalBossEnemy()
+        {
+            return new FinalBoss(Arts.Boss);
+        }
+
+
+
         private Texture2D GetRandomTexture()
         {
             Random random = new Random();
