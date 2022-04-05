@@ -128,15 +128,6 @@ namespace Matrix.Models
 
         public void OnCollide(Sprite sprite)
         {
-            //If the player hits an enemy, remove enemy, but score
-            if (sprite is Player && !((Player)sprite).Die)
-            {
-                GetScoreValue(sprite, 1);
-
-                // We want to remove the enemy
-                IsRemoved = true;
-            }
-
             // Hit an enemy.  Deduct 1 health point     
             if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
             {

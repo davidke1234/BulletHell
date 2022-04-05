@@ -142,7 +142,7 @@ namespace Matrix
             {
                 _finalBoss.IsRemoved = true;
                 _finalBoss.bomb.IsRemoved = true;
-            }
+            }        
         }
 
         /// <summary>
@@ -294,6 +294,10 @@ namespace Matrix
                 {
                     if (_gameOverTimer + secondsToDisplayWinLossMessage < gameTime.TotalGameTime.TotalSeconds)
                     {
+                        //Clean up
+                        SpriteManager.Sprites.Clear();
+                        EnemyManager.Enemies.Clear();
+                        
                         //Must exit the game and return to start menu
                         Program.ShouldRestart = true;
                         Exit();

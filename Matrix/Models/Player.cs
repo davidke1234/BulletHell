@@ -34,20 +34,12 @@ namespace Matrix.Models
             if (Die)
                 return;
 
-            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb")
-                AdjustHealth();
+            if (sprite.IsRemoved)
+                return;
 
-            else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy && sprite.Name == "Bomb2")
+            if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
                 AdjustHealth();
-
-            else if (sprite is Bullet && ((Bullet)sprite).Parent is Enemy)
-                AdjustHealth();
-
             else if (sprite is Bomb && (((Bomb)sprite).Parent is MidBoss || ((Bomb)sprite).Parent is FinalBoss))
-                AdjustHealth();
-
-            //If player collides with enemy
-            if (sprite is Enemy)
                 AdjustHealth();
         }
 
