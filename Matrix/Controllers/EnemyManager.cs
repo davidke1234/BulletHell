@@ -117,7 +117,8 @@ namespace Matrix
 
         private static IEnumerable<Sprite> LoadEnemiesIntoPhase(GameTime gameTime, List<Spawner> spawnedEnemies)
         {
-           List<Sprite> enemies = new List<Sprite>();
+            List<Sprite> enemies = new List<Sprite>();
+            Enemy enemy = null;
 
             //If gameTime is on the second with no remainder like 1.0034434, add 1 enemy
             double gameSecond = 0;
@@ -136,27 +137,28 @@ namespace Matrix
                     switch (spawner.EnemyType)
                     {
                         case Enemy.Type.BasicEnemies:
-                            enemies.Add(enemyFactory.CreateBasicEnemy());
+                            enemy = enemyFactory.CreateBasicEnemy();
                             break;
                         case Enemy.Type.ButterFlyEnemies:
-                            enemies.Add(enemyFactory.ButterFlyEnemy());
+                            enemy = enemyFactory.ButterFlyEnemy();
                             break;
                         case Enemy.Type.Boss:
-                            enemies.Add(enemyFactory.CreatMidBossEnemy());
+                            enemy = enemyFactory.CreatMidBossEnemy();
                             break;
                         case Enemy.Type.FinalBoss:
-                            enemies.Add(enemyFactory.CreateFinalBossEnemy());
+                            enemy = enemyFactory.CreateFinalBossEnemy();
                             break;
                         default:
-                            enemies.Add(enemyFactory.CreateBasicEnemy());
+                            enemy = enemyFactory.CreateBasicEnemy();
                             break;
                     }
+
+                    enemies.Add(enemy);
+
+                    //store enemies big list to be used in collision detection
+                   // Enemies.Add(enemy);
                 }
-
-            }
-
-            //store enemies to be used in collision detection
-            Enemies.AddRange(Enemies);
+            }         
 
             return enemies;
         }

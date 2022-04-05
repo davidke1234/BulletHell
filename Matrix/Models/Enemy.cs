@@ -34,7 +34,7 @@ namespace Matrix.Models
             string name = _texture.Name.ToLower();
 
             if (_shootingTimer >= LifeSpan)
-                this.IsRemoved = true;
+                IsRemoved = true;
 
             if (_shootingTimer >= TimerStart)
             {
@@ -70,7 +70,7 @@ namespace Matrix.Models
             Direction.Y = 25f;
 
             //If off screen, remove enemy
-            if (Position.Y < -10)
+            if (Position.Y < -10 || Position.X > 800)
                 IsRemoved = true;
 
             //B,C,D Enemies

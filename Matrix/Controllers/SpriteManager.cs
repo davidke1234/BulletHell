@@ -1,10 +1,8 @@
 ﻿using Matrix.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Matrix
 {
@@ -13,7 +11,7 @@ namespace Matrix
     /// </summary>
     static class SpriteManager
     {
-        static List<Sprite> sprites = new List<Sprite>();
+        public static List<Sprite> Sprites = new List<Sprite>();
 
         static bool isUpdating;
 
@@ -22,7 +20,7 @@ namespace Matrix
         /// <summary>
         /// The number of sprites
         /// </summary>
-        public static int Count { get { return sprites.Count; } }
+        public static int Count { get { return Sprites.Count; } }
 
         /// <summary>
         /// Adds a sprite to the sprite list 
@@ -46,7 +44,7 @@ namespace Matrix
         /// <param name="sprite"></param>
         private static void AddSprite(Sprite sprite)
         {
-            sprites.Add(sprite);
+            Sprites.Add(sprite);
         }
 
         /// <summary>
@@ -56,9 +54,9 @@ namespace Matrix
         {
             isUpdating = true;
 
-            foreach (var singleSprite in sprites)
+            foreach (var singleSprite in Sprites)
             {
-                singleSprite.Update(gameTime, sprites);
+                singleSprite.Update(gameTime, Sprites);
             }
 
             isUpdating = false;
@@ -70,7 +68,7 @@ namespace Matrix
 
             addedSprites.Clear();
 
-            sprites = sprites.Where(x => !x.IsRemoved).ToList();
+            Sprites = Sprites.Where(x => !x.IsRemoved).ToList();
         }
 
         /// <summary>
@@ -78,34 +76,42 @@ namespace Matrix
         /// </summary>
         public static void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            foreach (var sprite in sprites)
+            foreach (var sprite in Sprites)
                 sprite.Draw(gameTime, spriteBatch);
         }
 
         public static void HandleCollisions(List<Sprite> sprites)
         {
+            //Compare sprites for a possible collision
             var collidedSprites = sprites.Where(c => c is ICollidable);
 
             foreach (var sprite1 in collidedSprites)
             {
                 foreach (var sprite2 in collidedSprites)
                 {
-                    if (sprite1 == sprite2)  //same sprite so continue
-                        continue;
+                    if (ValidCollision(sprite1, sprite2))
+                    {
+                        if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
+                            continue;
 
-                    if (!sprite1.CollisionArea.Intersects(sprite2.CollisionArea))
-                        continue;
-
-                    //If the sprite is Player and is shooting this sprite as a bullet, continue
-                    if (sprite1 is Player && sprite2.Parent is Player || sprite2 is Player && sprite1.Parent is Player)
-                        continue;
-
-                    if (sprite1.Intersects(sprite2))
-                        ((ICollidable)sprite1).OnCollide(sprite2);
+                        if (sprite1.Intersects(sprite2))
+                            ((ICollidable)sprite1).OnCollide(sprite2);
+                    }
                 }
             }
         }
 
+        private static bool ValidCollision(Sprite sprite1, Sprite sprite2)
+        {
+            if ((sprite1 is Player && (sprite2 is Bullet || sprite2 is Bomb) && sprite2.Parent is Enemy) // enemy bullet hitting player
+                || ((sprite1 is Bullet || sprite1 is Bomb) && sprite2.Parent is Enemy && sprite2 is Player) // enemy bullet hitting player
+                || ((sprite1 is Bullet || sprite1 is Bomb) && sprite1.Parent is Player && sprite2 is Enemy) // player shooting enemy
+                || (sprite1 is Enemy && (sprite2 is Bullet || sprite2 is Bomb) && sprite2.Parent is Player))// player shooting enemy
+                return true;
+            else
+                return false;
+        }
+        
         public static void CleanUpRemovedSprites(List<Sprite> sprites)
         {
             //Clean up no longer needed sprites

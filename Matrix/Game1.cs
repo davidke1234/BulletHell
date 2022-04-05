@@ -30,7 +30,6 @@ namespace Matrix
 
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
-        private List<Sprite> _sprites;
         private Player _player;
         private FinalBoss _finalBoss;
         private SpriteFont _font;
@@ -96,8 +95,7 @@ namespace Matrix
 
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
             _finalBoss = FinalBoss.GetInstance;
-            _sprites = new List<Sprite>();
-            _sprites.Add(_player);
+            SpriteManager.Sprites.Add(_player);
             soundInstance = Sounds.soundEffects[0].CreateInstance();
             soundInstance.IsLooped = true;
         }
@@ -155,7 +153,7 @@ namespace Matrix
         protected override void Update(GameTime gameTime)
         {
             if (_gameOver)
-                CheckGameOver(gameTime, true, _sprites);
+                CheckGameOver(gameTime, true, SpriteManager.Sprites);
 
             if (!_gameStarted)
             {
@@ -171,7 +169,7 @@ namespace Matrix
             {
                 if (_player.Respawn)
                 {
-                    PlayerManager.Respawn(_sprites);
+                    PlayerManager.Respawn(SpriteManager.Sprites);
                     if (PlayerManager.ResetPlayer(gameTime))
                     {
                         _player.Respawn = false;
@@ -181,30 +179,30 @@ namespace Matrix
                 // Phase 1
                 if (gameTime.TotalGameTime.TotalSeconds < 40)
                 {
-                    EnemyManager.GetEnemyPhase1(gameTime, _sprites);
+                    EnemyManager.GetEnemyPhase1(gameTime, SpriteManager.Sprites);
                 }
 
                 // Phase 2
                 if (gameTime.TotalGameTime.TotalSeconds >= 40)
                 {
-                    EnemyManager.GetEnemyPhase2(gameTime, _sprites);
+                    EnemyManager.GetEnemyPhase2(gameTime, SpriteManager.Sprites);
                 }
 
                 // Phase 3
                 if (gameTime.TotalGameTime.TotalSeconds >= 80)
                 {
-                    EnemyManager.GetEnemyPhase3(gameTime, _sprites);
+                    EnemyManager.GetEnemyPhase3(gameTime, SpriteManager.Sprites);
                 }
 
                 //Phase 4
                 if (gameTime.TotalGameTime.TotalSeconds >= 120)
                 {
-                    EnemyManager.GetEnemyPhase4(gameTime, _sprites);
+                    EnemyManager.GetEnemyPhase4(gameTime, SpriteManager.Sprites);
                 }
 
                 if (gameTime.TotalGameTime.TotalSeconds >= 170)  
                 {
-                    CheckGameOver(gameTime, true, _sprites);
+                    CheckGameOver(gameTime, true, SpriteManager.Sprites);
                 }
 
                 //game time is how much time has elapsed
@@ -214,9 +212,9 @@ namespace Matrix
                     Exit();
                 }
 
-                foreach (var sprite in _sprites.ToArray())
+                foreach (var sprite in SpriteManager.Sprites.ToArray())
                 {
-                    sprite.Update(gameTime, _sprites);
+                    sprite.Update(gameTime, SpriteManager.Sprites);
                 }
 
                 PostUpdate();
@@ -227,8 +225,8 @@ namespace Matrix
 
         private void PostUpdate()
         {
-            SpriteManager.HandleCollisions(_sprites);
-            SpriteManager.CleanUpRemovedSprites(_sprites);
+            SpriteManager.HandleCollisions(SpriteManager.Sprites);
+            SpriteManager.CleanUpRemovedSprites(SpriteManager.Sprites);
         }
 
         /// <summary>
@@ -263,7 +261,7 @@ namespace Matrix
                 _spriteBatch.Begin();
                 _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
 
-                foreach (var sprite in _sprites)
+                foreach (var sprite in SpriteManager.Sprites)
                     sprite.Draw(gameTime, _spriteBatch);
 
                 PlayerManager.DrawPlayerStatus(_spriteBatch, _player);
@@ -272,8 +270,8 @@ namespace Matrix
                 base.Draw(gameTime);
             }
 
-            if (_sprites != null)
-                CheckGameOver(gameTime, false, _sprites);
+            if (SpriteManager.Sprites != null)
+                CheckGameOver(gameTime, false, SpriteManager.Sprites);
         }
 
         private void CheckGameOver(GameTime gameTime, bool timesUp, List<Sprite> sprites)
