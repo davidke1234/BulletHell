@@ -25,6 +25,7 @@ namespace Matrix.Models
         //public new int Health;
         private static MidBoss MidBossInstance = null;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
+        private double _lifeSpanTimer;
 
         /// <summary>
         /// Returns a singleton instance of midboss
@@ -56,7 +57,7 @@ namespace Matrix.Models
             //Bullet = (Bullet)_projectileFactory.Create("bullet");
             bombs.Add(bomb);
 
-            LifeSpan = 5;
+            LifeSpan = 38;
             Speed = 2.65f;
             Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
 
@@ -113,6 +114,9 @@ namespace Matrix.Models
         /// </summary>
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
+            if (_lifeSpanTimer == 0)
+                _lifeSpanTimer = gameTime.TotalGameTime.TotalSeconds;
+
             float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
             _changePositionTimer -= elasped;
 
@@ -128,6 +132,9 @@ namespace Matrix.Models
 
             if (_shootingTimer >= LifeSpan)
                 this.IsRemoved = true;
+
+            if (gameTime.TotalGameTime.TotalSeconds - _lifeSpanTimer >= LifeSpan)
+                IsRemoved = true;
 
             if (Position.X > Game1.Viewport.Width)
             {

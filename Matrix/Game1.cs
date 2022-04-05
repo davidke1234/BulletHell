@@ -157,7 +157,7 @@ namespace Matrix
         protected override void Update(GameTime gameTime)
         {
             if (_gameOver)
-                CheckGameOver(_currentTotalGameSeconds, true, SpriteManager.Sprites);
+                CheckGameOver(_currentTotalGameSeconds, SpriteManager.Sprites);
 
             if (!_gameStarted)
             {
@@ -213,7 +213,7 @@ namespace Matrix
 
                 if (_currentTotalGameSeconds >= 130)  
                 {
-                    CheckGameOver(_currentTotalGameSeconds, true, SpriteManager.Sprites);
+                    CheckGameOver(_currentTotalGameSeconds, SpriteManager.Sprites);
                 }
 
                 //game time is how much time has elapsed
@@ -281,14 +281,14 @@ namespace Matrix
             }
 
             if (SpriteManager.Sprites != null)
-                CheckGameOver(_gameStartedSeconds, false, SpriteManager.Sprites);
+                CheckGameOver(_gameStartedSeconds, SpriteManager.Sprites);
         }
 
-        private void CheckGameOver(double gameStartedSeconds, bool timesUp, List<Sprite> sprites)
+        private void CheckGameOver(double gameStartedSeconds, List<Sprite> sprites)
         {
             string winLoss = "";
             bool killedLastEnemy = FinalBossKilled(sprites, gameStartedSeconds);
-            if (_player != null && (timesUp || _player.Health <= 0 || killedLastEnemy))
+            if (_player != null && (_player.Health <= 0 || killedLastEnemy))
             {
                 _gameOver = true;
                 if (_gameOverTimer == 0)
@@ -329,7 +329,7 @@ namespace Matrix
 
         private bool FinalBossKilled(List<Sprite> sprites, double gameStartedSeconds)
         {
-            bool finalBossKilled = sprites.Find(f => f.Name == "FinalBoss") == null && gameStartedSeconds >= 130;
+            bool finalBossKilled = sprites.Find(f => f.Name == "finalboss") == null && gameStartedSeconds >= 130;
             return finalBossKilled;
         }
 
