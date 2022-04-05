@@ -20,7 +20,7 @@ namespace Matrix
         public static List<Enemy> Enemies = new List<Enemy>();
 
         #region Phases of game - spawing enemies
-        public static void GetEnemyPhase1(GameTime gameTime, List<Sprite> _sprites)
+        public static void GetEnemyPhase1(List<Sprite> _sprites, double currentStartGameSeconds)
         {
             if (enemiesPhase1.Count == 0)
             {
@@ -42,14 +42,14 @@ namespace Matrix
                 enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 36 });
             }
 
-            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase1));
+            _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase1, currentStartGameSeconds));
         }
 
-        public static void GetEnemyPhase2(GameTime gameTime, List<Sprite> _sprites)
+        public static void GetEnemyPhase2(List<Sprite> _sprites, double currentStartGameSeconds)
         {
             if (enemiesPhase2.Count == 0)
             {
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.Boss, SpawnSeconds = 40 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.MidBoss, SpawnSeconds = 40 });
                 enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 45 });
                 enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 46 });
                 enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 47 });
@@ -75,10 +75,10 @@ namespace Matrix
                 enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 79 });
             }
 
-            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase2));
+            _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase2, currentStartGameSeconds));
         }
 
-        public static void GetEnemyPhase3(GameTime gameTime, List<Sprite> _sprites)
+        public static void GetEnemyPhase3(List<Sprite> _sprites, double currentStartGameSeconds)
         {
             if (enemiesPhase3.Count == 0)
             {
@@ -102,38 +102,36 @@ namespace Matrix
                 enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 116});
             }
 
-            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase3));
+            _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase3, currentStartGameSeconds));
         }
 
-        public static void GetEnemyPhase4(GameTime gameTime, List<Sprite> _sprites)
+        public static void GetEnemyPhase4(List<Sprite> _sprites, double currentStartGameSeconds)
         {
             if (enemiesPhase4.Count == 0)
             {
                 enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.FinalBoss, SpawnSeconds = 121 });
            }
 
-            _sprites.AddRange(LoadEnemiesIntoPhase(gameTime, enemiesPhase4));
+            _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase4, currentStartGameSeconds));
         }
 
-        private static IEnumerable<Sprite> LoadEnemiesIntoPhase(GameTime gameTime, List<Spawner> spawnedEnemies)
+        private static IEnumerable<Sprite> LoadEnemiesIntoPhase(List<Spawner> spawnedEnemies, double currentStartGameSeconds)
         {
             List<Sprite> enemies = new List<Sprite>();
             Enemy enemy = null;
 
             //If gameTime is on the second with no remainder like 1.0034434, add 1 enemy
             double gameSecond = 0;
-            double returnValue = Math.Round(gameTime.TotalGameTime.TotalSeconds, 2) % 1;
+            double returnValue = Math.Round(currentStartGameSeconds, 2) % 1;
 
             if (returnValue == 0)
             {
-                gameSecond = Math.Round(gameTime.TotalGameTime.TotalSeconds, 0);
+                gameSecond = Math.Round(currentStartGameSeconds, 0);
 
                 //Check if a certain enemy should be sent to view based on time
                 Spawner spawner = spawnedEnemies.Find(e => e.SpawnSeconds == gameSecond);
                 if (spawner != null)
                 {
-                    //  enemies.Add(enemyFactory.Create(spawner.EnemyType));
-
                     switch (spawner.EnemyType)
                     {
                         case Enemy.Type.BasicEnemies:
@@ -142,7 +140,7 @@ namespace Matrix
                         case Enemy.Type.ButterFlyEnemies:
                             enemy = enemyFactory.ButterFlyEnemy();
                             break;
-                        case Enemy.Type.Boss:
+                        case Enemy.Type.MidBoss:
                             enemy = enemyFactory.CreatMidBossEnemy();
                             break;
                         case Enemy.Type.FinalBoss:
@@ -154,9 +152,6 @@ namespace Matrix
                     }
 
                     enemies.Add(enemy);
-
-                    //store enemies big list to be used in collision detection
-                   // Enemies.Add(enemy);
                 }
             }         
 

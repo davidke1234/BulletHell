@@ -19,7 +19,7 @@ namespace Matrix.Models
         public enum Type { 
             BasicEnemies, //small grunts
             ButterFlyEnemies, //larger
-            Boss, //midboss
+            MidBoss, //midboss
             FinalBoss  //finalboss
         }
         public int Health { get; set; }
@@ -38,7 +38,7 @@ namespace Matrix.Models
 
             if (_shootingTimer >= TimerStart)
             {
-                //if (name == "boss") //finalboss
+                //if (name == "finalboss") //finalboss
                 //{
                 //    if (ShouldShoot(gameTime, 2))
                 //    {
@@ -47,7 +47,7 @@ namespace Matrix.Models
                 //        DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
                 //    }
                 //}
-                //else if (name == "boss2")  //midboss
+                //else if (name == "midboss")  //midboss
                 //{
                 //    if (ShouldShoot(gameTime, 2))
                 //    {
@@ -74,7 +74,7 @@ namespace Matrix.Models
                 IsRemoved = true;
 
             //B,C,D Enemies
-            if (name == "grumpbird" || name == "boss" || name == "boss2")
+            if (name == "grumpbird" || name == "finalboss" || name == "midboss")
             {
                 Position.X += 1f;
             }
@@ -139,10 +139,10 @@ namespace Matrix.Models
 
                     switch(Name)
                     {
-                        case "boss":
+                        case "finalboss":
                             scoreValue = 15;
                             break;
-                        case "boss2":
+                        case "midboss":
                             scoreValue = 10;
                             break;
                         case "grumpbird":

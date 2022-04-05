@@ -38,7 +38,7 @@ namespace Matrix.Models
                 Bullet = (Bullet)projectileFactory.Create("bullet");
             }
            
-            else if (basicEnemyType == Type.Boss)
+            else if (basicEnemyType == Type.MidBoss)
             {
                 Health = 10;
                 Position.X = 70;

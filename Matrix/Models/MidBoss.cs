@@ -36,7 +36,7 @@ namespace Matrix.Models
             {
                 if (MidBossInstance == null)
                 {
-                    MidBossInstance = new MidBoss(Arts.Boss2);
+                    MidBossInstance = new MidBoss(Arts.MidBoss);
                 }
                 return MidBossInstance;
             }
@@ -52,7 +52,7 @@ namespace Matrix.Models
             Health = 10;
             Position.X = 70;
             Position.Y = 60;
-            Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.Boss);
+            Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.MidBoss);
             //Bullet = (Bullet)_projectileFactory.Create("bullet");
             bombs.Add(bomb);
 
@@ -140,7 +140,7 @@ namespace Matrix.Models
             {
                 //shoot = 0;
                 //ShootBombs(sprites);
-                DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
+                DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.MidBoss);
                 //DropBullet(sprites, new Vector2(-1, -1));
                 //Position += Velocity;
                 _shootingTimer = 0;

@@ -24,13 +24,13 @@ namespace Matrix
                     {
                         return new ButterflyEnemy(Arts.EnemyButterfly);
                     }
-                case Enemy.Type.Boss:
+                case Enemy.Type.MidBoss:
                     {
-                        return new MidBoss(Arts.Boss2);
+                        return new MidBoss(Arts.MidBoss);
                     }
                 case Enemy.Type.FinalBoss:
                     {
-                        return new FinalBoss(Arts.Boss);
+                        return new FinalBoss(Arts.FinalBoss);
                     }
                 default:
                     throw new ArgumentException("The provided type does not exist.");
@@ -47,11 +47,11 @@ namespace Matrix
         }
         public Enemy CreatMidBossEnemy()
         {
-            return new MidBoss(Arts.Boss2);
+            return new MidBoss(Arts.MidBoss);
         }
         public Enemy CreateFinalBossEnemy()
         {
-            return new FinalBoss(Arts.Boss);
+            return new FinalBoss(Arts.FinalBoss);
         }
 
 

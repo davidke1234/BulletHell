@@ -18,7 +18,6 @@ namespace Matrix
     public class Game1 : Game
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-
         private Texture2D _background;
         private Texture2D _menuBackground;
         private Button _startButton;
@@ -27,7 +26,6 @@ namespace Matrix
         private Button _arrowKeysButton;
         private Button _WASDKeysButton;
         private Button _MainMenuButton;
-
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private Player _player;
@@ -35,15 +33,21 @@ namespace Matrix
         private SpriteFont _font;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
-        private double _gameOverTimer = 0;
-        private bool _gameOver = false;
         public static SoundEffectInstance soundInstance;
-        private bool _gameStarted;
         public EventHandler Click;
         private int secondsToDisplayWinLossMessage = 4;
-        private bool _configButtonClicked;
         private ContentManager _content;
         private string _keysType = "arrows";
+        
+        // used to record when the actual game started.  The game loop continues while on the menu
+        // and the timing of the enemy spawner will be delayed if we don't use this.
+        private double _gameStartedSeconds = 0;
+        private double _currentTotalGameSeconds = 0;
+        
+        private double _gameOverTimer = 0;
+        private bool _gameOver = false;
+        private bool _configButtonClicked;
+        private bool _gameStarted;
 
         // helpful properties
         public static GameTime GameTime { get; private set; }
@@ -153,7 +157,7 @@ namespace Matrix
         protected override void Update(GameTime gameTime)
         {
             if (_gameOver)
-                CheckGameOver(gameTime, true, SpriteManager.Sprites);
+                CheckGameOver(_currentTotalGameSeconds, true, SpriteManager.Sprites);
 
             if (!_gameStarted)
             {
@@ -167,6 +171,13 @@ namespace Matrix
 
             else if (_gameStarted)
             {
+                if (_gameStartedSeconds == 0)
+                {
+                    _gameStartedSeconds = gameTime.TotalGameTime.TotalSeconds;
+                }
+
+                _currentTotalGameSeconds = gameTime.TotalGameTime.TotalSeconds - _gameStartedSeconds + 1;
+
                 if (_player.Respawn)
                 {
                     PlayerManager.Respawn(SpriteManager.Sprites);
@@ -177,39 +188,38 @@ namespace Matrix
                 }
 
                 // Phase 1
-                if (gameTime.TotalGameTime.TotalSeconds < 40)
+                if (_currentTotalGameSeconds < 40)
                 {
-                    EnemyManager.GetEnemyPhase1(gameTime, SpriteManager.Sprites);
+                    EnemyManager.GetEnemyPhase1(SpriteManager.Sprites, _currentTotalGameSeconds);
                 }
 
                 // Phase 2
-                if (gameTime.TotalGameTime.TotalSeconds >= 40)
+                if (_currentTotalGameSeconds >= 40)
                 {
-                    EnemyManager.GetEnemyPhase2(gameTime, SpriteManager.Sprites);
+                    EnemyManager.GetEnemyPhase2(SpriteManager.Sprites, _currentTotalGameSeconds);
                 }
 
                 // Phase 3
-                if (gameTime.TotalGameTime.TotalSeconds >= 80)
+                if (_currentTotalGameSeconds >= 80)
                 {
-                    EnemyManager.GetEnemyPhase3(gameTime, SpriteManager.Sprites);
+                    EnemyManager.GetEnemyPhase3(SpriteManager.Sprites, _currentTotalGameSeconds);
                 }
 
                 //Phase 4
-                if (gameTime.TotalGameTime.TotalSeconds >= 120)
+                if (_currentTotalGameSeconds >= 120)
                 {
-                    EnemyManager.GetEnemyPhase4(gameTime, SpriteManager.Sprites);
+                    EnemyManager.GetEnemyPhase4(SpriteManager.Sprites, _currentTotalGameSeconds);
                 }
 
-                if (gameTime.TotalGameTime.TotalSeconds >= 170)  
+                if (_currentTotalGameSeconds >= 130)  
                 {
-                    CheckGameOver(gameTime, true, SpriteManager.Sprites);
+                    CheckGameOver(_currentTotalGameSeconds, true, SpriteManager.Sprites);
                 }
 
                 //game time is how much time has elapsed
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
-                    Program.ShouldRestart = true;
-                    Exit();
+                    RestartGame();
                 }
 
                 foreach (var sprite in SpriteManager.Sprites.ToArray())
@@ -271,19 +281,19 @@ namespace Matrix
             }
 
             if (SpriteManager.Sprites != null)
-                CheckGameOver(gameTime, false, SpriteManager.Sprites);
+                CheckGameOver(_gameStartedSeconds, false, SpriteManager.Sprites);
         }
 
-        private void CheckGameOver(GameTime gameTime, bool timesUp, List<Sprite> sprites)
+        private void CheckGameOver(double gameStartedSeconds, bool timesUp, List<Sprite> sprites)
         {
             string winLoss = "";
-            bool killedLastEnemy = FinalBossKilled(sprites, gameTime);
+            bool killedLastEnemy = FinalBossKilled(sprites, gameStartedSeconds);
             if (_player != null && (timesUp || _player.Health <= 0 || killedLastEnemy))
             {
                 _gameOver = true;
                 if (_gameOverTimer == 0)
                 {
-                    _gameOverTimer = gameTime.TotalGameTime.TotalSeconds;
+                    _gameOverTimer = gameStartedSeconds;
                     int score = _player.Score.Value;
                     winLoss = _player.Health > 0 && score > 0 ? " You won!!" : " you lost";
                     _spriteBatch.Begin();
@@ -292,23 +302,34 @@ namespace Matrix
                 }
                 else
                 {
-                    if (_gameOverTimer + secondsToDisplayWinLossMessage < gameTime.TotalGameTime.TotalSeconds)
+                    if (_gameOverTimer + secondsToDisplayWinLossMessage < gameStartedSeconds)
                     {
-                        //Clean up
-                        SpriteManager.Sprites.Clear();
-                        EnemyManager.Enemies.Clear();
-                        
-                        //Must exit the game and return to start menu
-                        Program.ShouldRestart = true;
-                        Exit();
+                        RestartGame();
                     }
                 }
             }
         }
 
-        private bool FinalBossKilled(List<Sprite> sprites, GameTime gameTime)
+        private void RestartGame()
         {
-            bool finalBossKilled = sprites.Find(f => f.Name == "FinalBoss") == null && gameTime.TotalGameTime.TotalSeconds >= 130;
+            //Clean up
+            SpriteManager.Sprites.Clear();
+            EnemyManager.Enemies.Clear();
+            _gameStartedSeconds = 0;
+            _currentTotalGameSeconds = 0;
+            _gameStarted = false;
+            _configButtonClicked = false;
+            _gameOver = false;
+            _gameOverTimer = 0;
+
+            //Must exit the game and return to start menu
+            Program.ShouldRestart = true;
+            Exit();
+        }
+
+        private bool FinalBossKilled(List<Sprite> sprites, double gameStartedSeconds)
+        {
+            bool finalBossKilled = sprites.Find(f => f.Name == "FinalBoss") == null && gameStartedSeconds >= 130;
             return finalBossKilled;
         }
 
@@ -418,4 +439,10 @@ namespace Matrix
         }
 
     }
+
+    //public class MyGameTime : GameTime
+    //{
+    //    public TotalGameTime()
+
+    //}
 }

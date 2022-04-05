@@ -12,8 +12,8 @@ namespace Matrix.Models
         public static Texture2D Stars;
         public static Texture2D Bomb;
         public static Texture2D Bomb2;
-        public static Texture2D Boss;
-        public static Texture2D Boss2;
+        public static Texture2D FinalBoss;
+        public static Texture2D MidBoss;
         public static Texture2D Player;
         public static Texture2D SlowmoPlayer;
         public static Song Song1;
@@ -38,8 +38,8 @@ namespace Matrix.Models
             Stars = content.Load<Texture2D>("Stars");
             Bomb = content.Load<Texture2D>("bomb");
             Bomb2 = content.Load<Texture2D>("Bomb2");
-            Boss = content.Load<Texture2D>("boss");
-            Boss2 = content.Load<Texture2D>("boss2");
+            FinalBoss = content.Load<Texture2D>("finalBoss");
+            MidBoss = content.Load<Texture2D>("midBoss");
             Player = content.Load<Texture2D>("player_ship");
             SlowmoPlayer = content.Load<Texture2D>("slowmoShip");
             Song1 = content.Load<Song>("sample1");

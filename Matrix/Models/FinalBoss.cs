@@ -34,7 +34,7 @@ namespace Matrix.Models
             {
                 if (FinalBossInstance == null)
                 {
-                    FinalBossInstance = new FinalBoss(Arts.Boss);
+                    FinalBossInstance = new FinalBoss(Arts.FinalBoss);
                 }
                 return FinalBossInstance;
             }
