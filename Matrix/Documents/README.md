@@ -10,10 +10,10 @@ How to run the game
 
 1. Extract Matrix.zip to a new folder.
 2. Run Matrix.exe
-3. On the Main Menu you have 3 choices: Start Game, Config, Quit Game.  
-    - Config will allow you to select the keys for movement: wasd or arrow keys. 
+3. On the Main Menu you have 3 choices: Start Game, Configuration, Quit Game.  
+    - Configuration will allow you to select the keys for player movement: wasd or arrow keys. 
 4. Once the game has started you will see a player ship. The ship has 8 way movements using the arrow or wasd keys.
-5. To fire bullets, press the left mouse button
+5. To fire bullets, press the space bar
 6. To score points, kill the enemies. The smaller enemies are worth 1 point, flying enemy 5 points, Midboss 10 points and final boss 15 points.
 7. The game will end as follows: you loose all player lives, come to the end or pressed "Esc" to exit.  "Esc" will return to the main menu.
 
