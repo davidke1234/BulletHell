@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Content\Bullet.png" />
+    <None Remove="README.md" />
   </ItemGroup>
   <ItemGroup>
     <TrimmerRootAssembly Include="Microsoft.Xna.Framework.Content.ContentTypeReader" Visible="false" />
@@ -31,5 +32,6 @@
   </ItemGroup>
   <ItemGroup>
 	<Folder Include="Content\bin\Windows\" />
+	<Folder Include="Content\Sounds\" />
   </ItemGroup>
 </Project>

@@ -33,12 +33,16 @@ namespace Matrix
         private SpriteFont _font;
         public static int ScreenWidth = 1280;
         public static int ScreenHeight = 720;
-        public static SoundEffectInstance soundInstance;
         public EventHandler Click;
         private int secondsToDisplayWinLossMessage = 4;
         private ContentManager _content;
         private string _keysType = "arrows";
-        
+        private SoundEffectInstance _soundEffectInstance;
+        private bool song1Started = false;
+        private bool song2Started = false;
+        private bool song3Started = false;
+        private bool song4Started = false;
+
         // used to record when the actual game started.  The game loop continues while on the menu
         // and the timing of the enemy spawner will be delayed if we don't use this.
         private double _gameStartedSeconds = 0;
@@ -84,6 +88,7 @@ namespace Matrix
         {
             _content = Content;
             Arts.Load(Content);
+            Sounds.Load(Content);
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             _font = Arts.Font;
             LoadMenuContent(Content);
@@ -92,16 +97,11 @@ namespace Matrix
         private void LoadGameContent(ContentManager content)
         {
             _background = Arts.Stars;
-
-            var song1 = Arts.Song1;
-            //MediaPlayer.Play(song1);
-            Sounds.Load(content);
-
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
             _finalBoss = FinalBoss.GetInstance;
             SpriteManager.Sprites.Add(_player);
-            soundInstance = Sounds.soundEffects[0].CreateInstance();
-            soundInstance.IsLooped = true;
+            _soundEffectInstance = Sounds.soundEffects[0].CreateInstance();
+            _soundEffectInstance.IsLooped = true;
         }
 
         public void Button_1Player_Clicked(object sender, EventArgs args)
@@ -191,24 +191,48 @@ namespace Matrix
                 if (_currentTotalGameSeconds < 40)
                 {
                     EnemyManager.GetEnemyPhase1(SpriteManager.Sprites, _currentTotalGameSeconds);
+                    if (!song1Started)
+                    {
+                        _soundEffectInstance.Stop();
+                        MediaPlayer.Play(Arts.Song1);
+                        song1Started = true;
+                    }
                 }
 
                 // Phase 2
                 if (_currentTotalGameSeconds >= 40)
                 {
                     EnemyManager.GetEnemyPhase2(SpriteManager.Sprites, _currentTotalGameSeconds);
+                    if (!song2Started)
+                    {
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(Arts.Song2);
+                        song2Started = true;
+                    }
                 }
 
                 // Phase 3
                 if (_currentTotalGameSeconds >= 80)
                 {
                     EnemyManager.GetEnemyPhase3(SpriteManager.Sprites, _currentTotalGameSeconds);
+                    if (!song3Started)
+                    {
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(Arts.Song3);
+                        song3Started = true;
+                    }
                 }
 
                 //Phase 4
                 if (_currentTotalGameSeconds >= 120)
                 {
                     EnemyManager.GetEnemyPhase4(SpriteManager.Sprites, _currentTotalGameSeconds);
+                    if (!song4Started)
+                    {
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(Arts.Song4);
+                        song4Started = true;
+                    }
                 }
 
                 if (_currentTotalGameSeconds >= 130)  
@@ -313,6 +337,7 @@ namespace Matrix
         private void RestartGame()
         {
             //Clean up
+            MediaPlayer.Stop();
             SpriteManager.Sprites.Clear();
             EnemyManager.Enemies.Clear();
             _gameStartedSeconds = 0;
@@ -335,6 +360,10 @@ namespace Matrix
 
         private void LoadMenuContent(ContentManager content)
         {
+            _soundEffectInstance = Sounds.soundEffects[1].CreateInstance();
+            _soundEffectInstance.Volume = .5f;
+            _soundEffectInstance.Play();
+
             var buttonTexture = Arts.Button;
             var buttonFont = Arts.Font;
             _menuBackground = Arts.MainMenuBackGround;
@@ -439,10 +468,4 @@ namespace Matrix
         }
 
     }
-
-    //public class MyGameTime : GameTime
-    //{
-    //    public TotalGameTime()
-
-    //}
 }

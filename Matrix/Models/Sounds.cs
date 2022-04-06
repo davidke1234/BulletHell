@@ -22,6 +22,8 @@ namespace Matrix.Models
         public static void Load(ContentManager content)
         {
             soundEffects.Add(content.Load<SoundEffect>("bombSound"));
+            soundEffects.Add(content.Load<SoundEffect>("mixkit-medieval-show-fanfare-announcement-226"));
+            //soundEffects.Add(content.Load<SoundEffect>("mixkit-cat-walk-371"));
         }
     }
 }

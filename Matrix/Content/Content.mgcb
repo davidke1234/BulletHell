@@ -254,6 +254,54 @@
 /processorParam:TextureFormat=Color
 /build:midBoss.png
 
+#begin mixkit-cat-walk-371.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-cat-walk-371.mp3
+
+#begin mixkit-daredevil-80.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-daredevil-80.mp3
+
+#begin mixkit-infected-vibes-157.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-infected-vibes-157.mp3
+
+#begin mixkit-medieval-show-fanfare-announcement-226.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:mixkit-medieval-show-fanfare-announcement-226.wav
+
+#begin mixkit-punked-up-fun-47.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-punked-up-fun-47.mp3
+
+#begin mixkit-rock-the-game-49.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-rock-the-game-49.mp3
+
+#begin mixkit-sports-highlights-51.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-sports-highlights-51.mp3
+
+#begin mixkit-techno-fights-171.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:mixkit-techno-fights-171.mp3
+
 #begin player_ship.png
 /importer:TextureImporter
 /processor:TextureProcessor
