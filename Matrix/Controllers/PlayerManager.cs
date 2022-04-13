@@ -68,7 +68,12 @@ namespace Matrix.Controllers
 
         private static string GetUserName()
         {
-            return Environment.UserName;
+            string name = Environment.UserName;
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                name = name.Substring(0, 1).ToUpper() + name.Substring(1).ToLower();
+            }
+            return name;
         }
     }
 }
