@@ -324,13 +324,12 @@ namespace Matrix
                 if (_gameOverTimer == 0)
                 {
                     _gameOverTimer = gameStartedSeconds;
-                    int score = _player.Score.Value;
-                    winLoss = _player.Health > 0 && score > 0 ? " You won!!" : " you lost";
+                    winLoss = _player.Health > 0 && _player.Score.Value > 0 ? " You won!!" : " you lost";
                     _spriteBatch.Begin();
                     _spriteBatch.DrawString(_font, "Game over - " + winLoss, new Vector2(350f, 250f), Color.White);
                     _spriteBatch.End();
 
-                      PlayerManager.InsertScore(_player.Name, score);
+                    PlayerManager.InsertScore(_player.Score.Value);
                 }
                 else
                 {
