@@ -54,9 +54,9 @@ namespace Matrix.Models
             Song2 = content.Load<Song>("mixkit-daredevil-80");
             Song3 = content.Load<Song>("mixkit-techno-fights-171");
             Song4 = content.Load<Song>("mixkit-infected-vibes-157");
-            Song5 = content.Load<Song>("mixkit-rock-the-game-49");
-            Song6 = content.Load<Song>("mixkit-sports-highlights-51");
-            Song7 = content.Load<Song>("mixkit-techno-fights-171");
+            //Song5 = content.Load<Song>("mixkit-rock-the-game-49");
+            //Song6 = content.Load<Song>("mixkit-sports-highlights-51");
+            //Song7 = content.Load<Song>("mixkit-techno-fights-171");
             Bullet = content.Load<Texture2D>("Bullet");
             EnemyBlood = content.Load<Texture2D>("dngn_blood_fountain");
             EnemyBlue = content.Load<Texture2D>("dngn_blue_fountain");
