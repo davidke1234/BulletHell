@@ -1,6 +1,7 @@
 ﻿using Matrix.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace Matrix.Controllers
@@ -56,6 +57,17 @@ namespace Matrix.Controllers
             }
 
             return resetSpawning;
+        }
+
+        internal static void InsertScore(string name, int score)
+        {
+            string retVal = "";
+             DataAccessLayer.InsertHighScores(GetUserName(), score, ref retVal);
+           }
+
+        internal static string GetUserName()
+        {
+            return Environment.UserName;
         }
     }
 }

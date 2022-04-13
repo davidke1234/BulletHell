@@ -166,7 +166,13 @@ namespace Matrix
                     MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _MainMenuButton, this);
                 }
                 else
-                    MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
+                {
+                    //if (!SetupMenuLoaded)
+                    {
+                        MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
+                        SetupMenuLoaded = true;
+                    }
+                }
             }
 
             else if (_gameStarted)
@@ -323,6 +329,8 @@ namespace Matrix
                     _spriteBatch.Begin();
                     _spriteBatch.DrawString(_font, "Game over - " + winLoss, new Vector2(350f, 250f), Color.White);
                     _spriteBatch.End();
+
+                      PlayerManager.InsertScore(_player.Name, score);
                 }
                 else
                 {
@@ -340,6 +348,7 @@ namespace Matrix
             MediaPlayer.Stop();
             SpriteManager.Sprites.Clear();
             EnemyManager.Enemies.Clear();
+            MenuManager.HighScores.Clear();
             _gameStartedSeconds = 0;
             _currentTotalGameSeconds = 0;
             _gameStarted = false;
@@ -419,6 +428,8 @@ namespace Matrix
                 _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
                 _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
             }
+
+            MenuManager.DisplayHighScores(_spriteBatch);
         }
 
         private void DrawConfigMenu()
@@ -467,5 +478,6 @@ namespace Matrix
             }
         }
 
+        public bool SetupMenuLoaded { get; private set; }
     }
 }

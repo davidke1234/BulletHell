@@ -52,8 +52,8 @@ namespace Matrix.Models
            // Song0 = content.Load<Song>("mixkit-medieval-show-fanfare-announcement-226");
             Song1 = content.Load<Song>("mixkit-cat-walk-371");
             Song2 = content.Load<Song>("mixkit-daredevil-80");
-            Song3 = content.Load<Song>("mixkit-infected-vibes-157");
-            Song4 = content.Load<Song>("mixkit-punked-up-fun-47");
+            Song3 = content.Load<Song>("mixkit-techno-fights-171");
+            Song4 = content.Load<Song>("mixkit-infected-vibes-157");
             Song5 = content.Load<Song>("mixkit-rock-the-game-49");
             Song6 = content.Load<Song>("mixkit-sports-highlights-51");
             Song7 = content.Load<Song>("mixkit-techno-fights-171");

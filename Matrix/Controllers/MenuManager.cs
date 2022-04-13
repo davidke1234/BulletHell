@@ -2,6 +2,8 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using Matrix.Models;
 
 namespace Matrix.Controllers
 {
@@ -9,6 +11,26 @@ namespace Matrix.Controllers
     {
         private static MouseState _currentMouse;
         private static MouseState _previousMouse;
+        public static List<HighScore> HighScores = new List<HighScore>();
+
+        public static void DisplayHighScores(SpriteBatch spriteBatch)
+        {
+            string returnVal = "";
+            if (HighScores.Count == 0)
+            {
+                HighScores = DataAccessLayer.GetHighScores(ref returnVal);
+            }
+
+            float xValue = 10f;
+            float yValue = 10f;
+            spriteBatch.DrawString(Arts.Font, "High Scores:", new Vector2(xValue, yValue), Color.Yellow);
+
+            for (int i = 0; i < HighScores.Count; i++)
+            {
+                yValue += 17f;
+                spriteBatch.DrawString(Arts.Font, "Player: " + HighScores[i].Name + " " + HighScores[i].Score, new Vector2(xValue, yValue), Color.White);
+            }
+        }
 
         public static void SetupConfigMenu(ref Button _arrowKeysButton, ref Button _WASDKeysButton, ref Button _MainMenuButton,  Game game1)
         {
