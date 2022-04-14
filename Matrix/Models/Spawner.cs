@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matrix.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace Matrix.Models
 {
     class Spawner
     {
-        public Enemy.Type EnemyType;
+        public EnemyType EnemyType;
         public float SpawnSeconds;
     }
 }

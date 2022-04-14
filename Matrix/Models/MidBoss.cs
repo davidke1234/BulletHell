@@ -1,4 +1,5 @@
 ﻿using Matrix;
+using Matrix.Models.Enums;
 using Matrix.Models.Factories;
 using Matrix.Utilities;
 using Microsoft.Xna.Framework;
@@ -19,9 +20,8 @@ namespace Matrix.Models
         private float _changePositionTimer = 5;
         private float _timerStart = 1.25f; // 5;
         private float _shootingTimer;
-        float shoot = 0;
         public Bomb bomb;
-        public List<Bomb> bombs = new List<Bomb>();
+        public List<Sprite> bombs = new List<Sprite>();
         //public new int Health;
         private static MidBoss MidBossInstance = null;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
@@ -53,7 +53,7 @@ namespace Matrix.Models
             Health = 40;
             Position.X = 70;
             Position.Y = 60;
-            Bomb = (Bomb)_projectileFactory.Create("bomb", Enemy.Type.MidBoss);
+            Bomb = (Bomb)_projectileFactory.Create(typeof(Bomb).Name, Arts.Bomb);
             //Bullet = (Bullet)_projectileFactory.Create("bullet");
             bombs.Add(bomb);
 
@@ -147,7 +147,7 @@ namespace Matrix.Models
             {
                 //shoot = 0;
                 //ShootBombs(sprites);
-                DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.MidBoss);
+                DropBomb(sprites, new Vector2(0, 0), "bomb", EnemyType.MidBoss);
                 //DropBullet(sprites, new Vector2(-1, -1));
                 //Position += Velocity;
                 _shootingTimer = 0;
@@ -158,9 +158,9 @@ namespace Matrix.Models
 
         }
 
-        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, EnemyType enemyType)
         {
-            var bomb = _projectileFactory.Create(bombName, enemyType);
+            var bomb = _projectileFactory.Create(typeof(Bomb).Name, Arts.Bomb2);
             bomb.Direction = Direction + extraDirection;
             bomb.Position = Position;
             bomb.LinearVelocity = 0.07f;

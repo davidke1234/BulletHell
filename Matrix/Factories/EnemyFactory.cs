@@ -1,72 +1,38 @@
 ﻿using Matrix.Models;
+using Matrix.Models.Enums;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace Matrix
 {
     public class EnemyFactory : SpriteFactoryProvider
     {
-        public override Sprite Create(string name, Enemy.Type? basicEnemyType)
+        public override Sprite Create(string name, Texture2D texture)
         {
-            return Create(basicEnemyType);
+            return CreateEnemyObject(name, texture);
         }
 
-        public Enemy Create(Enemy.Type? typeOfBasicEnemy)
+        private Enemy CreateEnemyObject(string name, Texture2D texture)
         {
-            switch (typeOfBasicEnemy)
+            var type = GetAllEnemyTypes().Where(t => t.Name == name).SingleOrDefault();
+            if (type != null)
             {
-                case Enemy.Type.BasicEnemies:
-                    {
-                        return new BasicEnemy(GetRandomTexture(), Enemy.Type.BasicEnemies);
-                    }
-                case Enemy.Type.ButterFlyEnemies:
-                    {
-                        return new ButterflyEnemy(Arts.EnemyButterfly);
-                    }
-                case Enemy.Type.MidBoss:
-                    {
-                        return new MidBoss(Arts.MidBoss);
-                    }
-                case Enemy.Type.FinalBoss:
-                    {
-                        return new FinalBoss(Arts.FinalBoss);
-                    }
-                default:
-                    throw new ArgumentException("The provided type does not exist.");
+                return (Enemy)Activator.CreateInstance(type, texture);
             }
-        }
-
-        public Enemy CreateBasicEnemy()
-        {
-            return new BasicEnemy(GetRandomTexture(), Enemy.Type.BasicEnemies);
-        }
-        public Enemy ButterFlyEnemy()
-        {
-            return new ButterflyEnemy(Arts.EnemyButterfly);
-        }
-        public Enemy CreatMidBossEnemy()
-        {
-            return new MidBoss(Arts.MidBoss);
-        }
-        public Enemy CreateFinalBossEnemy()
-        {
-            return new FinalBoss(Arts.FinalBoss);
-        }
-
-
-
-        private Texture2D GetRandomTexture()
-        {
-            Random random = new Random();
-            List<Texture2D> textures = new List<Texture2D>()
+            else
             {
-                Arts.EnemyBlack,
-                Arts.EnemyBlood,
-                Arts.EnemyBlue,
-                Arts.EnemyGreen,
-            };
-            return textures[random.Next(0, textures.Count)];
+                throw new ArgumentException("Unsupported Enemy Type requestd");
+            }                        
+        }
+
+        private IEnumerable<System.Type> GetAllEnemyTypes()
+        {            
+            System.Type enemyTypes = typeof(Enemy);
+            var allTypes = Assembly.GetAssembly(enemyTypes).GetTypes().Where(TheType => TheType.IsClass && TheType.IsSubclassOf(enemyTypes));
+            return allTypes;
         }
     }
 }

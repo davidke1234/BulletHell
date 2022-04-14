@@ -12,13 +12,13 @@ namespace Matrix
 {
     public abstract class SpriteFactoryProvider
     {
-        public abstract Sprite Create(string name, Enemy.Type? basicEnemyType= null);
+        public abstract Sprite Create(string name, Texture2D texture);
 
-        private SpriteFactoryProvider GetFactory(Sprite sprite)
+        public static SpriteFactoryProvider GetFactory(string factoryType)
         {
             var enemyType = typeof(Enemy);
             var projectileType = typeof(Projectile);
-            if(sprite.GetType().Name == enemyType.Name)
+            if(factoryType == enemyType.Name)
             {
                 return new EnemyFactory();
             }

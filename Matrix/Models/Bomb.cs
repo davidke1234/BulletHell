@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Matrix.Models
 {
-    public class Bomb : Sprite, ICollidable
+    public class Bomb : Projectile, ICollidable
     {
         private float _timer;
 
         public Bomb(Texture2D texture): base(texture)
-        { 
+        {
         }
 
         public void OnCollide(Sprite sprite)
