@@ -20,8 +20,7 @@ namespace Matrix
             var type = GetAllEnemyTypes().Where(t => t.Name == name).SingleOrDefault();
             if (type != null)
             {
-                Enemy enemy = new Enemy(texture);
-                return enemy;
+                return (Enemy)Activator.CreateInstance(type, texture);
             }
             else
             {
@@ -30,7 +29,7 @@ namespace Matrix
         }
 
         private IEnumerable<System.Type> GetAllEnemyTypes()
-        {
+        {            
             System.Type enemyTypes = typeof(Enemy);
             var allTypes = Assembly.GetAssembly(enemyTypes).GetTypes().Where(TheType => TheType.IsClass && TheType.IsSubclassOf(enemyTypes));
             return allTypes;

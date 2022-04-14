@@ -30,7 +30,7 @@ namespace Matrix
                 {
                     enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = i });
                 }
-                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterFlyEnemy, SpawnSeconds = 20 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterflyEnemy, SpawnSeconds = 20 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 22 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 23 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 25 });
@@ -38,7 +38,7 @@ namespace Matrix
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 27 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 28 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 29 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterFlyEnemy, SpawnSeconds = 32 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterflyEnemy, SpawnSeconds = 32 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 34 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 35 });
                 enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 36 });
@@ -140,7 +140,7 @@ namespace Matrix
                         case EnemyType.BasicEnemy:
                             enemy = enemyFactory.Create(spawner.EnemyType.ToString(), MatrixExtensions.GetRandomTexture());
                             break;
-                        case EnemyType.ButterFlyEnemy:
+                        case EnemyType.ButterflyEnemy:
                             enemy = enemyFactory.Create(spawner.EnemyType.ToString(), Arts.EnemyButterfly);
                             break;
                         case EnemyType.MidBoss:

@@ -10,8 +10,8 @@ namespace Matrix.Models
 {
     public class BasicEnemy : Enemy
     {
-        SpriteFactoryProvider projectileFactory = SpriteFactoryProvider.GetFactory("Projectile");
-        public BasicEnemy(Texture2D texture, Type basicEnemyType) : base(texture)
+        SpriteFactoryProvider projectileFactory = SpriteFactoryProvider.GetFactory(typeof(Projectile).Name);
+        public BasicEnemy(Texture2D texture) : base(texture)
         {
             _texture = texture;
             Name = texture.Name;

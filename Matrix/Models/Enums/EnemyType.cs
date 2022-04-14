@@ -7,7 +7,7 @@ namespace Matrix.Models.Enums
     public enum EnemyType
     {
         BasicEnemy, //small grunts
-        ButterFlyEnemy, //larger
+        ButterflyEnemy, //larger
         MidBoss, //midboss
         FinalBoss  //finalboss
     }

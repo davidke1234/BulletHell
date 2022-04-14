@@ -21,8 +21,7 @@ namespace Matrix.Models.Factories
             var type = GetAllProjectiles().Where(t => t.Name == name).SingleOrDefault();
             if (type != null)
             {
-                Projectile projectile = new Projectile(texture);
-                return projectile;
+                return (Projectile)Activator.CreateInstance(type, texture);
             }
             else
             {

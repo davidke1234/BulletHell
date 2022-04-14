@@ -9,7 +9,7 @@ namespace Matrix.Models
 {
     public class ButterflyEnemy : Enemy
     {
-        private static ProjectileFactory projectileFactory = new ProjectileFactory();
+        SpriteFactoryProvider projectileFactory = SpriteFactoryProvider.GetFactory(typeof(Projectile).Name);
 
         public ButterflyEnemy(Texture2D texture) : base(texture)
         {
@@ -19,7 +19,7 @@ namespace Matrix.Models
             Health = 5;
             Position.X = 70;
             Position.Y = 40;
-            Bullet = (Bullet)projectileFactory.Create(typeof(BasicEnemy).Name, Arts.BulletOrange);
+            Bullet = (Bullet)projectileFactory.Create(typeof(Bullet).Name, Arts.BulletOrange);
 
             LifeSpan = 5;
             Speed = 2.65f;
