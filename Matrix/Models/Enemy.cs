@@ -8,20 +8,15 @@ namespace Matrix.Models
 {
     public class Enemy : Sprite, ICollidable
     {
-        public Bullet Bullet;
-        public Bomb Bomb;
+        public Sprite Bullet;
+        public Sprite Bomb;
         private float _shootingTimer;
         public float TimerStart = 1.25f;
         public float Speed = 2f;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
         private double _lastShotSecond = 0;
 
-        public enum Type { 
-            BasicEnemies, //small grunts
-            ButterFlyEnemies, //larger
-            MidBoss, //midboss
-            FinalBoss  //finalboss
-        }
+        
         public int Health { get; set; }
 
         public Enemy(Texture2D texture)

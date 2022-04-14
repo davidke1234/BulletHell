@@ -1,4 +1,5 @@
 ﻿using Matrix;
+using Matrix.Models.Enums;
 using Matrix.Models.Factories;
 using Matrix.Utilities;
 using Microsoft.Xna.Framework;
@@ -17,9 +18,8 @@ namespace Matrix.Models
         private float _changePositionTimer = 5;
         private float _timerStart = 1.25f; // 5;
         private float _shootingTimer;
-        float shoot = 0;
-        public Bomb bomb;
-        public List<Bomb> bombs = new List<Bomb>();
+        public Sprite bomb;
+        public List<Sprite> bombs = new List<Sprite>();
         //public new int Health;
         private static FinalBoss FinalBossInstance = null;
         private static ProjectileFactory _projectileFactory = new ProjectileFactory();
@@ -50,7 +50,7 @@ namespace Matrix.Models
             Health = 50;
             Position.X = 70;
             Position.Y = 60;
-            bomb = (Bomb) _projectileFactory.Create("bomb2", Enemy.Type.FinalBoss);
+            bomb =  _projectileFactory.Create(typeof(Bomb).Name, Arts.Bomb );
             bombs.Add(bomb);
 
             LifeSpan = 38;
@@ -105,9 +105,9 @@ namespace Matrix.Models
         //    }
         //}
 
-        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, Enemy.Type enemyType)
+        public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, EnemyType enemyType)
         {
-            var bomb = _projectileFactory.Create(bombName, enemyType);
+            var bomb = _projectileFactory.Create(typeof(Bomb).Name, Arts.Bomb);
             bomb.Direction = Direction + extraDirection;
             bomb.Position = Position;
             bomb.LinearVelocity = 0.07f;
@@ -152,7 +152,7 @@ namespace Matrix.Models
 
             if (_shootingTimer >= TimerStart)
             {
-                DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
+                DropBomb(sprites, new Vector2(0, 0), "bomb2", EnemyType.FinalBoss);
                 _shootingTimer = 0;
             }
         }

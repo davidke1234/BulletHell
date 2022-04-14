@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Matrix.Models
 {
-    public class Bullet : Sprite, ICollidable
+    public class Bullet : Projectile, ICollidable
     {
         private float _timer;
         //public Explosion Explosion;

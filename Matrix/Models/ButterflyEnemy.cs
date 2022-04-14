@@ -19,7 +19,7 @@ namespace Matrix.Models
             Health = 5;
             Position.X = 70;
             Position.Y = 40;
-            Bullet = (Bullet)projectileFactory.Create("orangeBullet");
+            Bullet = (Bullet)projectileFactory.Create(typeof(BasicEnemy).Name, Arts.BulletOrange);
 
             LifeSpan = 5;
             Speed = 2.65f;

@@ -8,15 +8,18 @@ namespace Matrix.Controllers
 {
     static class PlayerManager
     {
+        static SpriteFactoryProvider bulletFactory;
         static double _spawnTimer = 0;
         static Player _player = null;
 
         public static Player GetPlayer(Texture2D player, Texture2D slowmoPlayer, int health, string keysType)
         {
+
+            bulletFactory = SpriteFactoryProvider.GetFactory(typeof(Bullet).Name);
             _player = new Player(player, slowmoPlayer)
             {
                 Position = new Vector2(375, 335),
-                Bullet = new Bullet(Arts.Bullet),
+                Bullet = bulletFactory.Create("Bullet", Arts.Bullet),
                 Health = health,
                 Score = new Score()
                 {  },

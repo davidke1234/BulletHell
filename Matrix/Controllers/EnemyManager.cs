@@ -1,4 +1,6 @@
 ﻿using Matrix.Models;
+using Matrix.Models.Enums;
+using Matrix.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using NLog;
@@ -26,20 +28,20 @@ namespace Matrix
             {
                 for (int i = 1; i < 18; i++)
                 {
-                    enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = i });
+                    enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = i });
                 }
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.ButterFlyEnemies, SpawnSeconds = 20 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 22 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 23 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 25 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 26 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 27 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 28 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 29 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.ButterFlyEnemies, SpawnSeconds = 32 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 34 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 35 });
-                enemiesPhase1.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 36 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterFlyEnemy, SpawnSeconds = 20 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 22 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 23 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 25 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 26 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 27 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 28 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 29 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterFlyEnemy, SpawnSeconds = 32 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 34 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 35 });
+                enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 36 });
             }
 
             _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase1, currentStartGameSeconds));
@@ -49,30 +51,30 @@ namespace Matrix
         {
             if (enemiesPhase2.Count == 0)
             {
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.MidBoss, SpawnSeconds = 40 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 45 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 46 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 47 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 50 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 51 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 52 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 54 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 55 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 58 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 59 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 60 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 61 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 62 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 67 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 68 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 69 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 70 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 71 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 72 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 73 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 76 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 78 });
-                enemiesPhase2.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 79 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.MidBoss, SpawnSeconds = 40 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 45 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 46 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 47 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 50 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 51 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 52 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 54 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 55 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 58 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 59 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 60 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 61 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 62 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 67 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 68 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 69 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 70 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 71 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 72 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 73 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 76 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 78 });
+                enemiesPhase2.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 79 });
             }
 
             _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase2, currentStartGameSeconds));
@@ -82,24 +84,24 @@ namespace Matrix
         {
             if (enemiesPhase3.Count == 0)
             {
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.FinalBoss, SpawnSeconds = 81 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 85 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 86 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 90 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 94 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 97 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 100 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 101 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 102 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 103 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 104 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 105 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 106 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 107 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 108 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 109 });
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 115});
-                enemiesPhase3.Add(new Spawner() { EnemyType = Enemy.Type.BasicEnemies, SpawnSeconds = 116});
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.FinalBoss, SpawnSeconds = 81 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 85 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 86 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 90 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 94 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 97 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 100 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 101 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 102 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 103 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 104 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 105 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 106 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 107 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 108 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 109 });
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 115});
+                enemiesPhase3.Add(new Spawner() { EnemyType = EnemyType.BasicEnemy, SpawnSeconds = 116});
             }
 
             _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase3, currentStartGameSeconds));
@@ -109,7 +111,7 @@ namespace Matrix
         {
             if (enemiesPhase4.Count == 0)
             {
-                enemiesPhase4.Add(new Spawner() { EnemyType = Enemy.Type.FinalBoss, SpawnSeconds = 121 });
+                enemiesPhase4.Add(new Spawner() { EnemyType = EnemyType.FinalBoss, SpawnSeconds = 121 });
            }
 
             _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase4, currentStartGameSeconds));
@@ -117,8 +119,9 @@ namespace Matrix
 
         private static IEnumerable<Sprite> LoadEnemiesIntoPhase(List<Spawner> spawnedEnemies, double currentStartGameSeconds)
         {
+            SpriteFactoryProvider enemyFactory = SpriteFactoryProvider.GetFactory(typeof(Enemy).Name);
             List<Sprite> enemies = new List<Sprite>();
-            Enemy enemy = null;
+            Sprite enemy = null;
 
             //If gameTime is on the second with no remainder like 1.0034434, add 1 enemy
             double gameSecond = 0;
@@ -134,20 +137,20 @@ namespace Matrix
                 {
                     switch (spawner.EnemyType)
                     {
-                        case Enemy.Type.BasicEnemies:
-                            enemy = enemyFactory.CreateBasicEnemy();
+                        case EnemyType.BasicEnemy:
+                            enemy = enemyFactory.Create(spawner.EnemyType.ToString(), MatrixExtensions.GetRandomTexture());
                             break;
-                        case Enemy.Type.ButterFlyEnemies:
-                            enemy = enemyFactory.ButterFlyEnemy();
+                        case EnemyType.ButterFlyEnemy:
+                            enemy = enemyFactory.Create(spawner.EnemyType.ToString(), Arts.EnemyButterfly);
                             break;
-                        case Enemy.Type.MidBoss:
-                            enemy = enemyFactory.CreatMidBossEnemy();
+                        case EnemyType.MidBoss:
+                            enemy = MidBoss.GetInstance;
                             break;
-                        case Enemy.Type.FinalBoss:
-                            enemy = enemyFactory.CreateFinalBossEnemy();
+                        case EnemyType.FinalBoss:
+                            enemy = FinalBoss.GetInstance;
                             break;
                         default:
-                            enemy = enemyFactory.CreateBasicEnemy();
+                            enemy = enemyFactory.Create(spawner.EnemyType.ToString(), MatrixExtensions.GetRandomTexture());
                             break;
                     }
 

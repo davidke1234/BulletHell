@@ -9,7 +9,7 @@ namespace Matrix.Models
     public class Player : Sprite, ICollidable
     {
         public string PlayerName;
-        public Bullet Bullet;
+        public Sprite Bullet;
         public int Health { get; set; }
         public bool Die
         {

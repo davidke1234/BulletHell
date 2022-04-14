@@ -17,7 +17,7 @@ namespace Matrix.Models
     public class Sprite : ICloneable
     {
         public SpriteState currentState = SpriteState.normalSprite;
-        protected Texture2D _texture;
+        public Texture2D _texture;
         protected KeyboardState _currentKey;
         protected KeyboardState _previousKey;
         public Vector2 Position;

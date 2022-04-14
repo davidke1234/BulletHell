@@ -16,14 +16,14 @@ namespace Matrix.Models
         public static Texture2D MidBoss;
         public static Texture2D Player;
         public static Texture2D SlowmoPlayer;
-        public static Song Song0;
+        //public static Song Song0;
         public static Song Song1;
         public static Song Song2;
         public static Song Song3;
         public static Song Song4;
-        public static Song Song5;
-        public static Song Song6;
-        public static Song Song7;
+        //public static Song Song5;
+        //public static Song Song6;
+        //public static Song Song7;
         public static Texture2D Bullet;
         public static Texture2D EnemyBlood;
         public static Texture2D EnemyGreen;

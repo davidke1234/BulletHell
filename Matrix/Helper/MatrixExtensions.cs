@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Matrix.Models;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -34,6 +35,19 @@ namespace Matrix.Utilities
 			double theta = rand.NextDouble() * 2 * Math.PI;
 			float length = rand.NextFloat(minLength, maxLength);
 			return new Vector2(length * (float)Math.Cos(theta), length * (float)Math.Sin(theta));
+		}
+
+		public static Texture2D GetRandomTexture()
+		{
+			Random random = new Random();
+			List<Texture2D> textures = new List<Texture2D>()
+			{
+				Arts.EnemyBlack,
+				Arts.EnemyBlood,
+				Arts.EnemyBlue,
+				Arts.EnemyGreen,
+			};
+			return textures[random.Next(0, textures.Count)];
 		}
 	}
 }

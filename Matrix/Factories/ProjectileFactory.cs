@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Matrix.Models.Enums;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,20 +11,22 @@ namespace Matrix.Models.Factories
 {
     public class ProjectileFactory: SpriteFactoryProvider
     {
-        public override Sprite Create(string name, Enemy.Type? basicEnemyType = null)
+        public override Sprite Create(string name, Texture2D texture)
         {
-            switch (name.ToLower())
+            return CreateProjectileObject(name, texture);
+        }
+
+        private Projectile CreateProjectileObject(string name, Texture2D texture)
+        {
+            var type = GetAllProjectiles().Where(t => t.Name == name).SingleOrDefault();
+            if (type != null)
             {
-                case "bullet":
-                    return new Bullet(Arts.Bullet);
-                case "orangebullet":
-                    return new Bullet(Arts.BulletOrange);
-                case "bomb":
-                    return new Bomb(Arts.Bomb);
-                case "bomb2":
-                    return new Bomb(Arts.Bomb2);
-                default:
-                    throw new Exception("Invalid object type requested");
+                Projectile projectile = new Projectile(texture);
+                return projectile;
+            }
+            else
+            {
+                throw new ArgumentException("Unsupported projectile type requested");
             }
         }
 
