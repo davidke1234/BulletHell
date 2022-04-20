@@ -61,7 +61,7 @@ namespace Matrix.Models
                 _shootingTimer = 0;
             }
 
-            Direction.X = 10f;
+            Direction.X = 1f;
             Direction.Y = 25f;
 
             //If off screen, remove enemy
