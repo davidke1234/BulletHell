@@ -43,8 +43,10 @@ namespace Matrix
 
                     if (rdr.HasRows)
                     {
-                        while (rdr.Read())
+                        int i = 0;
+                        while (rdr.Read() && i<5)
                         {
+                            i++;
                             highScore = new HighScore();
                             highScore.Score = (int)rdr["Score"];
                             highScore.Name = rdr["Name"].ToString();
