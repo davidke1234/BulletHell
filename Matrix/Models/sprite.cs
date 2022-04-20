@@ -1,4 +1,5 @@
-﻿using Matrix.Sprites;
+﻿using Matrix.Movements;
+using Matrix.Sprites;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -28,6 +29,7 @@ namespace Matrix.Models
         public Vector2 XVelocity = new Vector2(2, 0);
         public Vector2 YVelocitySlow = new Vector2(0, 1);
         public Vector2 XVelocitySlow = new Vector2(1, 0);
+        public IMovement Movement;
         private Texture2D _slowmoSprite;
         public float LinearVelocity = 4f;
         public Sprite Parent;
@@ -38,8 +40,6 @@ namespace Matrix.Models
         public Color[] TextureData;
         public Random _random = new Random();
         protected float _rotation { get; set; }
-        public List<Movement> Movements = new List<Movement>();
-        public List<Movement> ActualMovements = new List<Movement>();
         public float SpawnSeconds = 0f;
 
         public XnaMatrix Transform
@@ -195,6 +195,11 @@ namespace Matrix.Models
 
             // No intersection found
             return false;
+        }
+
+        public void SetMovement(IMovement newMovement)
+        {
+            this.Movement = newMovement;
         }
 
         public object Clone()

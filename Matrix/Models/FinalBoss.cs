@@ -90,22 +90,6 @@ namespace Matrix.Models
             }
         }
 
-        //public void ShootBombs(List<Sprite> sprites)
-        //{
-        //    bomb.Velocity.Y = this.Velocity.Y + 6f;
-        //    bomb.Position = this.Position;
-        //    bomb.Direction = this.Direction;
-        //    bomb.Parent = this;
-        //    if (bombs.Count() < 3)
-        //    {
-        //        bombs.Add(bomb);
-        //    }
-        //    if (!sprites.Contains(bomb))
-        //    {
-        //        sprites.Add(bomb);
-        //    }
-        //}
-
         public void DropBomb(List<Sprite> sprites, Vector2 extraDirection, string bombName, EnemyType enemyType)
         {
             var bomb = _projectileFactory.Create(typeof(Bomb).Name, Arts.Bomb);
