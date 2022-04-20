@@ -38,8 +38,6 @@ namespace Matrix.Models
         public Color[] TextureData;
         public Random _random = new Random();
         protected float _rotation { get; set; }
-        public List<Movement> Movements = new List<Movement>();
-        public List<Movement> ActualMovements = new List<Movement>();
         public float SpawnSeconds = 0f;
 
         public XnaMatrix Transform
