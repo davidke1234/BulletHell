@@ -123,34 +123,38 @@ namespace Matrix.Models
 
         public void OnCollide(Sprite sprite)
         {
-            // Hit an enemy.  Deduct 1 health point     
+            // Hit an enemy.  Deduct 1 health point from enemy     
             if (sprite is Bullet && ((Bullet)sprite).Parent is Player)
             {
                 Health--;
+                 int scoreValue;
 
                 if (Health <= 0)
                 {
-                    int scoreValue;
-
-                    switch(Name)
+                    Name = Name.ToLower();
+                     switch (Name)
                     {
                         case "finalboss":
                             scoreValue = 15;
                             break;
                         case "midboss":
-                            scoreValue = 10;
+                            scoreValue = 10; 
                             break;
                         case "grumpbird":
                             scoreValue = 5;
                             break;
                         default:
                             scoreValue = 1;
-                            break;                            
+                            break;
                     }
 
                     IsRemoved = true;
-                    GetScoreValue(sprite.Parent, scoreValue);
                 }
+                else
+                    //get 1 point for every hit regardless of who it is.
+                    scoreValue = 1;
+
+                GetScoreValue(sprite.Parent, scoreValue);
             }
         }
 

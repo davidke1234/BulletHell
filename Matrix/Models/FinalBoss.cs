@@ -33,7 +33,8 @@ namespace Matrix.Models
         {
             get
             {
-                if (FinalBossInstance == null)
+                //TODO: this line prevented last final boss from showing.
+                //if (FinalBossInstance == null)
                 {
                     FinalBossInstance = new FinalBoss(Arts.FinalBoss);
                 }
