@@ -34,32 +34,11 @@ namespace Matrix.Models
                 IsRemoved = true;
 
             if (_shootingTimer >= TimerStart)
-            {
-                //if (name == "finalboss") //finalboss
-                //{
-                //    if (ShouldShoot(gameTime, 2))
-                //    {
-                //        DropBomb(sprites, new Vector2(15, 15), "bomb2", Enemy.Type.FinalBoss);
-                //        DropBomb(sprites, new Vector2(-20, -20), "bomb2", Enemy.Type.FinalBoss);
-                //        DropBomb(sprites, new Vector2(0, 0), "bomb2", Enemy.Type.FinalBoss);
-                //    }
-                //}
-                //else if (name == "midboss")  //midboss
-                //{
-                //    if (ShouldShoot(gameTime, 2))
-                //    {
-                //        DropBomb(sprites, new Vector2(5, 5), "bomb", Enemy.Type.Boss);
-                //        DropBomb(sprites, new Vector2(0, 0), "bomb", Enemy.Type.Boss);
-                //    }
-                //}
-                //else
+            {        
+                if (ShouldShoot(gameTime, 2))
                 {
-                    if (ShouldShoot(gameTime, 2))
-                    {
-                        DropBullet(sprites, new Vector2(-1, -1));
-                    }
+                    DropBullet(sprites, new Vector2(-1, -1));
                 }
-
                 _shootingTimer = 0;
             }
 

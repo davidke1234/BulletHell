@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Models;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,6 +8,6 @@ namespace Matrix.Movements
 {
     public abstract class IMovement
     {
-        public abstract Vector2 Movement();
+        public abstract Vector2 Movement(GameTime gameTime, Sprite sprite);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Movements;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
@@ -40,8 +41,8 @@ namespace Matrix.Models
 
             if (_timer >= LifeSpan)
                 this.IsRemoved = true;
-
-            Position += Direction * LinearVelocity;
+            
+            straightMovement.Movement(gameTime, this);
         }
 
       

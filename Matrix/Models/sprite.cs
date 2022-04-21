@@ -41,6 +41,8 @@ namespace Matrix.Models
         public Random _random = new Random();
         protected float _rotation { get; set; }
         public float SpawnSeconds = 0f;
+        public IMovement straightMovement = new StraightMovement();
+        public IMovement randomMovement = new RandomMovement();
 
         public XnaMatrix Transform
         {

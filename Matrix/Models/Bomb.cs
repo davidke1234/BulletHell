@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Matrix.Movements;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ namespace Matrix.Models
 {
     public class Bomb : Projectile, ICollidable
     {
-        private float _timer;
+        private float _timer;        
 
         public Bomb(Texture2D texture): base(texture)
         {
@@ -35,7 +36,8 @@ namespace Matrix.Models
             Direction.X = 10f;
             Direction.Y = 25f;
 
-            Position += Direction * LinearVelocity;
+            var straightMovement = new StraightMovement();
+            straightMovement.Movement(gameTime, this);
 
         }
     }

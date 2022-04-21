@@ -117,18 +117,10 @@ namespace Matrix.Models
             if (_lifeSpanTimer == 0)
                 _lifeSpanTimer = gameTime.TotalGameTime.TotalSeconds;
 
-            float elasped = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            _changePositionTimer -= elasped;
-
             _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (_changePositionTimer < 0)
-            {
-                Position.X = _random.Next(50, 600);
-                Position.Y = _random.Next(50, 100);
-
-                _changePositionTimer = _timerStart;
-            }
+            // Move randomly
+            randomMovement.Movement(gameTime, this);
 
             if (_shootingTimer >= LifeSpan)
                 this.IsRemoved = true;
