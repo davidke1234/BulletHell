@@ -8,6 +8,8 @@ namespace Matrix.Controllers
     {
         public static int GamePhase = 1;
 
+        public static bool EnabledEscKeyCheat { get; internal set; }
+
         public static bool GoToNextPhase(double currentTotalGameSeconds, int phase)
         {
             if (phase == 2 && currentTotalGameSeconds >= 40)

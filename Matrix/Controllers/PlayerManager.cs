@@ -78,5 +78,11 @@ namespace Matrix.Controllers
             }
             return name;
         }
+
+        public static void SetPlayerScoreValue(Sprite sprite, int scoreValue)
+        {
+            if (sprite != null)
+                ((Player)sprite).Score.Value += scoreValue;
+        }
     }
 }

@@ -32,7 +32,7 @@ namespace Matrix.Controllers
             }
         }
 
-        public static void SetupConfigMenu(ref Button _arrowKeysButton, ref Button _WASDKeysButton, ref Button _MainMenuButton,  Game game1)
+        public static void SetupConfigMenu(ref Button arrowKeysButton, ref Button WASDKeysButton, ref Button escKeyCheatButton, ref Button mainMenuButton,  Game game1)
         {
             _previousMouse = _currentMouse;
             _currentMouse = Mouse.GetState();
@@ -44,11 +44,13 @@ namespace Matrix.Controllers
                 if (_currentMouse.LeftButton == ButtonState.Released && _previousMouse.LeftButton == ButtonState.Pressed)
                 {
                     if (mouseRectangle.Top >= 233 && mouseRectangle.Top <= 255)
-                        _arrowKeysButton.Click?.Invoke(game1, new EventArgs());
+                        arrowKeysButton.Click?.Invoke(game1, new EventArgs());
                     else if (mouseRectangle.Top >= 273 && mouseRectangle.Top <= 297)
-                        _WASDKeysButton.Click?.Invoke(game1, new EventArgs());
+                        WASDKeysButton.Click?.Invoke(game1, new EventArgs());
                     else if (mouseRectangle.Top >= 313 && mouseRectangle.Top <= 337)
-                        _MainMenuButton.Click?.Invoke(game1, new EventArgs());
+                        escKeyCheatButton.Click?.Invoke(game1, new EventArgs());
+                    else if (mouseRectangle.Top >= 353 && mouseRectangle.Top <= 377)
+                        mainMenuButton.Click?.Invoke(game1, new EventArgs());
                 }
             }
         }

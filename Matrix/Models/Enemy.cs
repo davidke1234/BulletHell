@@ -1,6 +1,8 @@
-﻿using Matrix.Models.Factories;
+﻿using Matrix.Controllers;
+using Matrix.Models.Factories;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 
@@ -92,6 +94,8 @@ namespace Matrix.Models
                     Position.Y += 1f;
                 }
             }
+
+            EnemyManager.CheckForEscapeCheat(sprites);
         }
 
         private bool ShouldShoot(GameTime gameTime, int addSeconds)
@@ -131,36 +135,19 @@ namespace Matrix.Models
 
                 if (Health <= 0)
                 {
-                    Name = Name.ToLower();
-                     switch (Name)
-                    {
-                        case "finalboss":
-                            scoreValue = 15;
-                            break;
-                        case "midboss":
-                            scoreValue = 10; 
-                            break;
-                        case "grumpbird":
-                            scoreValue = 5;
-                            break;
-                        default:
-                            scoreValue = 1;
-                            break;
-                    }
-
+                    scoreValue = EnemyManager.GetEnemyScoreValue(this.Name);
                     IsRemoved = true;
                 }
                 else
                     //get 1 point for every hit regardless of who it is.
                     scoreValue = 1;
 
-                GetScoreValue(sprite.Parent, scoreValue);
+                PlayerManager.SetPlayerScoreValue(sprite.Parent, scoreValue);
             }
         }
 
-        private static void GetScoreValue(Sprite sprite, int scoreValue)
-        {
-            ((Player)sprite).Score.Value += scoreValue;
-        }
+       
+
+       
     }
 }

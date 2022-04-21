@@ -24,6 +24,7 @@ namespace Matrix
         private Button _arrowKeysButton;
         private Button _WASDKeysButton;
         private Button _MainMenuButton;
+        private Button _EscKeyCheatButton;
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private Player _player;
@@ -121,6 +122,12 @@ namespace Matrix
             _keysType = "wasd";
         }
 
+        public void Button_EscKeyCheat_Clicked(object sender, EventArgs args)
+        {
+            GameManager.EnabledEscKeyCheat ^= true;
+        }
+        
+
         public void Button_MainMenu_Clicked(object sender, EventArgs args)
         {
             _configButtonClicked = false;
@@ -160,7 +167,7 @@ namespace Matrix
             {
                 if (_configButtonClicked)
                 {
-                    MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _MainMenuButton, this);
+                    MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _EscKeyCheatButton, ref _MainMenuButton, this);
                 }
                 else
                 {
@@ -245,7 +252,7 @@ namespace Matrix
                 }
 
                 //game time is how much time has elapsed
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) // || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     RestartGame();
                 }
@@ -393,6 +400,8 @@ namespace Matrix
 
             _arrowKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Arrow keys", this.Button_ArrowKeys_Clicked);
             _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
+            _EscKeyCheatButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Enable Esc cheat", this.Button_EscKeyCheat_Clicked);
+            _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
             _MainMenuButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Main Menu", this.Button_MainMenu_Clicked);
         }
            
@@ -407,7 +416,7 @@ namespace Matrix
 
                 _startButton.Position = new Vector2(x, y);
                 _spriteBatch.Draw(_startButton.Texture, _startButton.Position, null, Color.White, 0f, new Vector2(25, 0), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -8), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _startButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -8), 1f, SpriteEffects.None, 0.01f);
             }
 
 
@@ -418,7 +427,7 @@ namespace Matrix
 
                 _configButton.Position = new Vector2(x + 40, y);
                 _spriteBatch.Draw(_configButton.Texture, _configButton.Position, null, Color.White, 0f, new Vector2(58, -40), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _configButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _configButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -48), 1f, SpriteEffects.None, 0.01f);
             }
 
 
@@ -429,7 +438,7 @@ namespace Matrix
 
                 _quitButton.Position = new Vector2(x + 80, y);
                 _spriteBatch.Draw(_quitButton.Texture, _quitButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _quitButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -88), 1f, SpriteEffects.None, 0.01f);
             }
 
             MenuManager.DisplayHighScores(_spriteBatch);
@@ -440,7 +449,8 @@ namespace Matrix
             _spriteBatch.Draw(Arts.MainMenuBackground, new Rectangle(0, 0, 800, 480), Color.White);
 
             //Create a text box for keys selected
-            _spriteBatch.DrawString(Arts.Font, "Keys Selected: " + _keysType, new Vector2(320f, 200f), Color.White);
+            _spriteBatch.DrawString(Arts.Font, "Keys Selected: " + _keysType, new Vector2(320f, 150f), Color.White);
+            _spriteBatch.DrawString(Arts.Font, "Esc cheat enabled: " + GameManager.EnabledEscKeyCheat.ToString(), new Vector2(320f, 180f), Color.White);
 
             if (!string.IsNullOrWhiteSpace(_arrowKeysButton.Text))
             {
@@ -449,7 +459,7 @@ namespace Matrix
 
                 _arrowKeysButton.Position = new Vector2(x, y);
                 _spriteBatch.Draw(_arrowKeysButton.Texture, _arrowKeysButton.Position, null, Color.White, 0f, new Vector2(26, 0), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _arrowKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -8), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _arrowKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -8), 1f, SpriteEffects.None, 0.01f);
             }
 
             if (!string.IsNullOrWhiteSpace(_WASDKeysButton.Text))
@@ -459,7 +469,17 @@ namespace Matrix
 
                 _WASDKeysButton.Position = new Vector2(x + 40, y);
                 _spriteBatch.Draw(_WASDKeysButton.Texture, _WASDKeysButton.Position, null, Color.White, 0f, new Vector2(62, -40), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _WASDKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -48), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _WASDKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -48), 1f, SpriteEffects.None, 0.01f);
+            }
+
+            if (!string.IsNullOrWhiteSpace(_EscKeyCheatButton.Text))
+            {
+                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_EscKeyCheatButton.Text).X / 2);
+                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_EscKeyCheatButton.Text).Y / 2);
+
+                _EscKeyCheatButton.Position = new Vector2(x + 59, y);
+                _spriteBatch.Draw(_EscKeyCheatButton.Texture, _EscKeyCheatButton.Position, null, Color.White, 0f, new Vector2(62, -80), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _EscKeyCheatButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -88), 1f, SpriteEffects.None, 0.01f);
             }
 
             if (!string.IsNullOrWhiteSpace(_MainMenuButton.Text))
@@ -468,8 +488,8 @@ namespace Matrix
                 var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_MainMenuButton.Text).Y / 2);
 
                 _MainMenuButton.Position = new Vector2(x + 80, y);
-                _spriteBatch.Draw(_quitButton.Texture, _MainMenuButton.Position, null, Color.White, 0f, new Vector2(107, -80), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _MainMenuButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(5, -88), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.Draw(_quitButton.Texture, _MainMenuButton.Position, null, Color.White, 0f, new Vector2(107, -120), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _MainMenuButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -128), 1f, SpriteEffects.None, 0.01f);
             }
         }
 

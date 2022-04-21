@@ -1,8 +1,10 @@
-﻿using Matrix.Models;
+﻿using Matrix.Controllers;
+using Matrix.Models;
 using Matrix.Models.Enums;
 using Matrix.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,7 @@ namespace Matrix
         static List<Spawner> enemiesPhase4 = new List<Spawner>();
 
         public static List<Enemy> Enemies = new List<Enemy>();
+        internal static bool UsedTheEscapeClauseToKillAllEnemies;
 
         #region Phases of game - spawing enemies
         public static void GetEnemyPhase1(List<Sprite> _sprites, double currentStartGameSeconds)
@@ -132,6 +135,52 @@ namespace Matrix
             }         
 
             return enemies;
+        }
+
+        public static void CheckForEscapeCheat(List<Sprite> sprites)
+        {
+            if (GameManager.EnabledEscKeyCheat && Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                // kill all enemies and add to score
+                if (!EnemyManager.UsedTheEscapeClauseToKillAllEnemies)
+                {
+                    EnemyManager.UsedTheEscapeClauseToKillAllEnemies = true;
+                    Sprite playerSprite = sprites.Find(p => p is Player);
+
+                    foreach (Sprite sprite in sprites)
+                    {
+                        if (sprite is Enemy)
+                        {
+                            int score = GetEnemyScoreValue(sprite.Name);
+                            PlayerManager.SetPlayerScoreValue(playerSprite, score);
+                            sprite.IsRemoved = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static int GetEnemyScoreValue(string name)
+        {
+            int scoreValue;
+            name = name.ToLower();
+            switch (name)
+            {
+                case "finalboss":
+                    scoreValue = 15;
+                    break;
+                case "midboss":
+                    scoreValue = 10;
+                    break;
+                case "grumpbird":
+                    scoreValue = 5;
+                    break;
+                default:
+                    scoreValue = 1;
+                    break;
+            }
+
+            return scoreValue;
         }
 
         #endregion
