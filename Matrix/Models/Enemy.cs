@@ -59,7 +59,7 @@ namespace Matrix.Models
                 pivotMovement.Movement(gameTime, this);
             }
 
-            EnemyManager.CheckForEscapeCheat(sprites);
+            EnemyManager.CheckForKillEnemiesCheat(sprites);
         }
 
         private bool ShouldShoot(GameTime gameTime, int addSeconds)

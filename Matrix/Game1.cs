@@ -24,7 +24,7 @@ namespace Matrix
         private Button _arrowKeysButton;
         private Button _WASDKeysButton;
         private Button _MainMenuButton;
-        private Button _EscKeyCheatButton;
+        private Button _KillEnemiesCheatButton;
         GraphicsDeviceManager graphics;
         SpriteBatch _spriteBatch;
         private Player _player;
@@ -37,10 +37,10 @@ namespace Matrix
         private ContentManager _content;
         private string _keysType = "arrows";
         private SoundEffectInstance _soundEffectInstance;
-        private bool song1Started = false;
-        private bool song2Started = false;
-        private bool song3Started = false;
-        private bool song4Started = false;
+        private bool _song1Started = false;
+        private bool _song2Started = false;
+        private bool _song3Started = false;
+        private bool _song4Started = false;
 
         // used to record when the actual game started.  The game loop continues while on the menu
         // and the timing of the enemy spawner will be delayed if we don't use this.
@@ -124,7 +124,7 @@ namespace Matrix
 
         public void Button_EscKeyCheat_Clicked(object sender, EventArgs args)
         {
-            GameManager.EnabledEscKeyCheat ^= true;
+            GameManager.EnabledKillEnemiesCheat ^= true;
         }
         
 
@@ -166,7 +166,7 @@ namespace Matrix
             if (!_gameStarted)
             {
                 if (_configButtonClicked)
-                    MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _EscKeyCheatButton, ref _MainMenuButton, this);
+                    MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _KillEnemiesCheatButton, ref _MainMenuButton, this);
                 else
                     MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
             }
@@ -191,11 +191,11 @@ namespace Matrix
                 if (_currentTotalGameSeconds < 40)
                 {
                     EnemyManager.GetEnemyPhase1(SpriteManager.Sprites, _currentTotalGameSeconds);
-                    if (!song1Started)
+                    if (!_song1Started)
                     {
                         _soundEffectInstance.Stop();
                         MediaPlayer.Play(Arts.Song1);
-                        song1Started = true;
+                        _song1Started = true;
                     }
                 }
 
@@ -203,11 +203,11 @@ namespace Matrix
                 if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 2))
                 {
                     EnemyManager.GetEnemyPhase2(SpriteManager.Sprites, _currentTotalGameSeconds);
-                    if (!song2Started)
+                    if (!_song2Started)
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song2);
-                        song2Started = true;
+                        _song2Started = true;
                     }
                 }
 
@@ -215,11 +215,11 @@ namespace Matrix
                 if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 3))
                 {
                     EnemyManager.GetEnemyPhase3(SpriteManager.Sprites, _currentTotalGameSeconds);
-                    if (!song3Started)
+                    if (!_song3Started)
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song3);
-                        song3Started = true;
+                        _song3Started = true;
                     }
                 }
 
@@ -227,12 +227,12 @@ namespace Matrix
                 if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 4))
                 {
                     EnemyManager.GetEnemyPhase4(SpriteManager.Sprites, _currentTotalGameSeconds);
-                    if (!song4Started)
+                    if (!_song4Started)
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song4);
                         // if (MediaPlayer.State == MediaState.Playing)
-                        song4Started = true;
+                        _song4Started = true;
                     }
                 }
 
@@ -240,7 +240,7 @@ namespace Matrix
                     CheckGameOver(_currentTotalGameSeconds, SpriteManager.Sprites);
 
                 //game time is how much time has elapsed
-                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) // || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                      RestartGame();
 
                 foreach (var sprite in SpriteManager.Sprites.ToArray())
@@ -291,8 +291,12 @@ namespace Matrix
 
                 switch (GameManager.GamePhase)
                 {
-                    case 1: 
-                        _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                    case 1:
+                         _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        if (!_song1Started)
+                            ShowMessage("Loading...");
+                        else
+                            ShowMessage("");
                         break;
                     case 2:
                         _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
@@ -394,7 +398,7 @@ namespace Matrix
 
             _arrowKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Arrow keys", this.Button_ArrowKeys_Clicked);
             _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
-            _EscKeyCheatButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Enable Esc cheat", this.Button_EscKeyCheat_Clicked);
+            _KillEnemiesCheatButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Enable Kill cheat", this.Button_EscKeyCheat_Clicked);
             _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
             _MainMenuButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Main Menu", this.Button_MainMenu_Clicked);
         }
@@ -444,7 +448,7 @@ namespace Matrix
 
             //Create a text box for keys selected
             _spriteBatch.DrawString(Arts.Font, "Keys Selected: " + _keysType, new Vector2(320f, 150f), Color.White);
-            _spriteBatch.DrawString(Arts.Font, "Esc cheat enabled: " + GameManager.EnabledEscKeyCheat.ToString(), new Vector2(320f, 180f), Color.White);
+            _spriteBatch.DrawString(Arts.Font, "Kill enemies cheat enabled (Press F1): " + GameManager.EnabledKillEnemiesCheat.ToString(), new Vector2(320f, 180f), Color.White);
 
             if (!string.IsNullOrWhiteSpace(_arrowKeysButton.Text))
             {
@@ -466,14 +470,14 @@ namespace Matrix
                 _spriteBatch.DrawString(_font, _WASDKeysButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -48), 1f, SpriteEffects.None, 0.01f);
             }
 
-            if (!string.IsNullOrWhiteSpace(_EscKeyCheatButton.Text))
+            if (!string.IsNullOrWhiteSpace(_KillEnemiesCheatButton.Text))
             {
-                float x = MenuManager.GetButtonXPosition(_EscKeyCheatButton.Text);
-                float y = MenuManager.GetButtonYPosition(_EscKeyCheatButton.Text);
+                float x = MenuManager.GetButtonXPosition(_KillEnemiesCheatButton.Text);
+                float y = MenuManager.GetButtonYPosition(_KillEnemiesCheatButton.Text);
 
-                _EscKeyCheatButton.Position = new Vector2(x + 59, y);
-                _spriteBatch.Draw(_EscKeyCheatButton.Texture, _EscKeyCheatButton.Position, null, Color.White, 0f, new Vector2(62, -80), 1f, SpriteEffects.None, 0.01f);
-                _spriteBatch.DrawString(_font, _EscKeyCheatButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -88), 1f, SpriteEffects.None, 0.01f);
+                _KillEnemiesCheatButton.Position = new Vector2(x + 59, y);
+                _spriteBatch.Draw(_KillEnemiesCheatButton.Texture, _KillEnemiesCheatButton.Position, null, Color.White, 0f, new Vector2(66, -80), 1f, SpriteEffects.None, 0.01f);
+                _spriteBatch.DrawString(_font, _KillEnemiesCheatButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -88), 1f, SpriteEffects.None, 0.01f);
             }
 
             if (!string.IsNullOrWhiteSpace(_MainMenuButton.Text))
@@ -494,5 +498,10 @@ namespace Matrix
                 return new Rectangle(0, 0, 800, 480);
             }
         }
+
+        private void ShowMessage(string message)
+        {
+            _spriteBatch.DrawString(_font, message, new Vector2(350f, 250f), Color.White);
+         }
     }
 }

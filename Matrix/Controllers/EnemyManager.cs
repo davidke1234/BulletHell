@@ -21,7 +21,7 @@ namespace Matrix
         static List<Spawner> enemiesPhase4 = new List<Spawner>();
 
         public static List<Enemy> Enemies = new List<Enemy>();
-        internal static bool UsedTheEscapeClauseToKillAllEnemies;
+        internal static bool UsedEnabledKillEnemiesCheat;
 
         #region Phases of game - spawing enemies
         public static void GetEnemyPhase1(List<Sprite> _sprites, double currentStartGameSeconds)
@@ -137,14 +137,14 @@ namespace Matrix
             return enemies;
         }
 
-        public static void CheckForEscapeCheat(List<Sprite> sprites)
+        public static void CheckForKillEnemiesCheat(List<Sprite> sprites)
         {
-            if (GameManager.EnabledEscKeyCheat && Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GameManager.EnabledKillEnemiesCheat && Keyboard.GetState().IsKeyDown(Keys.F1))
             {
-                // kill all enemies and add to score
-                if (!EnemyManager.UsedTheEscapeClauseToKillAllEnemies)
+                // kill all enemies on the screen and add to score
+                //if (!EnemyManager.UsedEnabledKillEnemiesCheat)
                 {
-                    EnemyManager.UsedTheEscapeClauseToKillAllEnemies = true;
+                    EnemyManager.UsedEnabledKillEnemiesCheat = true;
                     Sprite playerSprite = sprites.Find(p => p is Player);
 
                     foreach (Sprite sprite in sprites)
