@@ -166,25 +166,15 @@ namespace Matrix
             if (!_gameStarted)
             {
                 if (_configButtonClicked)
-                {
                     MenuManager.SetupConfigMenu(ref _arrowKeysButton, ref _WASDKeysButton, ref _EscKeyCheatButton, ref _MainMenuButton, this);
-                }
                 else
-                {
-                    //if (!SetupMenuLoaded)
-                    {
-                        MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
-                        SetupMenuLoaded = true;
-                    }
-                }
+                    MenuManager.SetupMainMenu(ref _startButton, ref _configButton, ref _quitButton, this);
             }
 
             else if (_gameStarted)
             {
                 if (_gameStartedSeconds == 0)
-                {
                     _gameStartedSeconds = gameTime.TotalGameTime.TotalSeconds;
-                }
 
                 _currentTotalGameSeconds = gameTime.TotalGameTime.TotalSeconds - _gameStartedSeconds + 1;
 
@@ -241,26 +231,20 @@ namespace Matrix
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song4);
-                       // if (MediaPlayer.State == MediaState.Playing)
+                        // if (MediaPlayer.State == MediaState.Playing)
                         song4Started = true;
                     }
                 }
 
-                if (_currentTotalGameSeconds >= 130)  
-                {
+                if (_currentTotalGameSeconds >= 130)
                     CheckGameOver(_currentTotalGameSeconds, SpriteManager.Sprites);
-                }
 
                 //game time is how much time has elapsed
                 if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed) // || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                {
-                    RestartGame();
-                }
+                     RestartGame();
 
                 foreach (var sprite in SpriteManager.Sprites.ToArray())
-                {
                     sprite.Update(gameTime, SpriteManager.Sprites);
-                }
 
                 PostUpdate();
 
@@ -305,15 +289,25 @@ namespace Matrix
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.Begin();
 
-                if (GameManager.GamePhase == 1)
-                    _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
-                else if (GameManager.GamePhase == 2)
-                    _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
-                else if (GameManager.GamePhase == 3)
-                    _spriteBatch.Draw(Arts.RedBackground, new Rectangle(0, 0, 800, 480), Color.White);
-                else if (GameManager.GamePhase == 4)
-                    _spriteBatch.Draw(Arts.BattleFieldBackground, new Rectangle(0, 0, 800, 480), Color.White);
-
+                switch (GameManager.GamePhase)
+                {
+                    case 1: 
+                        _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        break;
+                    case 2:
+                        _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        break;
+                    case 3:
+                        _spriteBatch.Draw(Arts.RedBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        break;
+                    case 4:
+                        _spriteBatch.Draw(Arts.BattleFieldBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        break;
+                    default:
+                         _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        break;
+                }
+                              
                 foreach (var sprite in SpriteManager.Sprites)
                     sprite.Draw(gameTime, _spriteBatch);
 
@@ -454,8 +448,8 @@ namespace Matrix
 
             if (!string.IsNullOrWhiteSpace(_arrowKeysButton.Text))
             {
-                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_arrowKeysButton.Text).X / 2);
-                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_arrowKeysButton.Text).Y / 2);
+                float x = MenuManager.GetButtonXPosition(_arrowKeysButton.Text);
+                float y = MenuManager.GetButtonYPosition(_arrowKeysButton.Text);
 
                 _arrowKeysButton.Position = new Vector2(x, y);
                 _spriteBatch.Draw(_arrowKeysButton.Texture, _arrowKeysButton.Position, null, Color.White, 0f, new Vector2(26, 0), 1f, SpriteEffects.None, 0.01f);
@@ -464,8 +458,8 @@ namespace Matrix
 
             if (!string.IsNullOrWhiteSpace(_WASDKeysButton.Text))
             {
-                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_WASDKeysButton.Text).X / 2);
-                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_WASDKeysButton.Text).Y / 2);
+                float x = MenuManager.GetButtonXPosition(_WASDKeysButton.Text);
+                float y = MenuManager.GetButtonYPosition(_WASDKeysButton.Text);
 
                 _WASDKeysButton.Position = new Vector2(x + 40, y);
                 _spriteBatch.Draw(_WASDKeysButton.Texture, _WASDKeysButton.Position, null, Color.White, 0f, new Vector2(62, -40), 1f, SpriteEffects.None, 0.01f);
@@ -474,8 +468,8 @@ namespace Matrix
 
             if (!string.IsNullOrWhiteSpace(_EscKeyCheatButton.Text))
             {
-                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_EscKeyCheatButton.Text).X / 2);
-                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_EscKeyCheatButton.Text).Y / 2);
+                float x = MenuManager.GetButtonXPosition(_EscKeyCheatButton.Text);
+                float y = MenuManager.GetButtonYPosition(_EscKeyCheatButton.Text);
 
                 _EscKeyCheatButton.Position = new Vector2(x + 59, y);
                 _spriteBatch.Draw(_EscKeyCheatButton.Texture, _EscKeyCheatButton.Position, null, Color.White, 0f, new Vector2(62, -80), 1f, SpriteEffects.None, 0.01f);
@@ -484,14 +478,14 @@ namespace Matrix
 
             if (!string.IsNullOrWhiteSpace(_MainMenuButton.Text))
             {
-                var x = Rectangle.X + (Rectangle.Width / 2) - (_font.MeasureString(_MainMenuButton.Text).X / 2);
-                var y = Rectangle.Y + (Rectangle.Height / 2) - (_font.MeasureString(_MainMenuButton.Text).Y / 2);
+                float x = MenuManager.GetButtonXPosition(_MainMenuButton.Text);
+                float y = MenuManager.GetButtonYPosition(_MainMenuButton.Text);
 
                 _MainMenuButton.Position = new Vector2(x + 80, y);
                 _spriteBatch.Draw(_quitButton.Texture, _MainMenuButton.Position, null, Color.White, 0f, new Vector2(107, -120), 1f, SpriteEffects.None, 0.01f);
                 _spriteBatch.DrawString(_font, _MainMenuButton.Text, new Vector2(x, y), Color.Black, 0f, new Vector2(-10, -128), 1f, SpriteEffects.None, 0.01f);
             }
-        }
+        }      
 
         private Rectangle Rectangle
         {
@@ -500,7 +494,5 @@ namespace Matrix
                 return new Rectangle(0, 0, 800, 480);
             }
         }
-
-        public bool SetupMenuLoaded { get; private set; }
     }
 }

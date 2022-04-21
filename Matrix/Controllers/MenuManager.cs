@@ -93,5 +93,16 @@ namespace Matrix.Controllers
                 return new Rectangle(0, 0, 800, 480);
             }
         }
+
+        public static float GetButtonXPosition(string text)
+        {
+            return Rectangle.X + (Rectangle.Width / 2) - (Arts.Font.MeasureString(text).X / 2);
+        }
+
+        public static float GetButtonYPosition(string text)
+        {
+            return Rectangle.Y + (Rectangle.Height / 2) - (Arts.Font.MeasureString(text).Y / 2);
+        }
+      
     }
 }
