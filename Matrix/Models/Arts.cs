@@ -9,7 +9,7 @@ namespace Matrix.Models
     /// </summary>
     static class Arts
     {
-        public static Texture2D Stars;
+        public static Texture2D StarsBackground;
         public static Texture2D Bomb;
         public static Texture2D Bomb2;
         public static Texture2D FinalBoss;
@@ -37,12 +37,14 @@ namespace Matrix.Models
         public static Texture2D BulletOrange;
         public static Texture2D Button;
         public static SpriteFont Font;
-        public static Texture2D MainMenuBackGround;
-
+        public static Texture2D MainMenuBackground;
+        public static Texture2D BlueBackground;
+        public static Texture2D RedBackground;
+        public static Texture2D BattleFieldBackground;
 
         public static void Load(ContentManager content)
         {
-            Stars = content.Load<Texture2D>("Stars");
+            StarsBackground = content.Load<Texture2D>(@"Backgrounds\StarsBackground");
             Bomb = content.Load<Texture2D>("bomb");
             Bomb2 = content.Load<Texture2D>("Bomb2");
             FinalBoss = content.Load<Texture2D>("finalBoss");
@@ -70,7 +72,10 @@ namespace Matrix.Models
             BulletOrange = content.Load<Texture2D>("BulletOrange");
             Button = content.Load<Texture2D>("Button");
             Font = content.Load<SpriteFont>("Font");
-            MainMenuBackGround = content.Load<Texture2D>("MainMenu_backGround");
+            MainMenuBackground = content.Load<Texture2D>(@"Backgrounds\MainMenu_backGround");
+            BlueBackground = content.Load<Texture2D>(@"Backgrounds\BlueBackground");
+            RedBackground = content.Load<Texture2D>(@"Backgrounds\RedBackground");
+            BattleFieldBackground = content.Load<Texture2D>(@"Backgrounds\BattleFieldBackground");
         }
     }
 }

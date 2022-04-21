@@ -18,8 +18,6 @@ namespace Matrix
     public class Game1 : Game
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-        private Texture2D _background;
-        private Texture2D _menuBackground;
         private Button _startButton;
         private Button _quitButton;
         private Button _configButton;
@@ -96,7 +94,6 @@ namespace Matrix
 
         private void LoadGameContent(ContentManager content)
         {
-            _background = Arts.Stars;
             _player = PlayerManager.GetPlayer(Arts.Player, Arts.SlowmoPlayer, 20, _keysType);
             _finalBoss = FinalBoss.GetInstance;
             SpriteManager.Sprites.Add(_player);
@@ -206,7 +203,7 @@ namespace Matrix
                 }
 
                 // Phase 2
-                if (_currentTotalGameSeconds >= 40)
+                if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 2))
                 {
                     EnemyManager.GetEnemyPhase2(SpriteManager.Sprites, _currentTotalGameSeconds);
                     if (!song2Started)
@@ -218,7 +215,7 @@ namespace Matrix
                 }
 
                 // Phase 3
-                if (_currentTotalGameSeconds >= 80)
+                if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 3))
                 {
                     EnemyManager.GetEnemyPhase3(SpriteManager.Sprites, _currentTotalGameSeconds);
                     if (!song3Started)
@@ -230,13 +227,14 @@ namespace Matrix
                 }
 
                 //Phase 4
-                if (_currentTotalGameSeconds >= 120)
+                if (GameManager.GoToNextPhase(_currentTotalGameSeconds, 4))
                 {
                     EnemyManager.GetEnemyPhase4(SpriteManager.Sprites, _currentTotalGameSeconds);
                     if (!song4Started)
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song4);
+                       // if (MediaPlayer.State == MediaState.Playing)
                         song4Started = true;
                     }
                 }
@@ -299,7 +297,15 @@ namespace Matrix
             {
                 GraphicsDevice.Clear(Color.Black);
                 _spriteBatch.Begin();
-                _spriteBatch.Draw(_background, new Rectangle(0, 0, 800, 480), Color.White);
+
+                if (GameManager.GamePhase == 1)
+                    _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                else if (GameManager.GamePhase == 2)
+                    _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                else if (GameManager.GamePhase == 3)
+                    _spriteBatch.Draw(Arts.RedBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                else if (GameManager.GamePhase == 4)
+                    _spriteBatch.Draw(Arts.BattleFieldBackground, new Rectangle(0, 0, 800, 480), Color.White);
 
                 foreach (var sprite in SpriteManager.Sprites)
                     sprite.Draw(gameTime, _spriteBatch);
@@ -374,7 +380,6 @@ namespace Matrix
 
             var buttonTexture = Arts.Button;
             var buttonFont = Arts.Font;
-            _menuBackground = Arts.MainMenuBackGround;
  
             _startButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Start Game", this.Button_1Player_Clicked);
             _configButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Configuration", this.Button_Config_Clicked);
@@ -385,7 +390,6 @@ namespace Matrix
         {
             var buttonTexture = Arts.Button;
             var buttonFont = Arts.Font;
-            _menuBackground = Arts.MainMenuBackGround;
 
             _arrowKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "Arrow keys", this.Button_ArrowKeys_Clicked);
             _WASDKeysButton = MenuManager.MakeButton(buttonTexture, buttonFont, "WASD keys", this.Button_WasdKeys_Clicked);
@@ -394,7 +398,7 @@ namespace Matrix
            
         private void DrawMainMenu()
         {
-            _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
+            _spriteBatch.Draw(Arts.MainMenuBackground, new Rectangle(0, 0, 800, 480), Color.White);
 
             if (!string.IsNullOrWhiteSpace(_startButton.Text))
             {
@@ -433,7 +437,7 @@ namespace Matrix
 
         private void DrawConfigMenu()
         {
-            _spriteBatch.Draw(_menuBackground, new Rectangle(0, 0, 800, 480), Color.White);
+            _spriteBatch.Draw(Arts.MainMenuBackground, new Rectangle(0, 0, 800, 480), Color.White);
 
             //Create a text box for keys selected
             _spriteBatch.DrawString(Arts.Font, "Keys Selected: " + _keysType, new Vector2(320f, 200f), Color.White);
