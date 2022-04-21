@@ -6,11 +6,44 @@ using System.Text;
 
 namespace Matrix.Movements
 {
-    public class StraightMovement : IMovement
+    public class StraightVerticalMovement : IMovement
     {
         public override Vector2 Movement(GameTime gameTime, Sprite sprite)
         {
             return sprite.Position += sprite.Direction * sprite.LinearVelocity;
+        }
+    }
+
+    public class StraightHorizonatalMovement : IMovement
+    {
+        public override Vector2 Movement(GameTime gameTime, Sprite sprite)
+        {
+            sprite.Position.X += 1f;
+            return sprite.Position;
+        }
+    }
+
+    public class PivotMovement : IMovement
+    {
+        public override Vector2 Movement (GameTime gameTime, Sprite sprite)
+        {
+            //A enemies.  Check for pivot point to go up and out
+            if (sprite.Position.X > 670)
+            {
+                //Move them up and off screen
+                sprite.Position.Y -= 1f;
+            }
+            else if (sprite.Position.X > 150)
+            {
+                //stop Y and go horizantal
+                sprite.Position.X += 1f;
+            }
+            else
+            {
+                sprite.Position.X += 1f;
+                sprite.Position.Y += 1f;
+            }
+            return sprite.Position;
         }
     }
 

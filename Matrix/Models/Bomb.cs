@@ -36,7 +36,7 @@ namespace Matrix.Models
             Direction.X = 10f;
             Direction.Y = 25f;
 
-            var straightMovement = new StraightMovement();
+            var straightMovement = new StraightVerticalMovement();
             straightMovement.Movement(gameTime, this);
 
         }

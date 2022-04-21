@@ -50,28 +50,13 @@ namespace Matrix.Models
                 IsRemoved = true;
 
             //B,C,D Enemies
-            if (name == "grumpbird" || name == "finalboss" || name == "midboss")
+            if (name == "grumpbird")
             {
-                Position.X += 1f;
+                horizontalMovement.Movement(gameTime, this);
             }
             else
             {
-                //A enemies.  Check for pivot point to go up and out
-                if (Position.X > 670)
-                {
-                    //Move them up and off screen
-                    Position.Y -= 1f;
-                }
-                else if (Position.X > 150)
-                {
-                    //stop Y and go horizantal
-                    Position.X += 1f;
-                }
-                else
-                {
-                    Position.X += 1f;
-                    Position.Y += 1f;
-                }
+                pivotMovement.Movement(gameTime, this);
             }
 
             EnemyManager.CheckForEscapeCheat(sprites);

@@ -42,7 +42,7 @@ namespace Matrix.Models
             if (_timer >= LifeSpan)
                 this.IsRemoved = true;
             
-            straightMovement.Movement(gameTime, this);
+            verticalMovement.Movement(gameTime, this);
         }
 
       
