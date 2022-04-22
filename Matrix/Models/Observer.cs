@@ -1,29 +1,17 @@
-﻿using System;
-using System.Text;
-
+﻿using Matrix.Controllers;
+using System;
 namespace Matrix.Models
 {
-    public class Observer : IObserver<Payload>
+    public class Observer : IObserver
     {
-        public string Message { get; set; }
-
-        public void OnCompleted()
+        public Observer(ISubject subject)
         {
+            subject.RegisterObserver(this);
         }
 
-        public void OnError(Exception error)
+        public void update(int score)
         {
-        }
-
-        public void OnNext(Payload value)
-        {
-            Message = value.Message;
-        }
-
-        public IDisposable Register(Subject subject)
-        {
-            return subject.Subscribe(this);
+            PlayerManager.Player.Score.Value += score;
         }
     }
-
 }

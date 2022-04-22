@@ -77,6 +77,7 @@ namespace Matrix
         protected override void Initialize()
         {
             base.Initialize();
+            LoadObservers();
         }
 
         /// <summary>
@@ -508,5 +509,12 @@ namespace Matrix
         {
             _spriteBatch.DrawString(_font, message, new Vector2(350f, 250f), Color.White);
          }
+
+        private void LoadObservers()
+        {
+            Subject subject = new Subject("Player Score");
+            PlayerManager.ObserverSubject = subject;
+            new Observer(subject); 
+        }
     }
 }

@@ -10,13 +10,14 @@ namespace Matrix.Controllers
     {
         static SpriteFactoryProvider bulletFactory;
         static double _spawnTimer = 0;
-        static Player _player = null;
+        public static Player Player = null;
+        internal static Subject ObserverSubject;
 
         public static Player GetPlayer(Texture2D player, Texture2D slowmoPlayer, int health, string keysType)
         {
 
             bulletFactory = SpriteFactoryProvider.GetFactory(typeof(Bullet).Name);
-            _player = new Player(player, slowmoPlayer)
+            Player = new Player(player, slowmoPlayer)
             {
                 Position = new Vector2(375, 335),
                 Bullet = bulletFactory.Create("Bullet", Arts.Bullet),
@@ -26,7 +27,7 @@ namespace Matrix.Controllers
                 PlayerName = GetUserName()      ,
                 GameKeys = new GameKeys(keysType)
             };
-            return _player;
+            return Player;
         }
         public static void DrawPlayerStatus(SpriteBatch spriteBatch, Player _player)
         {
@@ -66,7 +67,7 @@ namespace Matrix.Controllers
         internal static void InsertScore(int score)
         {
             string retVal = "";
-             DataAccessLayer.InsertHighScores(_player.PlayerName, score, ref retVal);
+             DataAccessLayer.InsertHighScores(Player.PlayerName, score, ref retVal);
         }
 
         private static string GetUserName()
@@ -81,8 +82,7 @@ namespace Matrix.Controllers
 
         public static void AddToPlayerScoreValue(Sprite sprite, int scoreValue)
         {
-            if (sprite != null)
-                ((Player)sprite).Score.Value += scoreValue;
+             ObserverSubject.SetScore(scoreValue);
         }
     }
 }
