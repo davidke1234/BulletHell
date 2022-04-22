@@ -11,6 +11,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Component.cs" />
     <Compile Remove="Helper\GameState.cs" />
     <Compile Remove="Helper\MenuState.cs" />
   </ItemGroup>

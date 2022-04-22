@@ -507,7 +507,7 @@ namespace Matrix
 
         private void ShowMessage(string message)
         {
-            _spriteBatch.DrawString(_font, message, new Vector2(350f, 250f), Color.White);
+            _spriteBatch.DrawString(_font, message, new Vector2(345f, 250f), Color.White);
          }
 
        
