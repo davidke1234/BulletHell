@@ -30,10 +30,10 @@ namespace Matrix
         private Player _player;
         private FinalBoss _finalBoss;
         private SpriteFont _font;
-        public static int ScreenWidth = 1280;
-        public static int ScreenHeight = 720;
+        public const int ScreenWidth = 1280;
+        public const int ScreenHeight = 720;
         public EventHandler Click;
-        private int secondsToDisplayWinLossMessage = 4;
+        private const int secondsToDisplayWinLossMessage = 4;
         private ContentManager _content;
         private string _keysType = "arrows";
         private SoundEffectInstance _soundEffectInstance;
@@ -194,7 +194,8 @@ namespace Matrix
                     if (!_song1Started)
                     {
                         _soundEffectInstance.Stop();
-                        MediaPlayer.Play(Arts.Song1);
+                        MediaPlayer.Stop();
+                        MediaPlayer.Play(Arts.Song7);
                         _song1Started = true;
                     }
                 }
@@ -218,7 +219,7 @@ namespace Matrix
                     if (!_song3Started)
                     {
                         MediaPlayer.Stop();
-                        MediaPlayer.Play(Arts.Song3);
+                        MediaPlayer.Play(Arts.Song1);
                         _song3Started = true;
                     }
                 }
@@ -231,7 +232,6 @@ namespace Matrix
                     {
                         MediaPlayer.Stop();
                         MediaPlayer.Play(Arts.Song4);
-                        // if (MediaPlayer.State == MediaState.Playing)
                         _song4Started = true;
                     }
                 }
@@ -292,17 +292,17 @@ namespace Matrix
                 switch (GameManager.GamePhase)
                 {
                     case 1:
-                         _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                         _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
                         if (!_song1Started)
                             ShowMessage("Loading...");
                         else
                             ShowMessage("");
                         break;
                     case 2:
-                        _spriteBatch.Draw(Arts.BlueBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        _spriteBatch.Draw(Arts.RedBackground, new Rectangle(0, 0, 800, 480), Color.White);
                         break;
                     case 3:
-                        _spriteBatch.Draw(Arts.RedBackground, new Rectangle(0, 0, 800, 480), Color.White);
+                        _spriteBatch.Draw(Arts.StarsBackground, new Rectangle(0, 0, 800, 480), Color.White);
                         break;
                     case 4:
                         _spriteBatch.Draw(Arts.BattleFieldBackground, new Rectangle(0, 0, 800, 480), Color.White);
@@ -359,12 +359,17 @@ namespace Matrix
             SpriteManager.Sprites.Clear();
             EnemyManager.Enemies.Clear();
             MenuManager.HighScores.Clear();
+            GameManager.GamePhase = 0;
             _gameStartedSeconds = 0;
             _currentTotalGameSeconds = 0;
             _gameStarted = false;
             _configButtonClicked = false;
             _gameOver = false;
             _gameOverTimer = 0;
+            _song1Started = false;
+            _song2Started = false;
+            _song3Started = false;
+            _song4Started = false;
 
             //Must exit the game and return to start menu
             Program.ShouldRestart = true;

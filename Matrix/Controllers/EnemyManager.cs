@@ -14,7 +14,7 @@ namespace Matrix
     static class EnemyManager
     {
         private static Logger _logger = LogManager.GetCurrentClassLogger();
-      
+
         static List<Spawner> enemiesPhase1 = new List<Spawner>();
         static List<Spawner> enemiesPhase2 = new List<Spawner>();
         static List<Spawner> enemiesPhase3 = new List<Spawner>();
@@ -32,7 +32,7 @@ namespace Matrix
                 {
                     if (i == 5 || i == 10 || i == 20 || i == 32)
                     {
-                        enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterflyEnemy, SpawnSeconds = i});
+                        enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.ButterflyEnemy, SpawnSeconds = i });
                     }
                     else
                     {
@@ -88,7 +88,7 @@ namespace Matrix
             if (enemiesPhase4.Count == 0)
             {
                 enemiesPhase4.Add(new Spawner() { EnemyType = EnemyType.FinalBoss, SpawnSeconds = 121 });
-           }
+            }
 
             _sprites.AddRange(LoadEnemiesIntoPhase(enemiesPhase4, currentStartGameSeconds));
         }
@@ -132,7 +132,7 @@ namespace Matrix
 
                     enemies.Add(enemy);
                 }
-            }         
+            }
 
             return enemies;
         }
@@ -149,16 +149,17 @@ namespace Matrix
 
                     foreach (Sprite sprite in sprites)
                     {
-                        if (sprite is Enemy)
+                        if (sprite is Enemy && !sprite.IsRemoved)
                         {
                             int score = GetEnemyScoreValue(sprite.Name);
-                            PlayerManager.SetPlayerScoreValue(playerSprite, score);
+                            PlayerManager.AddToPlayerScoreValue(playerSprite, score);
                             sprite.IsRemoved = true;
                         }
                     }
                 }
             }
         }
+    
 
         public static int GetEnemyScoreValue(string name)
         {

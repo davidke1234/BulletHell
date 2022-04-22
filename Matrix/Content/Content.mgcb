@@ -302,6 +302,12 @@
 /processorParam:TextureFormat=Color
 /build:midBoss.png
 
+#begin Militant - AShamaluevMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Militant - AShamaluevMusic.mp3
+
 #begin mixkit-cat-walk-371.mp3
 /importer:Mp3Importer
 /processor:SongProcessor

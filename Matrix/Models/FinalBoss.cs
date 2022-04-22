@@ -108,7 +108,7 @@ namespace Matrix.Models
         /// </summary>
         public override void Update(GameTime gameTime, List<Sprite> sprites)
         {
-            if (_lifeSpanTimer == 0)
+             if (_lifeSpanTimer == 0)
                 _lifeSpanTimer = gameTime.TotalGameTime.TotalSeconds;
             
             _shootingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -132,6 +132,8 @@ namespace Matrix.Models
                 DropBomb(sprites, new Vector2(0, 0), "bomb2", EnemyType.FinalBoss);
                 _shootingTimer = 0;
             }
+
+            EnemyManager.CheckForKillEnemiesCheat(sprites);
         }
 
         public new void OnCollide(Sprite sprite)
