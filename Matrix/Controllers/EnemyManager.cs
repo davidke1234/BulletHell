@@ -152,7 +152,7 @@ namespace Matrix
                         if (sprite is Enemy && !sprite.IsRemoved)
                         {
                             int score = GetEnemyScoreValue(sprite.Name);
-                            PlayerManager.AddToPlayerScoreValue(playerSprite, score);
+                            PlayerManager.AddToPlayerScore(score);
                             sprite.IsRemoved = true;
                         }
                     }

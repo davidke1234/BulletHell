@@ -11,7 +11,8 @@ namespace Matrix.Controllers
         static SpriteFactoryProvider bulletFactory;
         static double _spawnTimer = 0;
         public static Player Player = null;
-        internal static Subject ObserverSubject;
+        internal static Subject ObserverScoreSubject;
+        internal static Subject ObserverHealthSubject;
 
         public static Player GetPlayer(Texture2D player, Texture2D slowmoPlayer, int health, string keysType)
         {
@@ -80,9 +81,14 @@ namespace Matrix.Controllers
             return name;
         }
 
-        public static void AddToPlayerScoreValue(Sprite sprite, int scoreValue)
+        public static void AddToPlayerScore(int scoreValue)
         {
-             ObserverSubject.SetScore(scoreValue);
+            ObserverScoreSubject.SetScore(scoreValue);
+        }
+
+        public static void AdjustPlayerHealth(int health)
+        {
+            ObserverHealthSubject.SetHealth(health);
         }
     }
 }

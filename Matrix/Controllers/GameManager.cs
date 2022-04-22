@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Matrix.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,17 @@ namespace Matrix.Controllers
         public static int GamePhase = 1;
 
         public static bool EnabledKillEnemiesCheat { get; internal set; }
+
+        public static void LoadObservers()
+        {
+            Subject subject = new Subject("PlayerScore");
+            PlayerManager.ObserverScoreSubject = subject;
+            new Observer(subject);
+
+            subject = new Subject("PlayerHealth");
+            PlayerManager.ObserverHealthSubject = subject;
+            new Observer(subject);
+        }
 
         public static bool GoToNextPhase(double currentTotalGameSeconds, int phase)
         {

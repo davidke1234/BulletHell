@@ -1,4 +1,5 @@
-﻿using Matrix.Models;
+﻿using Matrix.Controllers;
+using Matrix.Models;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -46,7 +47,7 @@ namespace Matrix.Models
 
         private void AdjustHealth()
         {
-            Health--;
+            PlayerManager.AdjustPlayerHealth(-1);
             Respawn = true;
         }
 

@@ -106,12 +106,8 @@ namespace Matrix.Models
                     //get 1 point for every hit regardless of who it is.
                     scoreValue = 1;
 
-                PlayerManager.AddToPlayerScoreValue(sprite.Parent, scoreValue);
+                PlayerManager.AddToPlayerScore(scoreValue);
             }
         }
-
-       
-
-       
     }
 }

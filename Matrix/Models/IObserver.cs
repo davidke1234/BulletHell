@@ -2,6 +2,7 @@
 {
     public interface IObserver
     {
-        void update(int score);
+        void updateScore(int score);
+        void updateHealth(int health);
     }
 }

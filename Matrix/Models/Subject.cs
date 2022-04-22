@@ -5,8 +5,8 @@ namespace Matrix.Models
 {
     public class Subject : ISubject
     {
-        private List<IObserver> observers = new List<IObserver>();
-        private string NameOfSubject;
+        private static List<IObserver> observers = new List<IObserver>();
+        public string NameOfSubject;
 
         public Subject(string nameOfSubject)
         {
@@ -15,12 +15,20 @@ namespace Matrix.Models
 
         private string SubjectName { get; set; }
         private int ScoreToAdd { get; set; }
+        private int HealthToAdjust { get; set; }
 
         public void SetScore(int score)
         {
             this.ScoreToAdd = score;
             NotifyObservers();
         }
+
+        public void SetHealth(int health)
+        {
+            this.HealthToAdjust = health;
+            NotifyObservers();
+        }
+
         public void RegisterObserver(IObserver observer)
         {
             observers.Add(observer);
@@ -35,9 +43,18 @@ namespace Matrix.Models
         }
         public void NotifyObservers()
         {
-            foreach (IObserver observer in observers)
+            foreach (Observer observer in observers)
             {
-                observer.update(this.ScoreToAdd);
+                if (observer.Type == "PlayerScore" && this.ScoreToAdd != 0)
+                {
+                    observer.updateScore(this.ScoreToAdd);
+                    this.ScoreToAdd = 0;
+                }
+                else if (observer.Type == "PlayerHealth" && this.HealthToAdjust != 0)
+                {
+                    observer.updateHealth(this.HealthToAdjust);
+                    this.HealthToAdjust = 0;
+                }
             }
         }
     }

@@ -4,12 +4,20 @@ namespace Matrix.Models
 {
     public class Observer : IObserver
     {
-        public Observer(ISubject subject)
+        public string Type;
+
+        public Observer(Subject subject)
         {
+            Type = subject.NameOfSubject;
             subject.RegisterObserver(this);
         }
 
-        public void update(int score)
+        public void updateHealth(int health)
+        {
+            PlayerManager.Player.Health += health;
+        }
+
+        public void updateScore(int score)
         {
             PlayerManager.Player.Score.Value += score;
         }
