@@ -146,12 +146,7 @@ namespace Matrix
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
-            if (_finalBoss != null)
-            {
-                _finalBoss.IsRemoved = true;
-                _finalBoss.bomb.IsRemoved = true;
-            }        
+            // TODO: Unload any non ContentManager content here       
         }
 
         /// <summary>

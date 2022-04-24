@@ -28,6 +28,8 @@ namespace Matrix
         {
             if (enemiesPhase1.Count == 0)
             {
+                //enemiesPhase1.Add(new Spawner() { EnemyType = EnemyType.FinalBoss, SpawnSeconds = 1 });
+
                 for (int i = 1; i < 38; i++)
                 {
                     if (i == 5 || i == 10 || i == 20 || i == 32)
