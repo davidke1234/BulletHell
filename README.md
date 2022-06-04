@@ -46,4 +46,4 @@ How to run the game
     4. Commit files: git commit -m "message".
     5. Push files to repo: git push.
 
-    Optionally use git in Visual Studio.
+    Optionally use git in Visual Studio 2019.
