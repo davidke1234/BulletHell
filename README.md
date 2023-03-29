@@ -18,10 +18,6 @@ How to run the game
 
 # Technical details:
 
-# Storage platform: https://gitlab.eecs.wsu.edu/
-
-# Repository: https://gitlab.eecs.wsu.edu/cpts487-sp22/teammatrix
-
 # Tools
 
     1. Visual Studio 2019
