@@ -16,8 +16,6 @@ How to run the game
 6. To score points, kill the enemies. The smaller enemies are worth 1 point, flying enemy 5 points, Midboss 10 points and final boss 15 points.
 7. The game will end as follows: you loose all player lives, come to the end or pressed "Esc" to exit.
 
-## Technical details:
-
 ## Tools
 
     1. Visual Studio 2019
